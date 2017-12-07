@@ -1,0 +1,17 @@
+[user]
+	name = Brandon Richardson
+	email = brandon.richardson@siemens.com
+	signingKey = E858ECE76C402D1C6CDAD5B72FC19EBC9C78E91F
+[core]
+	hooksPath = .dotfiles/git-hooks
+	editor = vim
+[commit]
+    gpgSign = true
+[alias]
+	reference = "!reference(){ ref=\"$(git show -s --date=short --pretty='format:%h (%s, %ad)' $@)\"; echo \"$ref\" | xclip -sel clip; echo \"Reference copied to clipboard: $ref\"; };reference"
+	ref-info = "branch --format='%(align:40,left)%(refname:short)%(end) %(HEAD) %(align:80,left)%(contents:subject)%(end)'"
+[fetch]
+	prune = true
+[advice]
+	detachedHead = false
+

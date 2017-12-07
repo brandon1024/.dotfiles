@@ -1,0 +1,3 @@
+set show-mode-in-prompt on
+set vi-cmd-mode-string " \1\033[34m\2cmd\1\033[0;00m\2 "
+set vi-ins-mode-string " \1\033[35m\2ins\1\033[0;00m\2 "

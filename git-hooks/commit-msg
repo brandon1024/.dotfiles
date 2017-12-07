@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+#
+# This hook ensures commit messages are formatted correctly according to DEMS guidelines.
+# To use this hook, simply place under .git/hooks. You can optionally configure Git to
+# look under an alternate directory for hooks by setting the "core.hooksPath" config option.
+#
+# Be sure that the hook is executable:
+# $ chmod +x .git/hooks/commit-msg
+#
+# You can override this hook temporarily by using the --no-verify option when committing:
+# $ git commit -m "my temporary messsage" --no-verify
+#
+# You can amend your commit message using --amend:
+# $ git commit --amend
+#
+# More details:
+# https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
+# https://git-scm.com/docs/git-config#Documentation/git-config.txt-corehooksPath
+
+ERR_RED='\033[0;31m'
+WARN_YELLOW='\033[1;33m'
+RESET='\033[0m'
+
+me=$(basename "$0")
+commit_message_file="${1}"
+
+log() {
+  level=$1
+  shift
+
+  if [[ $level == "error" ]]; then
+    echo -e "${ERR_RED}  ${me}: ${level}:" "$@" "${RESET}" >&2
+  elif [[ $level == "warn" ]]; then
+    echo -e "${WARN_YELLOW}  ${me}: ${level}:" "$@" "${RESET}" >&2
+  elif [[ -z $QUIET ]]; then
+    echo "${me}: ${level}:" "$@"
+  fi
+}
+
+# read commit message subject line
+subject_line=$(head -n 1 "${commit_message_file}")
+if ! [[ ${subject_line} =~ ^[A-Z]+-[[:digit:]]+:[[:space:]] ]]; then
+  log error "Invalid subject line: expected subject line to be prefixed with '<PROJECT>-<id>: '"
+  log error "Subject Line: $subject_line"
+  log error ""
+  log error "Your commit has been aborted. Please try again."
+  exit 1
+fi
+
+# subject line hard limit of 100 characters
+if ((${#subject_line} > 100)); then
+  log error "Invalid subject line: subject line is longer than 100 characters."
+  log error "Please reword your commit message subject line to be more concise."
+  log error ""
+  log error "Your commit has been aborted. Please try again."
+  exit 1
+fi
+
+# subject line legnth soft limit 50 characters
+if ((${#subject_line} > 50)); then
+  log warn "Subject line is longer than 50 characters."
+  log warn "Consider making your commit message subject line more concise."
+fi
+
+commit_message_body=$(tail -n +3 "${commit_message_file}")
+if [[ -z "${commit_message_body}" ]]; then
+  log warn "Commit message body is empty. Please elaborate on your change."
+  log warn "Please include the following information in your commit message:"
+  log warn "  - describe the problem the change tries to solve, i.e. what is wrong with the current code without the change."
+  log warn "  - justify the way the change solves the problem, i.e. why the result with the change is better."
+  log warn "  - alternate solutions considered but discarded, if any."
+fi
+
+# subject line and body should be separated by an empty line
+if [[ -n $(sed -n '2p' "${commit_message_file}") ]]; then
+  log warn "Subject line and body are not separated by a single blank line."
+fi
+
+# only a single blank line should separate subject line and body
+if [[ -z $(sed -n '2p' "${commit_message_file}") ]] && [[ -z $(sed -n '3p' "${commit_message_file}") ]]; then
+  log warn "Only a single blank line should separate subject line and body"
+fi
+
+# check commit message body line length soft limit 72 characters
+long_line_found=
+while IFS= read -r line; do
+  if ((${#line} > 72)); then
+    long_line_found=1
+  fi
+done <<<"${commit_message_body}"
+
+if [[ -n "${long_line_found}" ]]; then
+  log warn "Commit message body contains line(s) with a length greater than 72 characters."
+  log warn "Consider rewriting your commit message to conform to this line length limit."
+fi
+
+exit 0
