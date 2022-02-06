@@ -33,7 +33,7 @@ set nowb noswapfile
 " => File Type Configurations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType java,groovy setlocal expandtab
-autocmd FileType gitcommit set nonumber nolist statusline= tabline= showtabline=1
+autocmd FileType gitcommit,gitrebase set nonumber nolist statusline= tabline= showtabline=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
