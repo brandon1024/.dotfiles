@@ -102,8 +102,8 @@ nnoremap tp :tabprev<Space>
 nnoremap te :tabe<Space>
 
 " [normal] swtich between buffers
-nnoremap bn :bnext
-nnoremap bp :bprev
+nnoremap m :bnext<CR>
+nnoremap n :bprev<CR>
 
 " [insert] indent and de-indent
 inoremap <S-Tab> <C-d>
