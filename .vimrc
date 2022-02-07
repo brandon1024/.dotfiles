@@ -33,13 +33,13 @@ set nowb noswapfile
 " => File Type Configurations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType java,groovy setlocal expandtab
-autocmd FileType gitcommit,gitrebase set nonumber nolist statusline= tabline= showtabline=1
+autocmd FileType gitcommit,gitrebase set nonumber nolist statusline= tabline= showtabline=1 colorcolumn=140
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('~/.vim/plugged')
+call plug#begin("~/.vim/plugged")
 Plug 'lambdalisue/fern.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
@@ -115,8 +115,8 @@ inoremap <S-Tab> <C-d>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " open terminal below all splits
 cabbrev bterm bo term
-nnoremap <silent> <C-t>b :bo term ++rows=16<CR>
-nnoremap <silent> <C-t>r :vert bo term<CR>
+nnoremap <silent> <C-s>b :bo term ++rows=16<CR>
+nnoremap <silent> <C-s>r :vert bo term<CR>
 
 " auto configure terminal statusline
 augroup terminal_mapping
@@ -155,8 +155,7 @@ function! s:init_fern() abort
 		\ fern#smart#leaf(
 		\   "<Plug>(fern-action-open)",
 		\   "<Plug>(fern-action-expand)",
-		\   "<Plug>(fern-action-collapse)",
-		\ )
+		\   "<Plug>(fern-action-collapse)")
 	nmap <buffer> <CR> <Plug>(fern-action-toggle-expand-open)
 endfunction
 
@@ -187,24 +186,26 @@ set ai
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! StatuslineGenerateModeSegment()
 	let l:ToColor = { name -> "%#" . name . "#" }
-	let l:Content = { color, content -> l:ToColor(color) . ' ' . content . ' ' }
+	let l:Content = { color, content -> l:ToColor(color) . " " . content . " " }
 
 	let l:modemap = {
-		\ 'n': {'v': 'NORMAL', 'c': 'StatuslineBlueBg'},
-		\ 'i': {'v': 'INSERT', 'c': 'StatuslinePinkBg'},
-		\ 'R': {'v': 'RPLACE', 'c': 'StatuslineTealBg'},
-		\ 'v': {'v': 'VISUAL', 'c': 'StatuslineOrngBg'},
-		\ 't': {'v': ' TERM ', 'c': 'StatuslineDarkerBg'}
+		\ "n": {"v": "NORMAL", "c": "StatuslineBlueBg"},
+		\ "i": {"v": "INSERT", "c": "StatuslinePinkBg"},
+		\ "R": {"v": "RPLACE", "c": "StatuslineTealBg"},
+		\ "v": {"v": "V CHAR", "c": "StatuslineOrngBg"},
+		\ "V": {"v": "V LINE", "c": "StatuslineOrngBg"},
+		\ "\<C-V>": {"v": "VBLOCK", "c": "StatuslineOrngBg"},
+		\ "t": {"v": " TERM ", "c": "StatuslineDarkerBg"}
 	\ }
-	let l:modemapdefault = {'v': mode(), 'c': 'StatuslineDarkerBg'}
+	let l:modemapdefault = {"v": mode(), "c": "StatuslineDarkerBg"}
 
 	let l:modedata = get(l:modemap, mode()[0:1], l:modemapdefault)
 	let l:format =
-			\ l:Content(l:modedata['c'], l:modedata['v']) .
-			\ l:ToColor('StatuslineDarkBg') .
-			\ (&paste ? ' PASTE │' : '') .
-			\ (&readonly ? ' %R │' : '') .
-			\ ' %n │ %t '
+			\ l:Content(l:modedata["c"], l:modedata["v"]) .
+			\ l:ToColor("StatuslineDarkBg") .
+			\ (&paste ? " PASTE │" : "") .
+			\ (&readonly ? " %R │" : "") .
+			\ " %n │ %t "
 	
 	return l:format
 endfunction
@@ -212,15 +213,15 @@ endfunction
 function! StatuslineGenerateFileInfoSegment()
 	let l:ToColor = { name -> "%#" . name . "#" }
 	let l:ContentNS = { color, content -> l:ToColor(color) . content }
-	let l:Content = { color, content -> l:ContentNS(color, ' ' . content . ' ') }
+	let l:Content = { color, content -> l:ContentNS(color, " " . content . " ") }
 
 	let l:format =
-			\ l:Content('StatuslineOrngBg',
-				\ (&fileencoding ? &fileencoding : &encoding) . ' [' . &fileformat . ']') .
-			\ l:ContentNS('StatuslineDarkBg', ' ') .
-			\ l:Content('StatuslineOrngBg', '%p%%') .
-			\ l:ContentNS('StatuslineDarkBg', ' ') .
-			\ l:Content('StatuslineOrngBg', '%l:%c')
+			\ l:Content("StatuslineOrngBg",
+				\ (&fileencoding ? &fileencoding : &encoding) . " [" . &fileformat . "]") .
+			\ l:ContentNS("StatuslineDarkBg", " ") .
+			\ l:Content("StatuslineOrngBg", "%p%%") .
+			\ l:ContentNS("StatuslineDarkBg", " ") .
+			\ l:Content("StatuslineOrngBg", "%l:%c")
 
 	return l:format
 endfunction
@@ -241,19 +242,20 @@ set statusline=%!StatuslineGenerate()
 " => Configure Tabline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! TablineCurrentTabGenerate(tabnum)
-	let l:blue = '%#StatuslineBlueBg#'
-	let l:dark1 = '%#StatuslineDarkBg#'
-	let l:dark2 = '%#StatuslineDarkerBg#'
+	let l:blue = "%#StatuslineBlueBg#"
+	let l:dark1 = "%#StatuslineDarkBg#"
+	let l:dark2 = "%#StatuslineDarkerBg#"
 
-	let l:format = l:dark1 . ' ' . l:blue . ' ‹' . a:tabnum . '› ' . l:dark1 . ' '
-	let l:buffers = getbufinfo({'buflisted': 1, 'windows': gettabinfo(a:tabnum)})
+	let l:format = l:dark1 . " " . l:blue . " ‹" . a:tabnum . "› " . l:dark1 . " "
+	let l:buffers = getbufinfo({"buflisted": 1, "windows": gettabinfo(a:tabnum)})
 
 	for b in l:buffers
-		let l:bname = b['name'] ?? 'empty'
-		if b['bufnr'] == bufnr('%')
-			let l:format .= l:blue . ' ' . l:bname . ' ' . l:dark1
+		let l:bname = b["name"] ?? "empty"
+		let l:bname = fnamemodify(l:bname, ":t")
+		if b["bufnr"] == bufnr("%")
+			let l:format .= l:blue . " " . l:bname . " " . l:dark1
 		else
-			let l:format .= l:dark2 . ' ' . l:bname . ' ' . l:dark1
+			let l:format .= l:dark2 . " " . l:bname . " " . l:dark1
 		endif
 	endfor
 
@@ -261,12 +263,12 @@ function! TablineCurrentTabGenerate(tabnum)
 endfunction
 
 function! TablineTabHiddenGenerate(tabnum)
-	return '%#StatuslineDarkBg# %#StatuslineDarkerBg# ‹' . a:tabnum . '› %#StatuslineDarkBg#'
+	return "%#StatuslineDarkBg# %#StatuslineDarkerBg# ‹" . a:tabnum . "› %#StatuslineDarkBg#"
 endfunction
 
 function! TablineGenerate()
-	let l:tabline = '%#StatuslineDarkBg# ⋰ '
-	let l:tabcount = tabpagenr('$')
+	let l:tabline = "%#StatuslineDarkBg# ⋰ "
+	let l:tabcount = tabpagenr("$")
 
 	for i in range(l:tabcount)
 		if i + 1 == tabpagenr()
