@@ -41,6 +41,7 @@ autocmd FileType gitcommit,gitrebase set nonumber nolist statusline= tabline= sh
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'lambdalisue/fern.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 
@@ -145,10 +146,18 @@ function! s:init_fern() abort
 
 	" define some useful keymaps
 	nmap <buffer> cd <Plug>(fern-action-enter)
-	nmap <buffer> <CR> <Plug>(fern-action-open-or-expand)
 	nmap <buffer> l <Plug>(fern-action-open-or-enter)
 	nmap <buffer> h <Plug>(fern-action-open:split)
 	nmap <buffer> v <Plug>(fern-action-open:vsplit)
+
+	nmap <buffer><expr>
+		\ <Plug>(fern-action-toggle-expand-open)
+		\ fern#smart#leaf(
+		\   "<Plug>(fern-action-open)",
+		\   "<Plug>(fern-action-expand)",
+		\   "<Plug>(fern-action-collapse)",
+		\ )
+	nmap <buffer> <CR> <Plug>(fern-action-toggle-expand-open)
 endfunction
 
 augroup fern-custom
@@ -208,9 +217,9 @@ function! StatuslineGenerateFileInfoSegment()
 	let l:format =
 			\ l:Content('StatuslineOrngBg',
 				\ (&fileencoding ? &fileencoding : &encoding) . ' [' . &fileformat . ']') .
-			\ l:ContentNS('StatuslineOrngBg', '│') .
+			\ l:ContentNS('StatuslineDarkBg', ' ') .
 			\ l:Content('StatuslineOrngBg', '%p%%') .
-			\ l:ContentNS('StatuslineOrngBg', '│') .
+			\ l:ContentNS('StatuslineDarkBg', ' ') .
 			\ l:Content('StatuslineOrngBg', '%l:%c')
 
 	return l:format
