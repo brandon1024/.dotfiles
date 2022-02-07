@@ -102,8 +102,8 @@ nnoremap tp :tabprev<Space>
 nnoremap te :tabe<Space>
 
 " [normal] swtich between buffers
-nnoremap m :bnext<CR>
-nnoremap n :bprev<CR>
+nnoremap <C-m> :bnext<CR>
+nnoremap <C-n> :bprev<CR>
 
 " [insert] indent and de-indent
 inoremap <S-Tab> <C-d>
@@ -134,6 +134,9 @@ let g:fern#renderer#default#expanded_symbol = " ▼ "
 
 " change color of left gutter
 hi SignColumn ctermbg=NONE
+
+" change color of selected text
+hi CursorLine ctermbg=236 cterm=NONE
 
 nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -reveal=%<CR>
 
