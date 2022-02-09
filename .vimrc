@@ -24,6 +24,7 @@ set lazyredraw
 
 " enable wiLd menu for easier command completion
 set wildmenu
+set wildmode=longest,list,full
 
 " disable backups and swap files
 set nowb noswapfile
@@ -42,6 +43,8 @@ autocmd FileType gitcommit,gitrebase set nonumber nolist statusline= tabline= sh
 call plug#begin("~/.vim/plugged")
 Plug 'lambdalisue/fern.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'vim-scripts/AutoComplPop'
 call plug#end()
 
 
@@ -61,10 +64,12 @@ set showmatch
 syntax enable
 
 " enable 256 colors palette
-set t_Co=256
+set termguicolors
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 
 " set colour scheme
-colorscheme slate
+colorscheme onedark
 
 " configure color column (line length guide)
 set colorcolumn=80
@@ -111,6 +116,12 @@ inoremap <S-Tab> <C-d>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Completion
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set completeopt=menuone,noinsert
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " open terminal below all splits
@@ -134,7 +145,7 @@ let g:fern#renderer#default#collapsed_symbol = " ▶ "
 let g:fern#renderer#default#expanded_symbol = " ▼ "
 
 " change color of left gutter
-hi SignColumn ctermbg=NONE
+hi SignColumn ctermbg=NONE guibg=NONE
 
 " change color of selected text
 hi CursorLine ctermbg=236 cterm=NONE
