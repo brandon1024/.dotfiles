@@ -63,7 +63,7 @@ set showmatch
 " enable syntax highlighting
 syntax enable
 
-" enable 256 colors palette
+" enable true colors
 set termguicolors
 let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
 let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
@@ -89,6 +89,13 @@ set laststatus=2
 " don't show the mode under statusline
 " the mode is already shown in the statusline
 set noshowmode
+
+" show cursor line in different color
+set cul
+
+" use bar instead of blocking block while in insert mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
 
 " colors
 hi StatuslineDarkBg   ctermfg=15 ctermbg=236
@@ -119,6 +126,9 @@ inoremap <S-Tab> <C-d>
 " => Completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set completeopt=menuone,noinsert
+
+" hack for tab completion
+inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
