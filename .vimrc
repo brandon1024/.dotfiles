@@ -274,9 +274,9 @@ function! TablineCurrentTabGenerate(tabnum)
 		let l:bname = b["name"] ?? "empty"
 		let l:bname = fnamemodify(l:bname, ":t")
 		if b["bufnr"] == bufnr("%")
-			let l:format .= l:blue . " " . l:bname . " " . l:dark1
+			let l:format .= l:blue . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
 		else
-			let l:format .= l:dark2 . " " . l:bname . " " . l:dark1
+			let l:format .= l:dark2 . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
 		endif
 	endfor
 
