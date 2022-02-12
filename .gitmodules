@@ -7,9 +7,6 @@
 [submodule ".vim/pack/plugins/start/ctrlp"]
 	path = .vim/pack/plugins/start/ctrlp
 	url = git@github.com:kien/ctrlp.vim.git
-[submodule ".vim/pack/plugins/start/AutoComplPop"]
-	path = .vim/pack/plugins/start/AutoComplPop
-	url = git@github.com:vim-scripts/AutoComplPop.git
 [submodule ".vim/pack/themes/opt/onedark"]
 	path = .vim/pack/themes/opt/onedark
 	url = git@github.com:joshdick/onedark.vim.git
