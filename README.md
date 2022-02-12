@@ -2,11 +2,14 @@
 Here's where I dump all my config files. Maybe you'll find them useful.
 
 Here's what I have configured so far:
-- bash (`.bashrc`, `.bash_aliases`, `.bash_vars`)
-- pureline (a powerline alternative)
-- vim (`.vimrc`)
-- git hooks (`git-hooks/`)
-- top (`.toprc`)
+- bash configuration
+- pureline (a powerline alternative) configuration
+- vim configuration and plugins (submodules)
+- top configuration
+- git configuration and hooks
+
+My goal with this project is to be reasonably self-sufficient and easy to
+install.
 
 ![](.gitlab/screenshot.png)
 
@@ -14,18 +17,20 @@ Here's what I have configured so far:
 ## Prerequisites
 There are very few prerequisites.
 - GNU Make (available in most environments)
-- [powerline patched fonts](https://github.com/powerline/fonts) (if you want to use pureline bash prompt)
-- [vim-plug](https://github.com/junegunn/vim-plug) (if you want to use the (few) vim plugins I use)
+- [powerline patched fonts](https://github.com/powerline/fonts)
+(if you want to use pureline bash prompt)
 
 
 ## Installation (basic)
 Simple.
 
 ```
+$ git clone --recurse-submodules git@github.com:brandon1024/.dotfiles.git
 $ make
 ```
 
-This will install all dotfiles by creating symlinks to dotfiles in this project. Existing dotfiles/symlinks are overwritten.
+This will install all dotfiles by creating symlinks to dotfiles in this project.
+Existing dotfiles/symlinks are overwritten.
 
 
 ## Installation (customized)

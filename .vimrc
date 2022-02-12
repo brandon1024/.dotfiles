@@ -38,17 +38,6 @@ autocmd FileType gitcommit,gitrebase set nonumber norelativenumber nolist status
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin("~/.vim/plugged")
-Plug 'lambdalisue/fern.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'vim-scripts/AutoComplPop'
-call plug#end()
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " scrolloff (show 7 lines above/below when navigating a file)
@@ -63,25 +52,28 @@ set showmatch
 " enable syntax highlighting
 syntax enable
 
-" enable true colors
-set termguicolors
-let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-
 " set colour scheme
-colorscheme onedark
+try
+	" enable true colors
+	set termguicolors
+	let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+	let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+
+	" add onedark plugin and set colorscheme
+	packadd! onedark
+	colorscheme onedark
+catch
+	echo "unable to load the onedark plugin"
+endtry
 
 " configure color column (line length guide)
 set colorcolumn=80
-hi ColorColumn ctermbg=236
 
 " configure vertical split column
 set fillchars+=vert:│
-hi VertSplit ctermbg=237 ctermfg=236
 
 " show tabs and spaces
 set list listchars=space:·,tab:──·
-hi SpecialKey ctermfg=240
 
 " always show the status line
 set laststatus=2
@@ -98,12 +90,12 @@ let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 
 " colors
-hi StatuslineDarkBg   ctermfg=15 ctermbg=236
-hi StatuslineDarkerBg ctermfg=15 ctermbg=237
-hi StatuslineBlueBg   ctermfg=15 ctermbg=25
-hi StatuslinePinkBg   ctermfg=15 ctermbg=132
-hi StatuslineOrngBg   ctermfg=0 ctermbg=208
-hi StatuslineTealBg   ctermfg=15 ctermbg=73
+hi StatuslineDarkBg   ctermfg=15 ctermbg=236 guibg=#2C323C guifg=#ABB2BF
+hi StatuslineDarkerBg ctermfg=15 ctermbg=237 guibg=#282C34 guifg=#ABB2BF
+hi StatuslineBlueBg   ctermfg=15 ctermbg=25  guibg=#61AFEF guifg=#282C34
+hi StatuslinePinkBg   ctermfg=15 ctermbg=132 guibg=#C678DD guifg=#282C34
+hi StatuslineOrngBg   ctermfg=0  ctermbg=208 guibg=#D19A66 guifg=#282C34
+hi StatuslineTealBg   ctermfg=15 ctermbg=73  guibg=#56B6C2 guifg=#282C34
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -153,12 +145,6 @@ let g:fern#default_hidden = 1
 let g:fern#renderer#default#leaf_symbol = "   "
 let g:fern#renderer#default#collapsed_symbol = " ▶ "
 let g:fern#renderer#default#expanded_symbol = " ▼ "
-
-" change color of left gutter
-hi SignColumn ctermbg=NONE guibg=NONE
-
-" change color of selected text
-hi CursorLine ctermbg=236 cterm=NONE
 
 nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -reveal=%<CR>
 
@@ -267,16 +253,16 @@ function! TablineCurrentTabGenerate(tabnum)
 	let l:dark1 = "%#StatuslineDarkBg#"
 	let l:dark2 = "%#StatuslineDarkerBg#"
 
-	let l:format = l:dark1 . " " . l:blue . " ‹" . a:tabnum . "› " . l:dark1 . " "
+	let l:format = l:dark1 . " " . l:blue . " ‹" . a:tabnum . "› " . l:dark1
 	let l:buffers = getbufinfo({"buflisted": 1, "windows": gettabinfo(a:tabnum)})
 
 	for b in l:buffers
 		let l:bname = b["name"] ?? "empty"
 		let l:bname = fnamemodify(l:bname, ":t")
 		if b["bufnr"] == bufnr("%")
-			let l:format .= l:blue . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
+			let l:format .= " " . l:blue . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
 		else
-			let l:format .= l:dark2 . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
+			let l:format .= " " . l:dark2 . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
 		endif
 	endfor
 
