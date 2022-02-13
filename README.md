@@ -34,6 +34,13 @@ Existing dotfiles/symlinks are overwritten.
 
 
 ## Installation (customized)
+### Install (dryrun)
+See what commands will be run:
+
+```
+$ DOTFILES_DRYRUN=1 make
+```
+
 ### Install (symlinks, no overwrite)
 Avoid overwriting existing dotfiles with symlinks to dotfiles in this project.
 

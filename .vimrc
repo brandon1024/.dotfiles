@@ -25,6 +25,7 @@ set lazyredraw
 " enable wiLd menu for easier command completion
 set wildmenu
 set wildmode=longest,list,full
+set wildignore=*.so,*.o,*.class
 
 " disable backups and swap files
 set nowb noswapfile
@@ -52,19 +53,14 @@ set showmatch
 " enable syntax highlighting
 syntax enable
 
-" set colour scheme
-try
-	" enable true colors
-	set termguicolors
-	let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-	let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+" enable true colors
+set termguicolors
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 
-	" add onedark plugin and set colorscheme
-	packadd! onedark
-	colorscheme onedark
-catch
-	echo "unable to load the onedark plugin"
-endtry
+" add onedark plugin and set colorscheme
+packadd! onedark
+colorscheme onedark
 
 " configure color column (line length guide)
 set colorcolumn=80
@@ -102,13 +98,13 @@ hi StatuslineTealBg   ctermfg=15 ctermbg=73  guibg=#56B6C2 guifg=#282C34
 " => General Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " [normal] tab shortcuts
-nnoremap tn :tabnext<Space>
-nnoremap tp :tabprev<Space>
-nnoremap te :tabe<Space>
+nnoremap <leader>tn :tabnext<CR>
+nnoremap <leader>tp :tabprev<CR>
+nnoremap <leader>te :tabe<Space>
 
 " [normal] swtich between buffers
-nnoremap <C-m> :bnext<CR>
-nnoremap <C-n> :bprev<CR>
+nnoremap <leader>m :bnext<CR>
+nnoremap <leader>n :bprev<CR>
 
 " [insert] indent and de-indent
 inoremap <S-Tab> <C-d>
@@ -146,10 +142,11 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" open terminal below all splits
-cabbrev bterm bo term
-nnoremap <silent> <C-s>h :bo term ++rows=16<CR>
-nnoremap <silent> <C-s>v :vert bo term<CR>
+" open terminal (docked)
+nnoremap <silent> <leader>td :bo term ++rows=16<CR>
+
+" open terminal (vertical split)
+nnoremap <silent> <leader>tv :vert bo term<CR>
 
 " auto configure terminal statusline
 augroup terminal_mapping
