@@ -1,15 +1,15 @@
 [submodule "pureline"]
 	path = pureline
 	url = git@github.com:chris-marsh/pureline.git
-[submodule ".vim/pack/plugins/start/fern"]
-	path = .vim/pack/plugins/start/fern
-	url = git@github.com:lambdalisue/fern.vim.git
-[submodule ".vim/pack/plugins/start/ctrlp"]
-	path = .vim/pack/plugins/start/ctrlp
-	url = git@github.com:ctrlpvim/ctrlp.vim.git
 [submodule ".vim/pack/themes/opt/onedark"]
 	path = .vim/pack/themes/opt/onedark
 	url = git@github.com:joshdick/onedark.vim.git
-[submodule ".vim/pack/plugins/start/vim-commentary"]
-	path = .vim/pack/plugins/start/vim-commentary
+[submodule ".vim/pack/plugins/opt/fern"]
+	path = .vim/pack/plugins/opt/fern
+	url = git@github.com:lambdalisue/fern.vim.git
+[submodule ".vim/pack/plugins/opt/vim-commentary"]
+	path = .vim/pack/plugins/opt/vim-commentary
 	url = git@github.com:tpope/vim-commentary.git
+[submodule ".vim/pack/plugins/opt/ctrlp"]
+	path = .vim/pack/plugins/opt/ctrlp
+	url = git@github.com:ctrlpvim/ctrlp.vim.git
