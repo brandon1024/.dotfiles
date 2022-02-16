@@ -10,6 +10,9 @@ nnoremap <leader>te :tabe<Space>
 nnoremap <leader>m :bnext<CR>
 nnoremap <leader>n :bprev<CR>
 
+" toggle paste mode
+set pastetoggle=<leader>p
+
 " [insert] indent and de-indent
 inoremap <S-Tab> <C-d>
 

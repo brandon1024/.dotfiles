@@ -45,3 +45,6 @@ set cul
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 
+" split new panes to the right and below
+set splitright
+set splitbelow
