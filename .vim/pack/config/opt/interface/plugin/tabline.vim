@@ -12,6 +12,7 @@ function! TablineCurrentTabGenerate(tabnum)
 	for b in l:buffers
 		let l:bname = b["name"] ?? "empty"
 		let l:bname = fnamemodify(l:bname, ":t")
+
 		if b["bufnr"] == bufnr("%")
 			let l:format .= " " . l:blue . " " . b["bufnr"] . " " . l:bname . " " . l:dark1
 		else

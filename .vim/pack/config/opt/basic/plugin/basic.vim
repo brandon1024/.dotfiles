@@ -4,9 +4,6 @@
 " configure history
 set history=500
 
-" enable filetype plugins
-filetype plugin on
-
 " set to auto read when a file is changed from the outside
 set autoread
 
