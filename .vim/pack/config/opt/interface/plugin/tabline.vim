@@ -4,7 +4,13 @@
 function! TablineCurrentTabGenerate(tabnum)
 	let l:blue = "%#StatuslineBlueBg#"
 	let l:dark1 = "%#StatuslineDarkBg#"
-	let l:dark2 = "%#StatuslineDarkerBg#"
+
+	" There's an upstream bug, fixed in a493b6506 (patch 8.2.4419: illegal
+	" memory access when using 20 highlights, 2022-02-19),
+	" that causes Vim to crash whenever there are too many highlights in the
+	" tabline. If we don't have this patch, don't bother highlighting anything
+	" aside from the current tab/buffer.
+	let l:dark2 = has('patch-8.2.4419') ? "%#StatuslineDarkerBg#" : ''
 
 	let l:format = l:dark1 . " " . l:blue . " ‹" . a:tabnum . "› " . l:dark1
 	let l:buffers = getbufinfo({"buflisted": 1, "windows": gettabinfo(a:tabnum)})
