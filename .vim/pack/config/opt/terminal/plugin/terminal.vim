@@ -10,6 +10,6 @@ nnoremap <silent> <leader>[ :vert bo term<CR>
 " auto configure terminal statusline
 augroup terminal_mapping
 	autocmd!
-	autocmd TerminalWinOpen * setlocal statusline=%#SignColumn# nolist nonumber
+	autocmd TerminalWinOpen * setlocal statusline=%#SignColumn# nolist nonumber nobuflisted
 augroup END
 
