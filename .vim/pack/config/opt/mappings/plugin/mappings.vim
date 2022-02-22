@@ -10,9 +10,20 @@ nnoremap <leader>te :tabe<Space>
 nnoremap <leader>m :bnext<CR>
 nnoremap <leader>n :bprev<CR>
 
+" [normal] delete buffer
+nnoremap <leader>x :bd<CR>
+
 " toggle paste mode
 set pastetoggle=<leader>p
 
-" [insert] indent and de-indent
+" [insert] unindent
 inoremap <S-Tab> <C-d>
+
+" [normal] indent and unindent
+nnoremap <S-Tab> <<
+nnoremap <Tab> >>
+
+" [visual] indent and unindent
+vnoremap <Tab> >
+vnoremap <S-Tab> <
 
