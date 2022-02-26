@@ -29,7 +29,7 @@ function! TablineCurrentTabGenerate(tabnum)
 	return l:format
 endfunction
 
-function! TablineTabHiddenGenerate(tabnum)
+function! TablineHiddenTabGenerate(tabnum)
 	return '%#StatuslineDarkBg# %#StatuslineDarkerBg# ‹' . a:tabnum . '› %#StatuslineDarkBg#'
 endfunction
 
@@ -41,7 +41,7 @@ function! TablineGenerate()
 		if i + 1 == tabpagenr()
 			let l:tabline .= TablineCurrentTabGenerate(i)
 		else
-			let l:tabline .= TablineTabHiddenGenerate(i)
+			let l:tabline .= TablineHiddenTabGenerate(i)
 		endif
 	endfor
 

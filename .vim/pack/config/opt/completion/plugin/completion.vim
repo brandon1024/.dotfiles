@@ -22,7 +22,11 @@ function! s:AutoComplete()
 	" if last three characters are keyword chars, show complete menu
 	let l:linetocursor = getline('.')[0:col('.')-1]
 	if l:linetocursor =~ '\K\{3}$'
-		call feedkeys((pumvisible() ? "\<C-e>" : "") . "\<C-n>", 'n')
+		" Vim occasionally freezes when showing the Completion menu. A
+		" workaround is to apply a miniscule delay to feedkeys, as described
+		" in this issue: https://github.com/vim/vim/issues/4572
+		call timer_start(0, { ->
+				\ feedkeys((pumvisible() ? "\<C-e>" : "") . "\<C-n>", 'n') })
 	end
 endfunction
 
