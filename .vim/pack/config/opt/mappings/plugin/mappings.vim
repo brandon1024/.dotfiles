@@ -10,9 +10,6 @@ nnoremap <leader>te :tabe<Space>
 nnoremap <leader>m :bnext<CR>
 nnoremap <leader>n :bprev<CR>
 
-" [normal] delete buffer
-nnoremap <leader>x :bd<CR>
-
 " toggle paste mode
 set pastetoggle=<leader>p
 
