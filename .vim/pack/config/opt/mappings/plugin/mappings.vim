@@ -24,3 +24,14 @@ nnoremap <Tab> >>
 vnoremap <Tab> >
 vnoremap <S-Tab> <
 
+function! CloseWindowlessBuffers()
+	let l:buffers = filter(getbufinfo({'buflisted': 1, 'hidden': 0}),
+			\ { i, b -> !len(b['windows']) })
+	for b in l:buffers
+		execute 'bd ' . b['bufnr']
+	endfor
+endfunction
+
+" [normal] close all buffers not displayed in a window
+nnoremap <silent> <leader>x :call CloseWindowlessBuffers()<CR>
+
