@@ -29,7 +29,7 @@ set colorcolumn=80
 set fillchars+=vert:│
 
 " show tabs and spaces
-set list listchars=space:·,tab:──·
+set list listchars=space:·,tab:──·,trail:▓
 
 " always show the status line
 set laststatus=2
@@ -48,3 +48,4 @@ let &t_EI = "\e[2 q"
 " split new panes to the right and below
 set splitright
 set splitbelow
+

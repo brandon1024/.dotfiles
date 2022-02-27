@@ -13,6 +13,9 @@ nnoremap <leader>n :bprev<CR>
 " toggle paste mode
 set pastetoggle=<leader>p
 
+" [normal] toggle listchars
+nnoremap <leader>l :set list!<CR>
+
 " [insert] unindent
 inoremap <S-Tab> <C-d>
 
