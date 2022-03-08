@@ -11,8 +11,6 @@ inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 " enter closes completion menu
 inoremap <silent> <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 
-" show completion as you type
-autocmd InsertCharPre * call s:AutoComplete()
 function! s:AutoComplete()
 	" quickly return if there's nothing to do
 	if v:char !~ '\K'
@@ -29,4 +27,10 @@ function! s:AutoComplete()
 				\ feedkeys((pumvisible() ? "\<C-e>" : "") . "\<C-n>", 'n') })
 	end
 endfunction
+
+" show completion as you type
+augroup completion_prompt_autocmd_group
+	autocmd!
+	autocmd InsertCharPre * call s:AutoComplete()
+augroup END
 
