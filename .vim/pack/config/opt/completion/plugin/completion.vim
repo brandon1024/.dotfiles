@@ -18,7 +18,8 @@ function! s:AutoComplete()
 	endif
 
 	" if last three characters are keyword chars, show complete menu
-	let l:linetocursor = getline('.')[0:col('.')-1]
+	let l:linetocursor = getline('.')[:col('.')-2] . v:char
+
 	if l:linetocursor =~ '\K\{3}$'
 		" Vim occasionally freezes when showing the Completion menu. A
 		" workaround is to apply a miniscule delay to feedkeys, as described

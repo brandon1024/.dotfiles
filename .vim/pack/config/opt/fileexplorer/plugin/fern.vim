@@ -9,7 +9,7 @@ let g:fern#renderer#default#leaf_symbol = "   "
 let g:fern#renderer#default#collapsed_symbol = " ▶ "
 let g:fern#renderer#default#expanded_symbol = " ▼ "
 
-nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -reveal=%<CR>
+nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
 
 function! s:init_fern() abort
 	setlocal statusline=%#StatuslineDarkBg#%=%#StatuslineBlueBg#\ FERN\ 
