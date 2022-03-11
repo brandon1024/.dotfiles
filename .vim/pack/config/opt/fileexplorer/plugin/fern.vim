@@ -29,7 +29,7 @@ function! s:init_fern() abort
 	nmap <buffer> <CR> <Plug>(fern-action-toggle-expand-open)
 endfunction
 
-augroup fern-custom
+augroup fern_custom
 	autocmd!
 	autocmd FileType fern setlocal norelativenumber nonumber | call s:init_fern()
 augroup END

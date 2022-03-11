@@ -1,6 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+hi StatuslineLightBg  ctermfg=15 ctermbg=235 guibg=#363D49 guifg=#ABB2BF
 hi StatuslineDarkBg   ctermfg=15 ctermbg=236 guibg=#2C323C guifg=#ABB2BF
 hi StatuslineDarkerBg ctermfg=15 ctermbg=237 guibg=#282C34 guifg=#ABB2BF
 hi StatuslineBlueBg   ctermfg=15 ctermbg=25  guibg=#61AFEF guifg=#282C34

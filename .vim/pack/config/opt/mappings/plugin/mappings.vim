@@ -19,14 +19,6 @@ nnoremap <leader>l :set list!<CR>
 " [insert] unindent
 inoremap <S-Tab> <C-d>
 
-" [normal] indent and unindent
-nnoremap <S-Tab> <<
-nnoremap <Tab> >>
-
-" [visual] indent and unindent
-vnoremap <Tab> >
-vnoremap <S-Tab> <
-
 " [normal] resize windows
 nnoremap <C-h> :vert res +3<CR>
 nnoremap <C-l> :vert res -3<CR>
