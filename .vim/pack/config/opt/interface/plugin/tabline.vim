@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Configure Tabline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! TablineCurrentTabGenerate(tabnum)
+function! s:generate_current_tab(tabnum)
 	let l:blue = '%#StatuslineBlueBg#'
 	let l:dark1 = '%#StatuslineDarkBg#'
 
@@ -29,7 +29,7 @@ function! TablineCurrentTabGenerate(tabnum)
 	return l:format
 endfunction
 
-function! TablineHiddenTabGenerate(tabnum)
+function! s:generate_hidden_tab(tabnum)
 	return '%#StatuslineDarkBg# %#StatuslineDarkerBg# ‹' . a:tabnum . '› %#StatuslineDarkBg#'
 endfunction
 
@@ -39,9 +39,9 @@ function! TablineGenerate()
 
 	for i in range(l:tabcount)
 		if i + 1 == tabpagenr()
-			let l:tabline .= TablineCurrentTabGenerate(i)
+			let l:tabline .= s:generate_current_tab(i)
 		else
-			let l:tabline .= TablineHiddenTabGenerate(i)
+			let l:tabline .= s:generate_hidden_tab(i)
 		endif
 	endfor
 
