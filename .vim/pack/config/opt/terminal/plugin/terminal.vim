@@ -10,7 +10,7 @@ nnoremap <silent> <leader>[ :vert bo term<CR>
 " configure the terminal
 function! s:TerminalConfiguration()
 	setlocal statusline=%#SignColumn# nolist nobuflisted complete=. winfixheight
-	tnoremap <buffer> <C-W><PageUp> <C-W>N
+	tnoremap <buffer> <C-W><PageUp> <C-W>N<PageUp>
 endfunction
 
 " auto configure terminal statusline and options
