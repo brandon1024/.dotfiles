@@ -13,3 +13,6 @@
 [submodule ".vim/pack/plugins/opt/ctrlp"]
 	path = .vim/pack/plugins/opt/ctrlp
 	url = git@github.com:ctrlpvim/ctrlp.vim.git
+[submodule ".vim/pack/plugins/opt/java-sort-imports"]
+	path = .vim/pack/plugins/opt/java-sort-imports
+	url = git@github.com:brandon1024/java-sort-imports.vim.git
