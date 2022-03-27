@@ -15,7 +15,7 @@ nnoremap <leader>l :set list!<CR>
 inoremap <S-Tab> <C-d>
 
 function! CloseWindowlessBuffers()
-	let l:buffers = filter(getbufinfo({'buflisted': 1, 'hidden': 0}),
+	let l:buffers = filter(getbufinfo({'buflisted': 1}),
 			\ { i, b -> !len(b['windows']) })
 	for b in l:buffers
 		execute 'bd ' . b['bufnr']
