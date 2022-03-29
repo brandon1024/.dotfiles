@@ -2,14 +2,14 @@
 " => General Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " [normal] swtich between buffers
-nnoremap <leader>m :bnext<CR>
-nnoremap <leader>n :bprev<CR>
+nnoremap <silent> <leader>m :bnext<CR>
+nnoremap <silent> <leader>n :bprev<CR>
 
 " toggle paste mode
 set pastetoggle=<leader>p
 
 " [normal] toggle listchars
-nnoremap <leader>l :set list!<CR>
+nnoremap <silent> <leader>l :set list!<CR>
 
 " [insert] unindent
 inoremap <S-Tab> <C-d>
