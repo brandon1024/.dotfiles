@@ -22,7 +22,7 @@ set lazyredraw
 " enable wiLd menu for easier command completion
 set wildmenu
 set wildmode=longest,list,full
-set wildignore=*.so,*.o,*.class
+set wildignore=*/build/*,*/.idea/*,*/.git/*,*.so,*.o,*.class
 
 " disable backups and swap files
 set nowb noswapfile

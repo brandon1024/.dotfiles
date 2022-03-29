@@ -16,3 +16,4 @@ nnoremap <silent> <leader>q :call ToggleQuickFixWindow()<CR>
 " [norma] go to next/previous quickfix item
 nnoremap <silent> <leader>- :cprev<CR>
 nnoremap <silent> <leader>= :cnext<CR>
+
