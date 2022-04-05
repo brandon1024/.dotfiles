@@ -17,3 +17,9 @@ nnoremap <silent> <leader>q :call ToggleQuickFixWindow()<CR>
 nnoremap <silent> <leader>- :cprev<CR>
 nnoremap <silent> <leader>= :cnext<CR>
 
+" auto configure quickfix window (set unlisted)
+augroup quickfix_autogroup
+	autocmd!
+	autocmd BufReadPost quickfix setlocal nobuflisted
+augroup END
+
