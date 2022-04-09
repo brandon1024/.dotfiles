@@ -21,6 +21,9 @@ hard:
 		$(if $(DOTFILES_DRYRUN),echo) cp -r $(shell pwd)/$${file} $${HOME}/$${file}; \
 	done
 
+vimpack-gentags:
+	@vim +'helptags ALL' +q
+
 .PHONY: help
 help:
 	@echo 'The following are some valid targets for this Makefile:'
