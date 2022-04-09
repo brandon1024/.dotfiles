@@ -22,3 +22,5 @@ if [ -f "${DOTFILES_REPO_PATH}/.bash_aliases" ]; then
 	source "${DOTFILES_REPO_PATH}/.bash_aliases"
 fi
 
+export GPG_TTY=$(tty)
+
