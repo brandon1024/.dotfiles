@@ -10,5 +10,5 @@ packadd terminal
 packadd fileexplorer
 packadd fuzzyfind
 packadd vim-commentary
-packadd java-sort-imports
+packadd java-support.vim
 
