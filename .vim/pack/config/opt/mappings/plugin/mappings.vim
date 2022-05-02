@@ -25,3 +25,6 @@ endfunction
 " [normal] close all buffers not displayed in a window
 nnoremap <silent> <leader>x :call CloseWindowlessBuffers()<CR>
 
+" [normal] open current buffer in a new tab
+nnoremap <silent> <C-w>z :tabe %<CR>
+
