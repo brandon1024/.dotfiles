@@ -26,5 +26,5 @@ endfunction
 nnoremap <silent> <leader>x :call CloseWindowlessBuffers()<CR>
 
 " [normal] open current buffer in a new tab
-nnoremap <silent> <C-w>z :tabe %<CR>
+nnoremap <C-w>z :execute 'tabe +' . line('.') . ' %'<CR>
 
