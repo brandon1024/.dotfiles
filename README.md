@@ -73,3 +73,8 @@ easy enough though:
 $ make vimpack-helptags
 ```
 
+### Vim Clipboard Support
+I created a command that copies the selection to your clipboard (in a snippet
+format). This command requires `+clipboard`. If you want to use this, you'll
+need to use a version of Vim compiled with `+clipboard`. In Debian, this can be
+installed with `vim-gtk`.
