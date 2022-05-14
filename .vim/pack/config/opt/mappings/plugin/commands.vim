@@ -1,4 +1,4 @@
-function! CopySelectionToClipboard(line1, line2) abort
+function! CopySelectionToClipboard(begin, end) abort
 	if !has('clipboard')
 		echohl WarningMsg |
 			\ echo "CopySelection: vim isn't compiled with +clipboard; these features aren't supported" |
@@ -6,13 +6,12 @@ function! CopySelectionToClipboard(line1, line2) abort
 		return
 	endif
 
-	let l:lines = getbufline('%', a:line1, a:line2)
-	for idx in range(a:line1, a:line2)
-		let l:lines[idx - a:line1] = idx . '  ' . l:lines[idx - a:line1]
+	let l:lines = getbufline('%', a:begin, a:end)
+	for lnum in range(a:begin, a:end)
+		let l:lines[lnum - a:begin] = ' ' . lnum . '  ' . l:lines[lnum - a:begin]
 	endfor
 
-	let l:lines = [expand('%:t')] + l:lines
-	call setreg('+', l:lines)
+	call setreg('+', [expand('%:t')] + l:lines)
 endfunction
 
 " for this to work, you'll need vim compiled with +clipboard
