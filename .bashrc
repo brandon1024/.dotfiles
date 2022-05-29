@@ -4,9 +4,6 @@
 DOTFILES_REPO_PATH=$(dirname -- "$(readlink "${BASH_SOURCE[0]}")")
 DOTFILES_REPO_PURELINE_MODULE="${DOTFILES_REPO_PATH}/pureline"
 
-# Use Vi Instead of Emacs
-set -o vi
-
 # Pureline
 if [[ -f "${DOTFILES_REPO_PURELINE_MODULE}/pureline" ]]; then
 	source "${DOTFILES_REPO_PURELINE_MODULE}/pureline" "${DOTFILES_REPO_PATH}/.pureline.conf"

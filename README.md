@@ -70,7 +70,7 @@ $ DOTFILES_NO_BASHRC=1 DOTFILES_NO_TMUX=1 make
 With native vim packages, help tags are not generated automatically. It's
 easy enough though:
 ```bash
-$ make vimpack-helptags
+$ make vimpack-gentags
 ```
 
 ### Vim Clipboard Support
