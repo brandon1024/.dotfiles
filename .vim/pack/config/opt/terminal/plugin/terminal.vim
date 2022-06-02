@@ -19,3 +19,6 @@ augroup terminal_autogroup
 	autocmd TerminalWinOpen * call s:TerminalConfiguration()
 augroup END
 
+" run a command and show result in a terminal window
+cabbrev ! bo term ++rows=16
+
