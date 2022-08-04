@@ -20,7 +20,7 @@ function! TagNavigationStepInto(keyword) abort
 			return
 		endif
 
-		call s:PushToTagStack(l:tag_results[a:result]['name'], a:result + 1)
+		call s:PushToTagStack(l:tag_results[a:result - 1]['name'], a:result)
 	endfunction
 
 	let l:popup_entries = []
@@ -36,7 +36,7 @@ function! TagNavigationStepInto(keyword) abort
 	call popup_create(l:popup_entries, {
 		\ 'line': 'cursor+1',
 		\ 'col': 'cursor',
-		\ 'title': ' jump to tag "' . a:keyword . '"',
+		\ 'title': ' jump to definition "' . a:keyword . '"',
 		\ 'wrap': v:false,
 		\ 'moved': 'word',
 		\ 'cursorline': 1,
