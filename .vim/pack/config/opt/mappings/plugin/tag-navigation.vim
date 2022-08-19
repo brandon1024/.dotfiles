@@ -30,7 +30,7 @@ function! TagNavigationStepInto(keyword) abort
 		let l:fname = pathshorten(tag_result['filename'])
 
 		call add(l:popup_entries,
-			\ printf(' [%s] %s   %s ', l:kind, l:name, l:fname))
+			\ printf(' [%s] %s	%s ', l:kind, l:name, l:fname))
 	endfor
 
 	call popup_create(l:popup_entries, {
