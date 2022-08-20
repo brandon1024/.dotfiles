@@ -20,7 +20,48 @@ function! TagContextFromCommand(cmd) abort
 	" dont display the '$/;\"' and '$?;\"'
 	let l:result = substitute(l:result, '\$[/;]*$', '', 'g')
 
+	" truncate if long
+	if len(l:result) >= 50
+		let l:result = l:result[0:47] . '...'
+	endif
+
 	return l:result
+endfunction
+
+" Build a list of popup entries. The result is a list, where each entry is a
+" list of popup entries with different information.
+"     entry 1: tag information showing filename
+"     entry 2: tag information showing context information (command)
+function! BuildPopupEntries(tag_results) abort
+	let l:popup_entries = [[],[]]
+
+	" first, calculate text width to space popup entries correctly
+	let l:max_len = 0
+	for result in a:tag_results
+		let l:prefix = printf('[%s] %s', result['kind'], result['name'])
+		let l:max_len = max([l:max_len, len(l:prefix)])
+
+		call add(l:popup_entries[0], l:prefix)
+		call add(l:popup_entries[1], l:prefix)
+	endfor
+
+	" then, add additional info
+	for index in range(len(a:tag_results))
+		let l:result = a:tag_results[index]
+
+		let l:prefix = l:popup_entries[0][index]
+		let l:whitespace = repeat(' ', l:max_len - len(l:prefix))
+
+		let l:fname = pathshorten(result['filename'])
+		let l:popup_entries[0][index] = printf(' %s%s %s ', l:prefix,
+			\ l:whitespace, l:fname)
+
+		let l:context = TagContextFromCommand(result['cmd'])
+		let l:popup_entries[1][index] = printf(' %s%s %s ', l:prefix,
+			\ l:whitespace, l:context)
+	endfor
+
+	return l:popup_entries
 endfunction
 
 " Navigate to a tag with the given keyword, showing a popup with results if
@@ -43,22 +84,8 @@ function! TagNavigationStepInto(keyword) abort
 		return
 	endif
 
-	" popup entries organized as a tuple of lists:
-	"     entry 1: tag information showing filename
-	"     entry 2: tag information showing context information (command)
-	let l:popup_entries = [[],[]]
+	let l:popup_entries = BuildPopupEntries(l:tag_results)
 	let l:state = 0
-	for tag_result in l:tag_results
-		let l:kind = tag_result['kind']
-		let l:name = tag_result['name']
-		let l:context = TagContextFromCommand(tag_result['cmd'])
-		let l:fname = pathshorten(tag_result['filename'])
-
-		call add(l:popup_entries[0],
-			\ printf(' [%s] %s	%s ', l:kind, l:name, l:fname))
-		call add(l:popup_entries[1],
-			\ printf(' [%s] %s  	%s ', l:kind, l:name, l:context))
-	endfor
 
 	" callback function when the popup is closed
 	function! s:PopupMenuCallback(id, result) abort closure
