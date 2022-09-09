@@ -64,12 +64,38 @@ function! BuildPopupEntries(tag_results) abort
 	return l:popup_entries
 endfunction
 
+" A 'tagfunc' that simply performs a vimgrep in the current buffer when no
+" tag files are available.
+function! VimgrepCurrentBufferTagFunc(pattern, flags, info) abort
+	" don't bother when doing ins-completion
+	if a:flags =~ 'i'
+		return v:null
+	endif
+
+	execute 'vimgrep /' . a:pattern . '/jg %'
+
+	let l:search_results = getqflist()
+	let l:results = []
+	for result in l:search_results
+		call add(l:results, {
+			\ 'name': a:pattern,
+			\ 'filename': expand('%:p'),
+			\ 'cmd': '/^' . result['text'] . '$/',
+			\ 'kind': 'g'
+		\ })
+	endfor
+
+	return l:results
+endfunction
+
 " Navigate to a tag with the given keyword, showing a popup with results if
 " more than one match is found.
+"
+" If there are no tag files, a custom 'tagfunc' is used to offer results from
+" buffers through a simple search.
 function! TagNavigationStepInto(keyword) abort
 	if empty(tagfiles())
-		echoerr 'no tags file'
-		return
+		setlocal tagfunc=VimgrepCurrentBufferTagFunc
 	endif
 
 	let l:tag_results = taglist(a:keyword)
