@@ -89,7 +89,7 @@ function! VimgrepCurrentBufferTagFunc(pattern, flags, info) abort
 		call add(l:results, {
 			\ 'name': a:pattern,
 			\ 'filename': expand('#' . result['bufnr'] . ':p'),
-			\ 'cmd': '/^' . result['text'] . '$/',
+			\ 'cmd': '/^' . escape(result['text'], '/\') . '$/',
 			\ 'kind': 'g'
 		\ })
 	endfor
