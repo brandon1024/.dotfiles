@@ -4,7 +4,7 @@ endfunction
 
 " The semantics of this was pulled from the vim source for the :tselect/:tjump
 " commands.
-function! TagContextFromCommand(cmd) abort
+function! s:TagContextFromCommand(cmd) abort
 	" remove '/^' and '?^'
 	let l:result = substitute(a:cmd, '[/?]\^', '', '')
 
@@ -21,8 +21,8 @@ function! TagContextFromCommand(cmd) abort
 	let l:result = substitute(l:result, '\$[/;]*$', '', 'g')
 
 	" truncate if long
-	if len(l:result) >= 50
-		let l:result = l:result[0:47] . '...'
+	if len(l:result) >= 60
+		let l:result = l:result[0:57] . '...'
 	endif
 
 	return l:result
@@ -32,13 +32,15 @@ endfunction
 " list of popup entries with different information.
 "     entry 1: tag information showing filename
 "     entry 2: tag information showing context information (command)
-function! BuildPopupEntries(tag_results) abort
+function! s:BuildPopupEntries(tag_results) abort
 	let l:popup_entries = [[],[]]
 
 	" first, calculate text width to space popup entries correctly
 	let l:max_len = 0
 	for result in a:tag_results
-		let l:prefix = printf('[%s] %s', result['kind'], result['name'])
+		let l:kind = empty(result['kind']) ? '?' : result['kind']
+
+		let l:prefix = printf('[%s] %s', l:kind, result['name'])
 		let l:max_len = max([l:max_len, len(l:prefix)])
 
 		call add(l:popup_entries[0], l:prefix)
@@ -52,13 +54,13 @@ function! BuildPopupEntries(tag_results) abort
 		let l:prefix = l:popup_entries[0][index]
 		let l:whitespace = repeat(' ', l:max_len - len(l:prefix))
 
-		let l:fname = pathshorten(result['filename'])
+		let l:context = s:TagContextFromCommand(result['cmd'])
 		let l:popup_entries[0][index] = printf(' %s%s %s ', l:prefix,
-			\ l:whitespace, l:fname)
-
-		let l:context = TagContextFromCommand(result['cmd'])
-		let l:popup_entries[1][index] = printf(' %s%s %s ', l:prefix,
 			\ l:whitespace, l:context)
+
+		let l:fname = pathshorten(result['filename'])
+		let l:popup_entries[1][index] = printf(' %s%s %s ', l:prefix,
+			\ l:whitespace, l:fname)
 	endfor
 
 	return l:popup_entries
@@ -68,18 +70,25 @@ endfunction
 " tag files are available.
 function! VimgrepCurrentBufferTagFunc(pattern, flags, info) abort
 	" don't bother when doing ins-completion
-	if a:flags =~ 'i'
-		return v:null
-	endif
+	" if a:flags =~ 'i'
+	" 	return v:null
+	" endif
 
-	execute 'vimgrep /' . a:pattern . '/jg %'
+	call setqflist([])
+	let l:buffers = getbufinfo({'buflisted': 1, 'windows': gettabinfo(tabpagenr())})
+	for b in l:buffers
+		try
+			execute 'vimgrepadd /' . a:pattern . '/jg #' . b['bufnr']
+		catch
+		endtry
+	endfor
 
 	let l:search_results = getqflist()
 	let l:results = []
 	for result in l:search_results
 		call add(l:results, {
 			\ 'name': a:pattern,
-			\ 'filename': expand('%:p'),
+			\ 'filename': expand('#' . result['bufnr'] . ':p'),
 			\ 'cmd': '/^' . result['text'] . '$/',
 			\ 'kind': 'g'
 		\ })
@@ -94,8 +103,10 @@ endfunction
 " If there are no tag files, a custom 'tagfunc' is used to offer results from
 " buffers through a simple search.
 function! TagNavigationStepInto(keyword) abort
+	" save the tagfunc so that we can restore it later
+	let l:save_tagfunc = &tagfunc
 	if empty(tagfiles())
-		setlocal tagfunc=VimgrepCurrentBufferTagFunc
+		let &l:tagfunc = 'VimgrepCurrentBufferTagFunc'
 	endif
 
 	let l:tag_results = taglist(a:keyword)
@@ -110,7 +121,7 @@ function! TagNavigationStepInto(keyword) abort
 		return
 	endif
 
-	let l:popup_entries = BuildPopupEntries(l:tag_results)
+	let l:popup_entries = s:BuildPopupEntries(l:tag_results)
 	let l:state = 0
 
 	" callback function when the popup is closed
@@ -120,6 +131,9 @@ function! TagNavigationStepInto(keyword) abort
 		endif
 
 		call s:PushToTagStack(l:tag_results[a:result - 1]['name'], a:result)
+
+		" restore the tagfunc
+		let &l:tagfunc = l:save_tagfunc
 	endfunction
 
 	" rotate the entries in the popup
