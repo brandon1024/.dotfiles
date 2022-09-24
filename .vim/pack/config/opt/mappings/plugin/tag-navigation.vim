@@ -1,5 +1,9 @@
 function! s:PushToTagStack(tagname, matchnr) abort
-	execute a:matchnr . 'tag ' . a:tagname
+	try
+		execute a:matchnr . 'tag ' . a:tagname
+	catch
+		echohl ErrorMsg | echo 'tag not found: ' . a:tagname | echohl None
+	endtry
 endfunction
 
 " The semantics of this was pulled from the vim source for the :tselect/:tjump
@@ -69,11 +73,6 @@ endfunction
 " A 'tagfunc' that simply performs a vimgrep in the current buffer when no
 " tag files are available.
 function! VimgrepCurrentBufferTagFunc(pattern, flags, info) abort
-	" don't bother when doing ins-completion
-	" if a:flags =~ 'i'
-	" 	return v:null
-	" endif
-
 	call setqflist([])
 	let l:buffers = getbufinfo({'buflisted': 1, 'windows': gettabinfo(tabpagenr())})
 	for b in l:buffers
@@ -111,7 +110,7 @@ function! TagNavigationStepInto(keyword) abort
 
 	let l:tag_results = taglist(a:keyword)
 	if empty(l:tag_results)
-		echoerr 'tag not found: ' . a:keyword
+		echohl ErrorMsg | echo 'tag not found: ' . a:keyword | echohl None
 		return
 	endif
 
