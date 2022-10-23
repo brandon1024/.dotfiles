@@ -4,6 +4,7 @@
 set completeopt=menuone,noinsert
 set complete=.,w,b,u,t
 set shortmess+=c
+set infercase
 
 " tab to select completion
 inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
