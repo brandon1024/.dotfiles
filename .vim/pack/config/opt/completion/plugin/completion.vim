@@ -1,6 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 set completeopt=menuone,noinsert
 set complete=.,w,b,u,t
 set shortmess+=c
@@ -11,6 +12,11 @@ inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 
 " enter closes completion menu
 inoremap <silent> <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
+
+" check if currently in insert mode completion
+function! s:InCompletion() abort
+	return !empty(complete_info(['mode'])['mode'])
+endfunction
 
 function! s:AutoComplete()
 	" quickly return if there's nothing to do
@@ -28,12 +34,12 @@ function! s:AutoComplete()
 		" If last four characters are keyword chars, show full complete menu
 		" (results from 'complete')
 		call timer_start(0, { ->
-				\ feedkeys((pumvisible() ? "\<C-e>" : "") . "\<C-n>", 'n') })
+				\ feedkeys((s:InCompletion() ? "\<C-e>" : "") . "\<C-n>", 'n') })
 	elseif l:linetocursor =~ '\K\{2,}$'
 		" If last three characters are keyword chars, show partial complete
 		" menu (keywords in current file).
 		call timer_start(0, { ->
-				\ feedkeys((pumvisible() ? "\<C-e>" : "") . "\<C-x>\<C-n>", 'n') })
+				\ feedkeys((s:InCompletion() ? "\<C-e>" : "") . "\<C-x>\<C-n>", 'n') })
 	end
 endfunction
 
