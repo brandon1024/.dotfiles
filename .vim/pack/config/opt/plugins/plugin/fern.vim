@@ -1,7 +1,8 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fern File Explorer
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-packadd fern
+
+packadd! fern
 
 let g:fern#default_hidden = 1
 let g:fern#renderer#default#leading = "  "
@@ -11,8 +12,15 @@ let g:fern#renderer#default#expanded_symbol = " ▼ "
 
 nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
 
-function! s:init_fern() abort
-	setlocal statusline=%#StatuslineDarkBg#%=%#StatuslineBlueBg#\ FERN\ 
+function! RenderFernStatusline() abort
+	return statusline#CompileSegments([
+		\ statusline#AlignmentSegment('StatuslineDarkBg'),
+		\ statusline#Segment(' FERN ', 'StatuslineBlueBg')
+	\ ])
+endfunction
+
+function! s:InitFern() abort
+	setlocal statusline=%!RenderFernStatusline()
 
 	" define some useful keymaps
 	nmap <buffer> cd <Plug>(fern-action-enter)
@@ -31,6 +39,6 @@ endfunction
 
 augroup fern_custom
 	autocmd!
-	autocmd FileType fern setlocal norelativenumber nonumber | call s:init_fern()
+	autocmd FileType fern setlocal norelativenumber nonumber | call s:InitFern()
 augroup END
 

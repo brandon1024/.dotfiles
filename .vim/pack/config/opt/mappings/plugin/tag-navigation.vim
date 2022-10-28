@@ -1,3 +1,7 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Improved Tag Navigation
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 function! s:PushToTagStack(tagname, matchnr) abort
 	try
 		execute a:matchnr . 'tag ' . a:tagname
@@ -101,7 +105,7 @@ endfunction
 "
 " If there are no tag files, a custom 'tagfunc' is used to offer results from
 " buffers through a simple search.
-function! TagNavigationStepInto(keyword) abort
+function! s:TagNavigationStepInto(keyword) abort
 	" save the tagfunc so that we can restore it later
 	let l:save_tagfunc = &tagfunc
 	if empty(tagfiles())
@@ -167,5 +171,5 @@ function! TagNavigationStepInto(keyword) abort
 endfunction
 
 " [normal] navigate to and from tag results
-nnoremap <silent> <C-]> :call TagNavigationStepInto(expand('<cword>'))<CR>
+nnoremap <silent> <C-]> :call <SID>TagNavigationStepInto(expand('<cword>'))<CR>
 

@@ -1,6 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " scrolloff (show 7 lines above/below when navigating a file)
 set so=7
 
@@ -12,15 +13,6 @@ set showmatch
 
 " enable syntax highlighting
 syntax enable
-
-" enable true colors
-set termguicolors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-" add onedark plugin and set colorscheme
-packadd! onedark
-colorscheme onedark
 
 " configure color column (line length guide)
 set colorcolumn=80

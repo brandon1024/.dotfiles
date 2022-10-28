@@ -1,54 +1,81 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Configure Tabline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:generate_current_tab(tabnum)
-	let l:blue = '%#StatuslineBlueBg#'
-	let l:dark1 = '%#StatuslineDarkBg#'
 
-	" There's an upstream bug, fixed in a493b6506 (patch 8.2.4419: illegal
-	" memory access when using 20 highlights, 2022-02-19),
-	" that causes Vim to crash whenever there are too many highlights in the
-	" tabline. If we don't have this patch, don't bother highlighting anything
-	" aside from the current tab/buffer.
-	let l:dark2 = has('patch-8.2.4419') ? '%#StatuslineDarkerBg#' : ''
+" always show the tabline
+set showtabline=2
 
-	let l:format = l:dark1 . ' ' . l:blue . ' ‹' . a:tabnum . '› ' . l:dark1
-	let l:buffers = getbufinfo({'buflisted': 1, 'windows': gettabinfo(a:tabnum)})
-
-	for b in l:buffers
-		let l:bname = b['name'] ?? 'empty'
-		let l:bname = fnamemodify(l:bname, ':t')
-
-		if b['bufnr'] == bufnr('%')
-			let l:format .= ' ' . l:blue . ' ' . b['bufnr'] . ' ' . l:bname . ' ' . l:dark1
-		else
-			let l:format .= ' ' . l:dark2 . ' ' . b['bufnr'] . ' ' . l:bname . ' ' . l:dark1
-		endif
-	endfor
-
-	return l:format
+" Pretty icon segment.
+function! s:IconSegment(color) abort
+	return statusline#Segment('⋰ ', a:color)
 endfunction
 
-function! s:generate_hidden_tab(tabnum)
-	return '%#StatuslineDarkBg# %#StatuslineDarkerBg# ‹' . a:tabnum . '› %#StatuslineDarkBg#'
+" The tab page number segment.
+function! s:TabPageSegment(tabnum, color) abort
+	return statusline#Segment('‹' . a:tabnum . '›', a:color,
+		\ { 'tabnum': a:tabnum })
 endfunction
 
-function! TablineGenerate()
-	let l:tabline = '%#StatuslineDarkBg# ⋰ '
-	let l:tabcount = tabpagenr('$')
+" Buffer segment.
+function! s:BufferSegment(buf, color, tabnum) abort
+	let l:bname = fnamemodify(a:buf['name'] ?? 'empty', ':t')
+	let l:bnum = a:buf['bufnr']
 
-	for i in range(l:tabcount)
-		if i + 1 == tabpagenr()
-			let l:tabline .= s:generate_current_tab(i)
-		else
-			let l:tabline .= s:generate_hidden_tab(i)
-		endif
+	return statusline#Segment(l:bnum . ' ' . l:bname, a:color,
+		\ { 'tabnum': a:tabnum, 'curwin': l:bnum == bufnr('%') })
+endfunction
+
+" Get a list of buffer segments for a specific tab number.
+function! s:BufferSegments(tabnum)
+	" skip buffers in other tabs
+	if (a:tabnum + 1) != tabpagenr()
+		return []
+	endif
+
+	let l:segments = []
+	for buf in getbufinfo({ 'buflisted': 1 })
+		call add(l:segments, s:BufferSegment(buf, 'StatuslineBlueBg', a:tabnum))
 	endfor
 
-	return l:tabline
+	return l:segments
+endfunction
+
+" Make some final adjustments to segments.
+function! s:SegmentInactiveProcessor(seg) abort
+	if get(a:seg, 'flag', '') == 'x'
+		return a:seg
+	endif
+
+	let l:tabnum = get(a:seg, 'tabnum', -1)
+	let l:curwin = get(a:seg, 'curwin', v:true)
+
+	if (l:tabnum + 1) != tabpagenr() || !l:curwin
+		let a:seg['color'] = 'StatuslineDarkBg'
+	endif
+
+	if !empty(a:seg['text'])
+		let a:seg['text'] = ' '. a:seg['text'] . ' '
+	endif
+
+	return a:seg
+endfunction
+
+" Render the tabline.
+function! RenderTabline() abort
+	let l:segments = [s:IconSegment('StatuslineDarkBg')]
+
+	for i in range(tabpagenr('$'))
+		call add(l:segments, s:TabPageSegment(i, 'StatuslineBlueBg'))
+		call add(l:segments, statusline#SpacerSegment('StatuslineDarkBg', { 'flag': 'x' }))
+		call extend(l:segments, s:BufferSegments(i))
+	endfor
+
+	call add(l:segments, statusline#AlignmentSegment('StatuslineDarkBg'))
+
+	return statusline#CompileSegments(
+		\ map(l:segments, { _, seg -> s:SegmentInactiveProcessor(seg) }))
 endfunction
 
 " format the tabline
-set showtabline=2
-set tabline=%!TablineGenerate()
+set tabline=%!RenderTabline()
 

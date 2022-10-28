@@ -1,4 +1,8 @@
-function! CopySelectionToClipboard(begin, end, bang) abort
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Custom Commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! s:CopySelectionToClipboard(begin, end, bang) abort
 	if !has('clipboard')
 		echohl WarningMsg |
 			\ echo "CopySelection: vim isn't compiled with +clipboard; these features aren't supported" |
@@ -20,5 +24,5 @@ endfunction
 
 " for this to work, you'll need vim compiled with +clipboard
 " (e.g. installed with 'vim-gtk' in some environments)
-command! -range -bang CopySelection call CopySelectionToClipboard(<line1>, <line2>, <bang>v:false)
+command! -range -bang CopySelection call <SID>CopySelectionToClipboard(<line1>, <line2>, <bang>v:false)
 
