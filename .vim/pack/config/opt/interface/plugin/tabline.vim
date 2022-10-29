@@ -5,75 +5,49 @@
 " always show the tabline
 set showtabline=2
 
-" Pretty icon segment.
-function! s:IconSegment(color) abort
-	return statusline#Segment('⋰ ', a:color)
+function! s:WithSegmentSpacing(segments) abort
+	return flatten(map(a:segments,
+		\ { idx, val -> [val, statusline#SpacerSegment('StatuslineDarkBg')] }))[0:-2]
 endfunction
 
-" The tab page number segment.
-function! s:TabPageSegment(tabnum, color) abort
-	return statusline#Segment('‹' . a:tabnum . '›', a:color,
-		\ { 'tabnum': a:tabnum })
-endfunction
-
-" Buffer segment.
-function! s:BufferSegment(buf, color, tabnum) abort
-	let l:bname = fnamemodify(a:buf['name'] ?? 'empty', ':t')
-	let l:bnum = a:buf['bufnr']
-
-	return statusline#Segment(l:bnum . ' ' . l:bname, a:color,
-		\ { 'tabnum': a:tabnum, 'curwin': l:bnum == bufnr('%') })
-endfunction
-
-" Get a list of buffer segments for a specific tab number.
-function! s:BufferSegments(tabnum)
-	" skip buffers in other tabs
-	if (a:tabnum + 1) != tabpagenr()
-		return []
-	endif
-
+function! s:TabSegments(current) abort
 	let l:segments = []
-	for buf in getbufinfo({ 'buflisted': 1 })
-		call add(l:segments, s:BufferSegment(buf, 'StatuslineBlueBg', a:tabnum))
+
+	for i in range(1, tabpagenr('$'))
+		let l:color = (i == a:current) ? 'StatuslineBlueBg' : 'StatuslineLightBg'
+		call add(l:segments, statusline#Segment(' ‹' . i . '› ', l:color))
 	endfor
 
-	return l:segments
+	return s:WithSegmentSpacing(l:segments)
 endfunction
 
-" Make some final adjustments to segments.
-function! s:SegmentInactiveProcessor(seg) abort
-	if get(a:seg, 'flag', '') == 'x'
-		return a:seg
-	endif
+function! s:BufferSegments(current) abort
+	let l:segments = []
 
-	let l:tabnum = get(a:seg, 'tabnum', -1)
-	let l:curwin = get(a:seg, 'curwin', v:true)
+	for buf in getbufinfo({ 'buflisted': 1 })
+		let l:bname = fnamemodify(buf['name'] ?? 'empty', ':t')
+		let l:bnum = buf['bufnr']
 
-	if (l:tabnum + 1) != tabpagenr() || !l:curwin
-		let a:seg['color'] = 'StatuslineDarkBg'
-	endif
+		let l:color = (l:bnum == a:current) ? 'StatuslineBlueBg' : 'StatuslineLightBg'
+		let l:text = ' ' . l:bnum . ' ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
 
-	if !empty(a:seg['text'])
-		let a:seg['text'] = ' '. a:seg['text'] . ' '
-	endif
+		call add(l:segments, statusline#Segment(l:text, l:color))
+	endfor
 
-	return a:seg
+	return s:WithSegmentSpacing(l:segments)
 endfunction
 
 " Render the tabline.
 function! RenderTabline() abort
-	let l:segments = [s:IconSegment('StatuslineDarkBg')]
-
-	for i in range(tabpagenr('$'))
-		call add(l:segments, s:TabPageSegment(i, 'StatuslineBlueBg'))
-		call add(l:segments, statusline#SpacerSegment('StatuslineDarkBg', { 'flag': 'x' }))
-		call extend(l:segments, s:BufferSegments(i))
-	endfor
-
-	call add(l:segments, statusline#AlignmentSegment('StatuslineDarkBg'))
-
-	return statusline#CompileSegments(
-		\ map(l:segments, { _, seg -> s:SegmentInactiveProcessor(seg) }))
+	return statusline#CompileSegments(flatten([
+		\ statusline#SpacerSegment('StatuslineDarkBg'),
+		\ s:BufferSegments(bufnr('%')),
+		\ statusline#AlignmentSegment('StatuslineDarkBg'),
+		\ s:TabSegments(tabpagenr()),
+		\ statusline#SpacerSegment('StatuslineDarkBg'),
+		\ statusline#Segment(' 缾', 'StatuslineDarkBg'),
+		\ statusline#SpacerSegment('StatuslineDarkBg'),
+	\ ]))
 endfunction
 
 " format the tabline

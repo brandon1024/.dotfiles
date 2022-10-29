@@ -21,6 +21,7 @@ let g:ctrlp_brief_prompt = 1
 
 function! RenderCtrlPStatusline(focus, byfname, regex, prev, item, next, marked) abort
 	return statusline#CompileSegments([
+		\ statusline#Segment('   ', 'StatuslineDarkBg'),
 		\ statusline#Segment(' CTRLP ', 'StatuslineBlueBg'),
 		\ statusline#SpacerSegment('StatuslineDarkerBg'),
 		\ statusline#Segment(' ' . a:byfname . ' ', 'StatuslineDarkBg'),
