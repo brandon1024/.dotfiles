@@ -9,7 +9,7 @@ let g:fern#renderer#default#leading = '  '
 let g:fern#renderer#default#root_symbol = ' פּ '
 let g:fern#renderer#default#leaf_symbol = '  '
 let g:fern#renderer#default#collapsed_symbol = '   '
-let g:fern#renderer#default#expanded_symbol = '  ﱮ '
+let g:fern#renderer#default#expanded_symbol = '   '
 let g:fern#hide_cursor = 1
 
 nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
@@ -30,7 +30,7 @@ function! s:CustomHighlights() abort
 	highlight link FernBranchText Normal
 	highlight link FernBranchSymbol Directory
 	highlight link FernLeafText Normal
-	highlight link FernLeafSymbol Directory
+	highlight link FernLeafSymbol WarningMsg
 endfunction
 
 function! s:InitMappings() abort
