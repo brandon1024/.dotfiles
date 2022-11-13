@@ -41,3 +41,12 @@ let &t_EI = "\e[2 q"
 set splitright
 set splitbelow
 
+" format the statusline
+set statusline=%!ui#segment#Render(ui#statusline#BuildSegments())
+
+" always show the tabline
+set showtabline=2
+
+" format the tabline
+set tabline=%!ui#segment#Render(ui#tabline#BuildSegments())
+

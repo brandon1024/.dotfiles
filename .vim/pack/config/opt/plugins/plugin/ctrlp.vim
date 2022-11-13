@@ -20,24 +20,23 @@ let g:ctrlp_lazy_update = 150
 let g:ctrlp_brief_prompt = 1
 
 function! RenderCtrlPStatusline(focus, byfname, regex, prev, item, next, marked) abort
-	return statusline#CompileSegments([
-		\ statusline#Segment('   ', 'StatuslineDarkBg'),
-		\ statusline#Segment(' CTRLP ', 'StatuslineBlueBg'),
-		\ statusline#SpacerSegment('StatuslineDarkerBg'),
-		\ statusline#Segment(' ' . a:byfname . ' ', 'StatuslineDarkBg'),
-		\ statusline#Segment(' [' . a:item . '] ', 'StatuslineDarkBg'),
-		\ statusline#AlignmentSegment('StatuslineDarkBg'),
-		\ statusline#Segment(' ' . getcwd() . ' ', 'StatuslineLightBg')
+	return ui#segment#Render([
+		\ ui#segment#New('  CTRLP ', 'StatuslineBlueBg'),
+		\ ui#segment#Spacer('StatuslineDarkerBg'),
+		\ ui#segment#New(' ' . a:byfname . ' ', 'StatuslineDarkBg'),
+		\ ui#segment#New(' [' . a:item . '] ', 'StatuslineDarkBg'),
+		\ ui#segment#Justify('StatuslineDarkBg'),
+		\ ui#segment#New(' ' . getcwd() . ' ', 'StatuslineLightBg')
 	\ ])
 endfunction
 
 function! RenderCtrlPProgressStatusline(str) abort
-	return statusline#CompileSegments([
-		\ statusline#Segment(' CTRLP ', 'StatuslineBlueBg'),
-		\ statusline#SpacerSegment('StatuslineDarkerBg'),
-		\ statusline#Segment(' scanning [' . a:str . '] ', 'StatuslineLightBg'),
-		\ statusline#AlignmentSegment('StatuslineDarkBg'),
-		\ statusline#Segment(' ' . getcwd() . ' ', 'StatuslineLightBg')
+	return ui#segment#Render([
+		\ ui#segment#New('  CTRLP ', 'StatuslineBlueBg'),
+		\ ui#segment#Spacer('StatuslineDarkerBg'),
+		\ ui#segment#New(' scanning [' . a:str . '] ', 'StatuslineLightBg'),
+		\ ui#segment#Justify('StatuslineDarkBg'),
+		\ ui#segment#New(' ' . getcwd() . ' ', 'StatuslineLightBg')
 	\ ])
 endfunction
 

@@ -1,12 +1,35 @@
-" Calculate the number of screen columns occupied by the given segments.
-function! tabline#ScreenColsForSegments(segments) abort
-	return reduce(a:segments, { acc, val -> acc + strdisplaywidth(val.text) }, 0)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Utilities for Building Tabline Format Strings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Build statusline segments for the current window.
+function! ui#tabline#BuildSegments() abort
+	let l:leading = [
+		\ ui#segment#Spacer('StatuslineDarkBg')
+	\ ]
+
+	let l:tailing = [
+		\ ui#segment#Spacer('StatuslineDarkBg'),
+		\ s:TabSegments(tabpagenr()),
+		\ ui#segment#Spacer('StatuslineDarkBg'),
+		\ ui#segment#New(' 缾', 'StatuslineDarkBg'),
+		\ ui#segment#Spacer('StatuslineDarkBg'),
+	\ ]
+
+	let l:max_width = &columns - ui#segment#Width(flatten([l:leading, l:tailing]))
+
+	return [
+		\ l:leading,
+		\ s:BufferSegments(bufnr('%'), l:max_width),
+		\ ui#segment#Justify('StatuslineDarkBg'),
+		\ l:tailing,
+	\ ]
 endfunction
 
 " Build segments for listed buffers.
 "   {current} is the buffer number of the current buffer
 "   {max_width} is the max screen column width that the segments may occupy
-function! tabline#BufferSegments(current, max_width) abort
+function! s:BufferSegments(current, max_width) abort
 	let l:buffers = getbufinfo({ 'buflisted': 1 })
 
 	" find index of current buffer, or first if no current buffer
@@ -19,7 +42,7 @@ function! tabline#BufferSegments(current, max_width) abort
 
 	" the number of tabline screen columns available, minus a small buffer of
 	" 8 cols
-	let l:columns_remaining = a:max_width - tabline#ScreenColsForSegments(l:segments) - 8
+	let l:columns_remaining = a:max_width - ui#segment#Width(l:segments) - 8
 
 	let l:end = [v:false, v:false]
 
@@ -33,18 +56,18 @@ function! tabline#BufferSegments(current, max_width) abort
 
 		let l:new_segments = [
 			\ s:BufferSegment(a:buffers[l:index]),
-			\ statusline#SpacerSegment('StatuslineDarkBg')
+			\ ui#segment#Spacer('StatuslineDarkBg')
 		\ ]
 
-		if (l:columns_remaining - tabline#ScreenColsForSegments(l:new_segments)) < 0
+		if (l:columns_remaining - ui#segment#Width(l:new_segments)) < 0
 			let l:end[a:pos] = v:true
 			let l:new_segments = [
-				\ statusline#Segment(a:pos ? ' › ' : ' ‹ ', 'StatuslineLightBg'),
-				\ statusline#SpacerSegment('StatuslineDarkBg')
+				\ ui#segment#New(a:pos ? ' › ' : ' ‹ ', 'StatuslineLightBg'),
+				\ ui#segment#Spacer('StatuslineDarkBg')
 			\ ]
 		endif
 
-		let l:columns_remaining -= tabline#ScreenColsForSegments(l:new_segments)
+		let l:columns_remaining -= ui#segment#Width(l:new_segments)
 
 		return a:pos ? reverse(l:new_segments) : l:new_segments
 	endfunction
@@ -70,17 +93,17 @@ function! tabline#BufferSegments(current, max_width) abort
 endfunction
 
 " Build tag page segments.
-function! tabline#TabSegments(current) abort
+function! s:TabSegments(current) abort
 	let l:segments = []
 
 	for i in range(1, tabpagenr('$'))
 		let l:color = (i == a:current) ? 'StatuslineBlueBg' : 'StatuslineLightBg'
-		call add(l:segments, statusline#Segment(' ‹' . i . '› ', l:color))
+		call add(l:segments, ui#segment#New(' ‹' . i . '› ', l:color))
 	endfor
 
 	" add spacing
 	return flatten(map(l:segments,
-		\ { idx, val -> [val, statusline#SpacerSegment('StatuslineDarkBg')] }))[0:-2]
+		\ { idx, val -> [val, ui#segment#Spacer('StatuslineDarkBg')] }))[0:-2]
 endfunction
 
 " Build a single segment for a buffer.
@@ -93,6 +116,6 @@ function! s:BufferSegment(buffer, current = -1) abort
 	let l:color = (l:bnum == a:current) ? 'StatuslineBlueBg' : 'StatuslineLightBg'
 	let l:text = ' ' . l:bnum . ' ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
 
-	return statusline#Segment(l:text, l:color)
+	return ui#segment#New(l:text, l:color)
 endfunction
 

@@ -23,7 +23,7 @@ endfunction
 " auto configure terminal statusline and options
 augroup terminal_autogroup
 	autocmd!
-	autocmd TerminalWinOpen * setlocal statusline=%#StatuslineDarkerBg#\ TERMINAL\ %#StatuslineDarkBg#
+	autocmd TerminalWinOpen * setlocal statusline=%!ui#segment#Render(ui#terminal#BuildSegments())
 	autocmd TerminalWinOpen * setlocal nolist nobuflisted complete=. winfixheight
 augroup END
 

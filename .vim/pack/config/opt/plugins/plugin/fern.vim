@@ -15,12 +15,13 @@ let g:fern#hide_cursor = 1
 nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
 
 function! RenderFernStatusline() abort
-	return statusline#CompileSegments([
-		\ statusline#Segment(' 🌿 ', 'StatuslineDarkBg'),
-		\ statusline#Segment(' FERN ', 'StatuslineBlueBg'),
-		\ statusline#SpacerSegment('StatuslineDarkerBg'),
-		\ statusline#AlignmentSegment('StatuslineDarkBg'),
-		\ statusline#Segment(' ' . fnamemodify(getcwd(), ':t') . ' ', 'StatuslineLightBg')
+	return ui#segment#Render([
+		\ ui#statusline#ShadeInactive(
+			\ ui#segment#New(' 🌿 FERN ', 'StatuslineBlueBg'),
+			\ 'StatuslineLightBg'),
+		\ ui#segment#Spacer('StatuslineDarkerBg'),
+		\ ui#segment#Justify('StatuslineDarkBg'),
+		\ ui#segment#New(' ' . fnamemodify(getcwd(), ':t') . ' ', 'StatuslineLightBg')
 	\ ])
 endfunction
 
