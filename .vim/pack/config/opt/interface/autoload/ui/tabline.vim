@@ -32,6 +32,11 @@ endfunction
 function! s:BufferSegments(current, max_width) abort
 	let l:buffers = getbufinfo({ 'buflisted': 1 })
 
+	" if there are no listed buffers open, return empty
+	if empty(l:buffers)
+		return []
+	endif
+
 	" find index of current buffer, or first if no current buffer
 	let l:curr_buff_idx = copy(l:buffers)
 		\ ->map({ _, val -> val['bufnr'] })

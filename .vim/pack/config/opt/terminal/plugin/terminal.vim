@@ -3,20 +3,26 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " open terminal (docked)
-nnoremap <silent> <leader>] :call <SID>TerminalToggle()<CR>
+nnoremap <silent> <leader>] :call <SID>TerminalNew()<CR>
 
-" open terminal (vertical split)
-nnoremap <silent> <leader>[ :vert bo term<CR>
+function! s:TerminalNew() abort
+	let l:term_wins = filter(getwininfo(),
+		\ { idx, win -> win['terminal'] && win['tabnr'] == tabpagenr() })
 
-function! s:TerminalToggle()
-	if !bufexists('docked-terminal')
+	" find our (managed) terminal windows
+	let l:term_wins = filter(l:term_wins,
+		\ { idx, win -> has_key(win['variables'], '_managed_term') })
+
+	if empty(l:term_wins)
 		bo term ++rows=16<CR>
-		silent file docked-terminal
-		let s:term_winnr = winnr('$')
-		let s:term_collapsed = v:false
+		let l:new_term_winnr = winnr('$')
+		call setwinvar(l:new_term_winnr, '_managed_term', 1)
 	else
-		exe s:term_winnr . 'resize ' . (s:term_collapsed ? '16' : '1')
-		let s:term_collapsed = !s:term_collapsed
+		call win_gotoid(l:term_wins[-1]['winid'])
+		vert new
+		let l:new_term_winnr = winnr('$')
+		call setwinvar(l:new_term_winnr, '_managed_term', 1)
+		term ++curwin
 	endif
 endfunction
 
