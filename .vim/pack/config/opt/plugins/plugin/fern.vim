@@ -12,46 +12,14 @@ let g:fern#renderer#default#collapsed_symbol = '   '
 let g:fern#renderer#default#expanded_symbol = '   '
 let g:fern#hide_cursor = 1
 
-nnoremap <silent> <C-e> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
-
-function! RenderFernStatusline() abort
-	return ui#segment#Render([
-		\ ui#statusline#ShadeInactive(
-			\ ui#segment#New(' 🌿 FERN ', 'StatuslineBlueBg'),
-			\ 'StatuslineLightBg'),
-		\ ui#segment#Spacer('StatuslineDarkerBg'),
-		\ ui#segment#Justify('StatuslineDarkBg'),
-		\ ui#segment#New(' ' . fnamemodify(getcwd(), ':t') . ' ', 'StatuslineLightBg')
-	\ ])
-endfunction
-
-function! s:CustomHighlights() abort
-	highlight link FernRootText Normal
-	highlight link FernRootSymbol Directory
-	highlight link FernBranchText Normal
-	highlight link FernBranchSymbol Directory
-	highlight link FernLeafText Normal
-	highlight link FernLeafSymbol WarningMsg
-endfunction
-
-function! s:InitMappings() abort
-	nmap <buffer> cd <Plug>(fern-action-enter)
-	nmap <buffer> l <Plug>(fern-action-open-or-enter)
-	nmap <buffer> h <Plug>(fern-action-open:split)
-	nmap <buffer> v <Plug>(fern-action-open:vsplit)
-
-	nmap <buffer><expr>
-		\ <Plug>(fern-action-toggle-expand-open)
-		\ fern#smart#leaf(
-		\   "<Plug>(fern-action-open)",
-		\   "<Plug>(fern-action-expand)",
-		\   "<Plug>(fern-action-collapse)")
-	nmap <buffer> <CR> <Plug>(fern-action-toggle-expand-open)
-endfunction
+nnoremap <silent> <leader><leader> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
+inoremap <silent> <leader><leader> <C-O>:Fern . -toggle -drawer -width=50 -keep -reveal=% -stay<CR>
 
 augroup fern_custom
 	autocmd!
-	autocmd FileType fern setlocal norelativenumber nonumber statusline=%!RenderFernStatusline() | call s:InitMappings()
-	autocmd User FernHighlight call s:CustomHighlights()
+	autocmd FileType fern setlocal norelativenumber nonumber
+		\ statusline=%!ui#segment#render(fern#theme#build_segments()) |
+		\ call fern#mappings#init()
+	autocmd User FernHighlight call fern#theme#highlights()
 augroup END
 

@@ -3,24 +3,24 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Build statusline segments for the current window.
-function! ui#statusline#BuildSegments() abort
+function! ui#statusline#build_segments() abort
 	return [
-		\ s:ModeSegment(),
-		\ ui#segment#Spacer('StatuslineDarkerBg'),
-		\ s:PasteSegment(),
-		\ s:ReadOnlyBufferSegment(),
-		\ s:BufferNumberSegment(),
-		\ s:FileNameSegment(),
-		\ ui#segment#Justify('StatuslineDarkBg'),
-		\ s:FileInfoSegment(),
-		\ ui#segment#Spacer('StatuslineDarkerBg'),
-		\ s:PercentageSegment(),
-		\ s:CursorPositionSegment()
+		\ s:segment_mode(),
+		\ ui#segment#spacer('StatuslineDarkerBg'),
+		\ s:segment_paste(),
+		\ s:segment_ro_buffer(),
+		\ s:segment_bufnr(),
+		\ s:segment_fname(),
+		\ ui#segment#justify('StatuslineDarkBg'),
+		\ s:segment_file_info(),
+		\ ui#segment#spacer('StatuslineDarkerBg'),
+		\ s:segment_percent(),
+		\ s:segment_cursor_pos()
 	\ ]
 endfunction
 
 " Override segment color if current window is inactive. Return the segment.
-function! ui#statusline#ShadeInactive(segment, inactive_color) abort
+function! ui#statusline#shade_inactive(segment, inactive_color) abort
 	let l:win_active = g:statusline_winid == win_getid()
 	let l:new_color = l:win_active ? a:segment['color'] : a:inactive_color
 
@@ -28,7 +28,7 @@ function! ui#statusline#ShadeInactive(segment, inactive_color) abort
 endfunction
 
 " A segment for the current mode.
-function! s:ModeSegment() abort
+function! s:segment_mode() abort
 	let l:modemap = {
 		\ 'n': {'v': 'NORMAL', 'c': 'StatuslineBlueBg'},
 		\ 'i': {'v': 'INSERT', 'c': 'StatuslinePinkBg'},
@@ -42,48 +42,48 @@ function! s:ModeSegment() abort
 	let l:modedata = get(l:modemap, mode()[0:1],
 		\ {'v': mode(), 'c': 'StatuslineDarkerBg'})
 
-	return ui#statusline#ShadeInactive(
-		\ ui#segment#New(' ' . l:modedata['v'] . ' ', l:modedata['c']),
+	return ui#statusline#shade_inactive(
+		\ ui#segment#new(' ' . l:modedata['v'] . ' ', l:modedata['c']),
 		\ 'StatuslineLightBg')
 endfunction
 
 " A segment indicating if 'paste' is enabled.
-function! s:PasteSegment() abort
-	return ui#segment#New(&paste ? ' PASTE ' : '', 'StatuslineDarkBg')
+function! s:segment_paste() abort
+	return ui#segment#new(&paste ? ' PASTE ' : '', 'StatuslineDarkBg')
 endfunction
 
 " A segment indicating if the buffer is readonly.
-function! s:ReadOnlyBufferSegment() abort
-	return ui#segment#New(&readonly ? ' %R ' : '', 'StatuslineDarkBg')
-endfunction
-
-" A segment for the filename of the current buffer.
-function! s:FileNameSegment() abort
-	return ui#segment#New(' %t ', 'StatuslineDarkBg')
+function! s:segment_ro_buffer() abort
+	return ui#segment#new(&readonly ? ' %R ' : '', 'StatuslineDarkBg')
 endfunction
 
 " A segment for the current buffer number.
-function! s:BufferNumberSegment() abort
-	return ui#segment#New(' %n ', 'StatuslineDarkBg')
+function! s:segment_bufnr() abort
+	return ui#segment#new(' %n ', 'StatuslineDarkBg')
+endfunction
+
+" A segment for the filename of the current buffer.
+function! s:segment_fname() abort
+	return ui#segment#new(' %t ', 'StatuslineDarkBg')
 endfunction
 
 " A segment for the current file encoding.
-function! s:FileInfoSegment() abort
-	return ui#segment#New(' ' . (&fileencoding ? &fileencoding : &encoding) .
+function! s:segment_file_info() abort
+	return ui#segment#new(' ' . (&fileencoding ? &fileencoding : &encoding) .
 		\ ' [' . (&filetype ?? '?') . '] ', 'StatuslineLightBg')
 endfunction
 
 " A segment for the current line progress percentage.
-function! s:PercentageSegment() abort
-	return ui#statusline#ShadeInactive(
-		\ ui#segment#New(' %p%% ≣ ', 'StatuslineOrngBg'),
+function! s:segment_percent() abort
+	return ui#statusline#shade_inactive(
+		\ ui#segment#new(' %p%% ≣ ', 'StatuslineOrngBg'),
 		\ 'StatuslineLightBg')
 endfunction
 
 " A segment for the cursor position.
-function! s:CursorPositionSegment() abort
-	return ui#statusline#ShadeInactive(
-		\ ui#segment#New(' %l:%c ', 'StatuslineOrngBg'),
+function! s:segment_cursor_pos() abort
+	return ui#statusline#shade_inactive(
+		\ ui#segment#new(' %l:%c ', 'StatuslineOrngBg'),
 		\ 'StatuslineLightBg')
 endfunction
 

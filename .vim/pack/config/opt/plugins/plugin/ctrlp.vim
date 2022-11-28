@@ -19,31 +19,10 @@ let g:ctrlp_lazy_update = 150
 " backspace on empty prompt closes window
 let g:ctrlp_brief_prompt = 1
 
-function! RenderCtrlPStatusline(focus, byfname, regex, prev, item, next, marked) abort
-	return ui#segment#Render([
-		\ ui#segment#New('  CTRLP ', 'StatuslineBlueBg'),
-		\ ui#segment#Spacer('StatuslineDarkerBg'),
-		\ ui#segment#New(' ' . a:byfname . ' ', 'StatuslineDarkBg'),
-		\ ui#segment#New(' [' . a:item . '] ', 'StatuslineDarkBg'),
-		\ ui#segment#Justify('StatuslineDarkBg'),
-		\ ui#segment#New(' ' . getcwd() . ' ', 'StatuslineLightBg')
-	\ ])
-endfunction
-
-function! RenderCtrlPProgressStatusline(str) abort
-	return ui#segment#Render([
-		\ ui#segment#New('  CTRLP ', 'StatuslineBlueBg'),
-		\ ui#segment#Spacer('StatuslineDarkerBg'),
-		\ ui#segment#New(' scanning [' . a:str . '] ', 'StatuslineLightBg'),
-		\ ui#segment#Justify('StatuslineDarkBg'),
-		\ ui#segment#New(' ' . getcwd() . ' ', 'StatuslineLightBg')
-	\ ])
-endfunction
-
 " configure statuslines
 let g:ctrlp_status_func = {
-	\ 'main': 'RenderCtrlPStatusline',
-	\ 'prog': 'RenderCtrlPProgressStatusline',
+	\ 'main': 'ctrlp#theme#statusline_main',
+	\ 'prog': 'ctrlp#theme#statusline_progress',
 \ }
 
 " open ctrlp window with CTRL+Space

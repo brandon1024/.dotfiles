@@ -42,11 +42,11 @@ set splitright
 set splitbelow
 
 " format the statusline
-set statusline=%!ui#segment#Render(ui#statusline#BuildSegments())
+set statusline=%!ui#segment#render(ui#statusline#build_segments())
 
 " always show the tabline
 set showtabline=2
 
 " format the tabline
-set tabline=%!ui#segment#Render(ui#tabline#BuildSegments())
+set tabline=%!ui#segment#render(ui#tabline#build_segments())
 

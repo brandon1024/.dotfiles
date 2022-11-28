@@ -12,9 +12,6 @@ set pastetoggle=<leader>p
 " [normal] toggle listchars
 nnoremap <silent> <leader>l :set list!<CR>
 
-" [insert] unindent
-inoremap <S-Tab> <C-d>
-
 function! s:CloseWindowlessBuffers()
 	let l:buffers = filter(getbufinfo({'buflisted': 1}),
 			\ { i, b -> !len(b['windows']) })
@@ -44,7 +41,13 @@ endfunction
 " [normal] open quickfix (docked)
 nnoremap <silent> <leader>q :call <SID>ToggleQuickFixWindow()<CR>
 
-" [norma] go to next/previous quickfix item
+" [normal] go to next/previous quickfix item
 nnoremap <silent> <leader>- :cprev<CR>
 nnoremap <silent> <leader>= :cnext<CR>
+
+" [normal] resize by 5
+nnoremap <silent> <leader>= :resize +5<cr>
+nnoremap <silent> <leader>- :resize -5<cr>
+nnoremap <silent> <leader>+ :vertical resize -20<cr>
+nnoremap <silent> <leader>_ :vertical resize +20<cr>
 
