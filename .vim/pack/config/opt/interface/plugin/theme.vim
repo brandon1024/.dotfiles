@@ -25,4 +25,5 @@ highlight PmenuThumb          ctermfg=15 ctermbg=235 guibg=#363D49 guifg=#ABB2BF
 highlight PmenuSbar           ctermfg=15 ctermbg=236 guibg=#2C323C guifg=#ABB2BF
 highlight link                PmenuTextNormal Normal
 highlight PmenuTextDark       ctermfg=59 guifg=#5C6370
+highlight PmenuTextOrange     ctermfg=180 guifg=#E5C07B
 

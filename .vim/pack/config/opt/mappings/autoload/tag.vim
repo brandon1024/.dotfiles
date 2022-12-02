@@ -11,6 +11,8 @@ function! s:tag_stack_push(tagname, matchnr) abort
 	endtry
 endfunction
 
+" From the tag result ex command `cmd`, strip meta characters to return
+" context information about the match (the line where the match appears).
 " The semantics of this was pulled from the vim source for the :tselect/:tjump
 " commands.
 function! s:context_from_tag(cmd) abort
@@ -102,16 +104,22 @@ function! s:entry_table_build(table) abort
 	return l:results
 endfunction
 
-" Get the name of a text property for darker text. Adds the text property type
-" if the property type does not yet exist.
-function! s:get_text_prop_dark() abort
-	let l:prop_name = 'tag-navigation-text-dark'
-
-	if empty(prop_type_get(l:prop_name))
-		call prop_type_add(l:prop_name, { 'highlight': 'PmenuTextDark' })
+" Build a text property with name `prop_name` and highlight group
+" `highlight_group`, returning `prop_name`.
+function! s:get_text_prop(prop_name, highlight_group) abort
+	if empty(prop_type_get(a:prop_name))
+		call prop_type_add(a:prop_name, { 'highlight': a:highlight_group })
 	endif
 
-	return l:prop_name
+	return a:prop_name
+endfunction
+
+function! s:get_text_prop_dark() abort
+	return s:get_text_prop('tag-navigation-text-dark', 'PmenuTextDark')
+endfunction
+
+function! s:get_text_prop_orange() abort
+	return s:get_text_prop('tag-navigation-text-orange', 'PmenuTextOrange')
 endfunction
 
 " Build a list of popup entries. The result is a list, where each entry is a
@@ -120,6 +128,7 @@ endfunction
 "     entry 2: tag information showing context information (command)
 function! s:build_popup_entries(tag_results) abort
 	let l:dark_text_prop = s:get_text_prop_dark()
+	let l:dark_text_orange = s:get_text_prop_orange()
 
 	let l:popup_entries_context = s:entry_table_new()
 	let l:popup_entries_file = s:entry_table_new()
@@ -127,14 +136,15 @@ function! s:build_popup_entries(tag_results) abort
 	for result in a:tag_results
 		" build columns for context entries
 		call s:entry_table_add_row(l:popup_entries_context, [
-			\ [printf(' [%s] ', result['kind'] ?? '?'), l:dark_text_prop],
+			\ [printf(' [%s] ', result['kind'] ?? '?'), l:dark_text_orange],
 			\ [result['name']],
 			\ [printf('  %s ', s:context_from_tag(result['cmd'])), l:dark_text_prop],
+			\ [printf(' %s ', fnamemodify(result['filename'], ':t:r')), l:dark_text_prop]
 		\ ])
 
 		" build columns for filename entries
 		call s:entry_table_add_row(l:popup_entries_file, [
-			\ [printf(' [%s] ', result['kind'] ?? '?'), l:dark_text_prop],
+			\ [printf(' [%s] ', result['kind'] ?? '?'), l:dark_text_orange],
 			\ [result['name']],
 			\ [printf('  %s ', pathshorten(result['filename'])), l:dark_text_prop],
 		\ ])
@@ -146,26 +156,37 @@ function! s:build_popup_entries(tag_results) abort
 	\ ]
 endfunction
 
-" A 'tagfunc' that simply performs a vimgrep in the current buffer when no
-" tag files are available.
-function! VimgrepCurrentBufferTagFunc(pattern, flags, info) abort
-	call setqflist([])
-	let l:buffers = getbufinfo({'buflisted': 1, 'windows': gettabinfo(tabpagenr())})
-	for b in l:buffers
-		try
-			execute 'vimgrepadd /' . a:pattern . '/jg #' . b['bufnr']
-		catch
-		endtry
-	endfor
+" A 'tagfunc' that simply performs a vimgrep in listed buffers when no
+" tag files are available. Results are also written to the quickfix list.
+function! tag#vimgrep_tagfunc(pattern, flags, info) abort
+	let l:results = []
+
+	if !empty(tagfiles())
+		let l:results = taglist(a:pattern)
+	endif
+
+	" if we have a tag file and found matches, return them
+	if !empty(l:results)
+		return l:results
+	endif
+
+	" if we don't have tag files at all, search in all listed buffers
+
+	let l:buffers = getbufinfo({ 'buflisted': 1 })
+
+	try
+		execute '100vimgrep /' . a:pattern . '/jg ' .
+			\ l:buffers->map({ _, b -> '#' . b['bufnr']})->join(' ')
+	catch
+	endtry
 
 	let l:search_results = getqflist()
-	let l:results = []
 	for result in l:search_results
 		call add(l:results, {
 			\ 'name': a:pattern,
 			\ 'filename': expand('#' . result['bufnr'] . ':p'),
 			\ 'cmd': '/^' . escape(result['text'], '/\') . '$/',
-			\ 'kind': 'g'
+			\ 'kind': 'grep'
 		\ })
 	endfor
 
@@ -180,9 +201,7 @@ endfunction
 function! tag#step_into(keyword) abort
 	" save the tagfunc so that we can restore it later
 	let l:save_tagfunc = &tagfunc
-	if empty(tagfiles())
-		let &l:tagfunc = 'VimgrepCurrentBufferTagFunc'
-	endif
+	let &l:tagfunc = 'tag#vimgrep_tagfunc'
 
 	let l:tag_results = taglist(a:keyword)
 	if empty(l:tag_results)
