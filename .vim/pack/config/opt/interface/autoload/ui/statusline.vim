@@ -82,6 +82,16 @@ endfunction
 
 " A segment for the cursor position.
 function! s:segment_cursor_pos() abort
+	let l:mode = mode()
+
+	if l:mode =~ '[vV]'
+		let l:selected_chars = wordcount().visual_chars
+		let l:selected_lines = abs(line('.') - line('v')) + 1
+		return ui#statusline#shade_inactive(
+			\ ui#segment#new(' ' . l:selected_lines . ':' . l:selected_chars . ' ', 'StatuslineOrngBg'),
+			\ 'StatuslineLightBg')
+	endif
+
 	return ui#statusline#shade_inactive(
 		\ ui#segment#new(' %l:%c ', 'StatuslineOrngBg'),
 		\ 'StatuslineLightBg')

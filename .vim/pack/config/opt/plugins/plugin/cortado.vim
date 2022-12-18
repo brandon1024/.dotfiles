@@ -2,16 +2,16 @@
 " => java-support Plugin Configuration and Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-packadd! java-support.vim
+packadd! cortado
 
-let g:java_import_order = [
+let g:cortado_import_order = [
 	\ { 'static': 1, 'packages': [] },
 	\ { 'static': 0, 'packages': ['java.', 'javax.'] },
 	\ { 'static': 0, 'packages': [] },
 	\ { 'static': 0, 'packages': ['com.emeter.', 'com.siemens.'] }]
 
-augroup java_support_custom
+augroup cortado_custom
 	autocmd!
-	autocmd FileType java call java_support#mappings#init()
+	autocmd FileType java call cortado#mappings#init()
 augroup END
 

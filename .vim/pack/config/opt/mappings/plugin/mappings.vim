@@ -13,11 +13,6 @@ set pastetoggle=<leader>p
 nnoremap <silent> <leader>l :set list!<CR>
 
 function! s:CloseWindowlessBuffers()
-	if input('Are you sure? (yeah, no) ', 'no') == 'no'
-		" trying to limit my usage of this mapping
-		return
-	endif
-
 	let l:buffers = filter(getbufinfo({'buflisted': 1}),
 			\ { i, b -> !len(b['windows']) })
 	for b in l:buffers
@@ -51,10 +46,6 @@ endfunction
 " [normal] open quickfix (docked)
 nnoremap <silent> <leader>q :call <SID>ToggleQuickFixWindow(v:false)<CR>
 
-" [normal] go to next/previous quickfix item
-nnoremap <silent> <leader>- :cprev<CR>
-nnoremap <silent> <leader>= :cnext<CR>
-
 " [normal] resize by 5
 nnoremap <silent> <leader>= :resize +5<CR>
 nnoremap <silent> <leader>- :resize -5<CR>
@@ -74,4 +65,7 @@ endfunction
 
 " [normal] search recursively for word under cursor
 nnoremap <silent> <leader>g/ :call <SID>SearchKeyword(expand('<cword>'))<CR>
+
+" [normal] replay macro recorded in `q` register
+nnoremap <silent> Q @q
 
