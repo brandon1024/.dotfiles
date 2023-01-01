@@ -159,19 +159,13 @@ endfunction
 " A 'tagfunc' that simply performs a vimgrep in listed buffers when no
 " tag files are available. Results are also written to the quickfix list.
 function! tag#vimgrep_tagfunc(pattern, flags, info) abort
-	let l:results = []
-
 	if !empty(tagfiles())
-		let l:results = taglist(a:pattern)
-	endif
-
-	" if we have a tag file and found matches, return them
-	if !empty(l:results)
-		return l:results
+		" do a standard tag lookup
+		return v:null
 	endif
 
 	" if we don't have tag files at all, search in all listed buffers
-
+	let l:results = []
 	let l:buffers = getbufinfo({ 'buflisted': 1 })
 
 	try
@@ -193,16 +187,7 @@ function! tag#vimgrep_tagfunc(pattern, flags, info) abort
 	return l:results
 endfunction
 
-" Navigate to a tag with the given keyword, showing a popup with results if
-" more than one match is found.
-"
-" If there are no tag files, a custom 'tagfunc' is used to offer results from
-" buffers through a simple search.
-function! tag#step_into(keyword) abort
-	" save the tagfunc so that we can restore it later
-	let l:save_tagfunc = &tagfunc
-	let &l:tagfunc = 'tag#vimgrep_tagfunc'
-
+function! s:step_into(keyword) abort
 	let l:tag_results = taglist(a:keyword)
 	if empty(l:tag_results)
 		echohl ErrorMsg | echo 'tag not found: ' . a:keyword | echohl None
@@ -225,9 +210,6 @@ function! tag#step_into(keyword) abort
 		endif
 
 		call s:tag_stack_push(l:tag_results[a:result - 1]['name'], a:result)
-
-		" restore the tagfunc
-		let &l:tagfunc = l:save_tagfunc
 	endfunction
 
 	" rotate the entries in the popup
@@ -259,4 +241,20 @@ function! tag#step_into(keyword) abort
 		\ 'filter': function('s:popup_menu_filter_cb'),
 		\ 'callback': function('s:popup_menu_cb')
 	\ })
+endfunction
+
+" Navigate to a tag with the given keyword, showing a popup with results if
+" more than one match is found.
+"
+" If there are no tag files, a custom 'tagfunc' is used to offer results from
+" buffers through a simple search.
+function! tag#step_into(keyword) abort
+	let l:save_tagfunc = &tagfunc
+	let &l:tagfunc = 'tag#vimgrep_tagfunc'
+
+	try
+		call s:step_into(a:keyword)
+	finally
+		let &l:tagfunc = l:save_tagfunc
+	endtry
 endfunction
