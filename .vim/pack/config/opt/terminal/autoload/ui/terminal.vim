@@ -6,7 +6,7 @@
 function! ui#terminal#build_segments() abort
 	return [
 		\ ui#statusline#shade_inactive(
-			\ ui#segment#new(' TERMINAL ', 'StatuslineBlueBg'),
+			\ ui#segment#new(' TERM ', 'StatuslineBlueBg'),
 			\ 'StatuslineLightBg'),
 		\ s:segments_terminals(term_list(), bufnr('%')),
 		\ ui#segment#justify('StatuslineDarkBg')

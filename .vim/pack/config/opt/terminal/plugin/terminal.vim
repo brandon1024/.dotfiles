@@ -9,6 +9,6 @@ nnoremap <silent> <leader>] :call terminal#new_docked()<CR>
 augroup terminal_autogroup
 	autocmd!
 	autocmd TerminalWinOpen * setlocal statusline=%!ui#segment#render(ui#terminal#build_segments())
-	autocmd TerminalWinOpen * setlocal nolist nobuflisted complete=. winfixheight
+	autocmd TerminalWinOpen * setlocal nolist nobuflisted complete=. winfixheight nowrap
 augroup END
 
