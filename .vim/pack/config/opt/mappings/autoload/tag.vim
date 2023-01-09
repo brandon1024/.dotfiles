@@ -6,6 +6,8 @@
 function! s:tag_stack_push(tagname, matchnr) abort
 	try
 		execute a:matchnr . 'tag ' . a:tagname
+	catch /E37/
+		echohl ErrorMsg | echo 'no write since last change' | echohl None
 	catch
 		echohl ErrorMsg | echo 'tag not found: ' . a:tagname | echohl None
 	endtry
