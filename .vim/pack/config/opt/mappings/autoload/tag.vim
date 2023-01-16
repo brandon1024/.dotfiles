@@ -189,7 +189,7 @@ function! tag#vimgrep_tagfunc(pattern, flags, info) abort
 	return l:results
 endfunction
 
-function! s:step_into(keyword) abort
+function! s:step_into(keyword, cb) abort
 	let l:tag_results = taglist(a:keyword)
 	if empty(l:tag_results)
 		echohl ErrorMsg | echo 'tag not found: ' . a:keyword | echohl None
@@ -212,6 +212,7 @@ function! s:step_into(keyword) abort
 		endif
 
 		call s:tag_stack_push(l:tag_results[a:result - 1]['name'], a:result)
+		call a:cb()
 	endfunction
 
 	" rotate the entries in the popup
@@ -254,9 +255,9 @@ function! tag#step_into(keyword) abort
 	let l:save_tagfunc = &tagfunc
 	let &l:tagfunc = 'tag#vimgrep_tagfunc'
 
-	try
-		call s:step_into(a:keyword)
-	finally
+	function! s:restore_tagfunc() abort closure
 		let &l:tagfunc = l:save_tagfunc
-	endtry
+	endfunction
+
+	call s:step_into(a:keyword, function('s:restore_tagfunc'))
 endfunction
