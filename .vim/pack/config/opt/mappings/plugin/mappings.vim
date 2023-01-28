@@ -64,7 +64,7 @@ function! s:SearchKeyword(keyword) abort
 endfunction
 
 " [normal] search recursively for word under cursor
-nnoremap <silent> <leader>g/ :call <SID>SearchKeyword(expand('<cword>'))<CR>
+nnoremap <silent> <ESC><C-]> :call <SID>SearchKeyword(expand('<cword>'))<CR>
 
 " [normal] replay macro recorded in `q` register
 nnoremap <silent> Q @q

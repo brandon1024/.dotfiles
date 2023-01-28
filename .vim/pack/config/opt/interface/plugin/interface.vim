@@ -23,6 +23,9 @@ set fillchars+=vert:│
 " show tabs and spaces
 set list listchars=space:·,tab:──·,trail:▓
 
+" show line breaks
+set showbreak=↵\ 
+
 " always show the status line
 set laststatus=2
 
