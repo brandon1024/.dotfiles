@@ -5,6 +5,7 @@ function! fern#theme#highlights() abort
 	highlight link FernBranchSymbol Directory
 	highlight link FernLeafText Normal
 	highlight link FernLeafSymbol WarningMsg
+	highlight link FernLeaderSymbol StatuslineDarkFg
 endfunction
 
 " Build segments for the fern window.

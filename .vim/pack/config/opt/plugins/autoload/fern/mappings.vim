@@ -7,7 +7,7 @@ function! fern#mappings#init() abort
 
 	nmap <buffer><expr> <Plug>(fern-action-toggle-expand-open)
 		\ fern#smart#leaf(
-		\   "<Plug>(fern-action-open)",
+		\   "<Plug>(fern-action-open:select)",
 		\   "<Plug>(fern-action-expand)",
 		\   "<Plug>(fern-action-collapse)")
 endfunction
