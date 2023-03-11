@@ -20,7 +20,7 @@ set incsearch
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
 
-" enable wiLd menu for easier command completion
+" enable wild menu for easier command completion
 set wildmenu
 set wildmode=longest,list,full
 set wildignore=*/build/*,*/.idea/*,*/.git/*,*.so,*.o,*.class

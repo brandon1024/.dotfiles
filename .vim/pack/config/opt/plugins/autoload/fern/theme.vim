@@ -1,11 +1,21 @@
 function! fern#theme#highlights() abort
+	highlight link FernRootSymbol StatuslineBlueFg
+	highlight link FernBranchSymbol StatuslineBlueFg
+	highlight link FernLeafSymbol StatuslineOrngFg
+	highlight link FernLeaderSymbol StatuslineLightFg
+
 	highlight link FernRootText Normal
-	highlight link FernRootSymbol Directory
 	highlight link FernBranchText Normal
-	highlight link FernBranchSymbol Directory
 	highlight link FernLeafText Normal
-	highlight link FernLeafSymbol WarningMsg
-	highlight link FernLeaderSymbol StatuslineDarkFg
+
+	highlight default link FernLeafSymbolBlue   StatuslineBlueFg
+	highlight default link FernLeafSymbolGreen  StatuslineGreenFg
+	highlight default link FernLeafSymbolGrey   StatuslineLighterFg
+	highlight default link FernLeafSymbolRed    StatuslineRedFg
+	highlight default link FernLeafSymbolPurple StatuslinePurpleFg
+	highlight default link FernLeafSymbolYellow StatuslineYellowFg
+	highlight default link FernLeafSymbolPink   StatuslinePinkFg
+	highlight default link FernLeafSymbolTeal   StatuslineTealFg
 endfunction
 
 " Build segments for the fern window.

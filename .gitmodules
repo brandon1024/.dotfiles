@@ -19,3 +19,6 @@
 [submodule ".vim/pack/plugins/opt/vim-themis"]
 	path = .vim/pack/plugins/opt/vim-themis
 	url = git@github.com:thinca/vim-themis.git
+[submodule ".vim/pack/plugins/opt/fern-renderer-nf"]
+	path = .vim/pack/plugins/opt/fern-renderer-nf
+	url = git@github.com:brandon1024/fern-renderer-nf.vim.git

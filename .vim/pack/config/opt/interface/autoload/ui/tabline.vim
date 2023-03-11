@@ -5,7 +5,7 @@
 " Build statusline segments for the current window.
 function! ui#tabline#build_segments() abort
 	let l:leading = [
-		\ ui#segment#spacer('StatuslineDarkBg')
+		\ ui#segment#new('     ', 'StatuslineGreenFg')
 	\ ]
 
 	let l:tailing = [

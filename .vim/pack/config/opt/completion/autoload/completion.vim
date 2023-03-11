@@ -23,7 +23,7 @@ function! completion#complete()
 				\ feedkeys((s:in_completion() ? "\<C-e>" : "") . "\<C-n>", 'n') })
 	elseif l:linetocursor =~ '\K\{3,}$'
 		" If last three characters are keyword chars, show partial complete
-		" menu (keywords in current file).
+		" menu (keywords in current file) to improve performance.
 		call timer_start(0, { ->
 				\ feedkeys((s:in_completion() ? "\<C-e>" : "") . "\<C-x>\<C-n>", 'n') })
 	end

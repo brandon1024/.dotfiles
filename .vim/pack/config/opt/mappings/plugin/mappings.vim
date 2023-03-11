@@ -54,7 +54,7 @@ nnoremap <silent> <leader>_ :vertical resize +20<CR>
 
 function! s:SearchKeyword(keyword) abort
 	try
-		execute 'vim /' . a:keyword . '/jg **/*.' . fnamemodify(expand('%'), ':e') ?? '*'
+		execute 'vim /' . a:keyword . '/jg **/*.*'
 	catch
 		echohl ErrorMsg | echo 'keyword not found: ' . a:keyword | echohl None
 		return
@@ -68,4 +68,7 @@ nnoremap <silent> <ESC><C-]> :call <SID>SearchKeyword(expand('<cword>'))<CR>
 
 " [normal] replay macro recorded in `q` register
 nnoremap <silent> Q @q
+
+" [normal] reformat the entire file through equalprg and return cursor
+nnoremap <silent> <F6> gg=G''zz
 

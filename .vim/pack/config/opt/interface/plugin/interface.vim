@@ -8,6 +8,9 @@ set so=7
 " show line numbers
 set number relativenumber
 
+" always show the sign column
+set signcolumn=yes
+
 " Show matching brackets when text indicator is over them
 set showmatch
 
@@ -18,7 +21,7 @@ syntax enable
 set colorcolumn=80
 
 " configure vertical split column
-set fillchars+=vert:│
+set fillchars+=vert:░
 
 " show tabs and spaces
 set list listchars=space:·,tab:──·,trail:▓
