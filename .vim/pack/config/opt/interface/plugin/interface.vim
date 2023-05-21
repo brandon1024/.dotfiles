@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General Interface
+" => General Interface Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " scrolloff (show 7 lines above/below when navigating a file)

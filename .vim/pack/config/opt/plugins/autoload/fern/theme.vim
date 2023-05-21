@@ -1,32 +1,32 @@
 function! fern#theme#highlights() abort
-	highlight link FernRootSymbol StatuslineBlueFg
-	highlight link FernBranchSymbol StatuslineBlueFg
-	highlight link FernLeafSymbol StatuslineOrngFg
-	highlight link FernLeaderSymbol StatuslineLightFg
+	highlight link FernRootSymbol ThemeColorBlueFg
+	highlight link FernBranchSymbol ThemeColorBlueFg
+	highlight link FernLeafSymbol ThemeColorOrngFg
+	highlight link FernLeaderSymbol ThemeColorLightFg
 
 	highlight link FernRootText Normal
 	highlight link FernBranchText Normal
 	highlight link FernLeafText Normal
 
-	highlight default link FernLeafSymbolBlue   StatuslineBlueFg
-	highlight default link FernLeafSymbolGreen  StatuslineGreenFg
-	highlight default link FernLeafSymbolGrey   StatuslineLighterFg
-	highlight default link FernLeafSymbolRed    StatuslineRedFg
-	highlight default link FernLeafSymbolPurple StatuslinePurpleFg
-	highlight default link FernLeafSymbolYellow StatuslineYellowFg
-	highlight default link FernLeafSymbolPink   StatuslinePinkFg
-	highlight default link FernLeafSymbolTeal   StatuslineTealFg
+	highlight default link FernLeafSymbolBlue   ThemeColorBlueFg
+	highlight default link FernLeafSymbolGreen  ThemeColorGreenFg
+	highlight default link FernLeafSymbolGrey   ThemeColorLighterFg
+	highlight default link FernLeafSymbolRed    ThemeColorRedFg
+	highlight default link FernLeafSymbolPurple ThemeColorPurpleFg
+	highlight default link FernLeafSymbolYellow ThemeColorYellowFg
+	highlight default link FernLeafSymbolPink   ThemeColorPinkFg
+	highlight default link FernLeafSymbolTeal   ThemeColorTealFg
 endfunction
 
 " Build segments for the fern window.
 function! fern#theme#build_segments() abort
 	return [
 		\ ui#statusline#shade_inactive(
-			\ ui#segment#new(' 🌿 FERN ', 'StatuslineBlueBg'),
-			\ 'StatuslineLightBg'),
-		\ ui#segment#spacer('StatuslineDarkerBg'),
-		\ ui#segment#justify('StatuslineDarkBg'),
-		\ ui#segment#new(' ' . fnamemodify(getcwd(), ':t') . ' ', 'StatuslineLightBg')
+			\ ui#segment#new(' 🌿 FERN ', 'ThemeColorBlueBg'),
+			\ 'ThemeColorLightBg'),
+		\ ui#segment#spacer('ThemeColorDarkerBg'),
+		\ ui#segment#justify('ThemeColorDarkBg'),
+		\ ui#segment#new(' ' . fnamemodify(getcwd(), ':t') . ' ', 'ThemeColorLightBg')
 	\ ]
 endfunction
 

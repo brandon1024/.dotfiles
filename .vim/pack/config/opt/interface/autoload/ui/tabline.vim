@@ -1,19 +1,19 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Utilities for Building Tabline Format Strings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Build statusline segments for the current window.
 function! ui#tabline#build_segments() abort
 	let l:leading = [
-		\ ui#segment#new('     ', 'StatuslineGreenFg')
+		\ ui#segment#new('     ', 'ThemeColorGreenFg')
 	\ ]
 
 	let l:tailing = [
-		\ ui#segment#spacer('StatuslineDarkBg'),
+		\ ui#segment#spacer('ThemeColorDarkBg'),
 		\ s:segments_tabs(tabpagenr()),
-		\ ui#segment#spacer('StatuslineDarkBg'),
-		\ ui#segment#new(' 缾', 'StatuslineDarkBg'),
-		\ ui#segment#spacer('StatuslineDarkBg'),
+		\ ui#segment#spacer('ThemeColorDarkBg'),
+		\ ui#segment#new(' 缾', 'ThemeColorDarkBg'),
+		\ ui#segment#spacer('ThemeColorDarkBg'),
 	\ ]
 
 	let l:max_width = &columns - ui#segment#width(flatten([l:leading, l:tailing]))
@@ -21,7 +21,7 @@ function! ui#tabline#build_segments() abort
 	return [
 		\ l:leading,
 		\ s:segments_buffers(bufnr('%'), l:max_width),
-		\ ui#segment#justify('StatuslineDarkBg'),
+		\ ui#segment#justify('ThemeColorDarkBg'),
 		\ l:tailing,
 	\ ]
 endfunction
@@ -61,14 +61,14 @@ function! s:segments_buffers(current, max_width) abort
 
 		let l:new_segments = [
 			\ s:segment_buffer(a:buffers[l:index]),
-			\ ui#segment#spacer('StatuslineDarkBg')
+			\ ui#segment#spacer('ThemeColorDarkBg')
 		\ ]
 
 		if (l:columns_remaining - ui#segment#width(l:new_segments)) < 0
 			let l:end[a:pos] = v:true
 			let l:new_segments = [
-				\ ui#segment#new(a:pos ? ' › ' : ' ‹ ', 'StatuslineLightBg'),
-				\ ui#segment#spacer('StatuslineDarkBg')
+				\ ui#segment#new(a:pos ? ' › ' : ' ‹ ', 'ThemeColorLightBg'),
+				\ ui#segment#spacer('ThemeColorDarkBg')
 			\ ]
 		endif
 
@@ -102,13 +102,13 @@ function! s:segments_tabs(current) abort
 	let l:segments = []
 
 	for i in range(1, tabpagenr('$'))
-		let l:color = (i == a:current) ? 'StatuslineBlueBg' : 'StatuslineLightBg'
+		let l:color = (i == a:current) ? 'ThemeColorBlueBg' : 'ThemeColorLightBg'
 		call add(l:segments, ui#segment#new(' ‹' . i . '› ', l:color))
 	endfor
 
 	" add spacing
 	return flatten(map(l:segments,
-		\ { idx, val -> [val, ui#segment#spacer('StatuslineDarkBg')] }))[0:-2]
+		\ { idx, val -> [val, ui#segment#spacer('ThemeColorDarkBg')] }))[0:-2]
 endfunction
 
 " Build a single segment for a buffer.
@@ -118,7 +118,7 @@ function! s:segment_buffer(buffer, current = -1) abort
 	let l:bname = fnamemodify(a:buffer['name'] ?? 'empty', ':t')
 	let l:bnum = a:buffer['bufnr']
 
-	let l:color = (l:bnum == a:current) ? 'StatuslineBlueBg' : 'StatuslineLightBg'
+	let l:color = (l:bnum == a:current) ? 'ThemeColorBlueBg' : 'ThemeColorLightBg'
 	let l:text = ' ' . l:bnum . ' ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
 
 	return ui#segment#new(l:text, l:color)

@@ -28,3 +28,12 @@ function! terminal#new_docked() abort
 	endif
 endfunction
 
+" Open a new stacked terminal.
+"
+" The new terminal will be opened at the bottom of the window, below existing
+" terminal windows, occupying the entire width of the window.
+function! terminal#new_stacked() abort
+	bo term ++rows=16<CR>
+	let l:new_term_winnr = winnr('$')
+	call setwinvar(l:new_term_winnr, '_managed_term', 1)
+endfunction
