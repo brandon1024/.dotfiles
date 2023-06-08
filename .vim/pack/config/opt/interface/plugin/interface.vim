@@ -17,9 +17,6 @@ set showmatch
 " enable syntax highlighting
 syntax enable
 
-" configure color column (line length guide)
-set colorcolumn=80
-
 " configure vertical split column
 set fillchars+=vert:░
 
