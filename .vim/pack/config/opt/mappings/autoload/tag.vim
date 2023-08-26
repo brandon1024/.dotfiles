@@ -136,9 +136,11 @@ function! s:build_popup_entries(tag_results) abort
 	let l:popup_entries_file = s:entry_table_new()
 
 	for result in a:tag_results
+		let l:kind = get({'f': '󰊕', 'm': '󰊕', 'c': '󰆧'}, result['kind'], result['kind'])
+
 		" build columns for context entries
 		call s:entry_table_add_row(l:popup_entries_context, [
-			\ [printf(' [%s] ', result['kind'] ?? '?'), l:dark_text_orange],
+			\ [printf(' [%s] ', l:kind ?? '?'), l:dark_text_orange],
 			\ [result['name']],
 			\ [printf('  %s ', s:context_from_tag(result['cmd'])), l:dark_text_prop],
 			\ [printf(' %s ', fnamemodify(result['filename'], ':t:r')), l:dark_text_prop]

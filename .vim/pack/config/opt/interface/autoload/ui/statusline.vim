@@ -32,11 +32,11 @@ function! s:segment_mode() abort
 	let l:modemap = {
 		\ 'n': {'v': 'NORMAL', 'c': 'ThemeColorBlueBg'},
 		\ 'i': {'v': 'INSERT', 'c': 'ThemeColorPinkBg'},
-		\ 'R': {'v': 'RPLACE', 'c': 'ThemeColorTealBg'},
-		\ 'v': {'v': 'V CHAR', 'c': 'ThemeColorOrngBg'},
-		\ 'V': {'v': 'V LINE', 'c': 'ThemeColorOrngBg'},
-		\ '\<C-V>': {'v': 'VBLOCK', 'c': 'ThemeColorOrngBg'},
-		\ 't': {'v': ' TERM ', 'c': 'ThemeColorDarkerBg'}
+		\ 'R': {'v': 'REPLACE', 'c': 'ThemeColorTealBg'},
+		\ 'v': {'v': 'VISUAL', 'c': 'ThemeColorOrngBg'},
+		\ 'V': {'v': 'VISUAL LINE', 'c': 'ThemeColorOrngBg'},
+		\ '\<C-V>': {'v': 'VISUAL BLOCK', 'c': 'ThemeColorOrngBg'},
+		\ 't': {'v': 'TERMINAL', 'c': 'ThemeColorDarkerBg'}
 	\ }
 
 	let l:modedata = get(l:modemap, mode()[0:1],

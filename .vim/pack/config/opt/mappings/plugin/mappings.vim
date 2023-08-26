@@ -2,19 +2,16 @@
 " => Custom Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" [normal] swtich between buffers
+" [normal] switch between buffers
 nnoremap <silent> <leader>m :bnext<CR>
 nnoremap <silent> <leader>n :bprev<CR>
 
 " toggle paste mode
 set pastetoggle=<leader>p
 
-" [normal] toggle listchars
-nnoremap <silent> <leader>l :set list!<CR>
-
 function! s:CloseWindowlessBuffers()
-	let l:buffers = filter(getbufinfo({'buflisted': 1}),
-			\ { i, b -> !len(b['windows']) })
+	let l:buffers = getbufinfo({'buflisted': 1})
+		\ ->filter({ i, b -> !len(b['windows']) })
 	for b in l:buffers
 		execute 'bd ' . b['bufnr']
 	endfor
@@ -69,6 +66,6 @@ nnoremap <silent> <ESC><C-]> :call <SID>SearchKeyword(expand('<cword>'))<CR>
 " [normal] replay macro recorded in `q` register
 nnoremap <silent> Q @q
 
-" [normal] reformat the entire file through equalprg and return cursor
-nnoremap <silent> <F6> gg=G''zz
-
+" [normal] move lines up and down
+nnoremap <silent> <C-j> :m+<CR>
+nnoremap <silent> <C-k> :m-2<CR>

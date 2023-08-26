@@ -34,7 +34,7 @@ set laststatus=2
 set noshowmode
 
 " show cursor line in different color
-set cul
+set cursorline
 
 " use bar instead of blocking block while in insert mode
 let &t_SI = "\e[6 q"

@@ -2,6 +2,13 @@
 " => Theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" remove background color for transparent terminals
+augroup theme_no_background
+	autocmd!
+	let s:white = { 'gui': '#ABB2BF', 'cterm': '145', 'cterm16' : '7' }
+	autocmd ColorScheme * call onedark#set_highlight('Normal', { 'fg': s:white })
+augroup END
+
 " add onedark plugin and set colorscheme
 packadd! onedark
 colorscheme onedark
@@ -22,8 +29,8 @@ highlight ThemeColorLightBg   ctermfg=15  ctermbg=235  guibg=#363D49 guifg=#ABB2
 highlight ThemeColorLightFg   ctermfg=235 ctermbg=NONE guifg=#363D49 guibg=NONE
 highlight ThemeColorLighterBg ctermfg=15  ctermbg=235  guibg=#576175 guifg=#ABB2BF
 highlight ThemeColorLighterFg ctermfg=235 ctermbg=NONE guifg=#576175 guibg=NONE
-highlight ThemeColorOrngBg    ctermfg=0   ctermbg=208  guibg=#FF8A1C guifg=#282C34
-highlight ThemeColorOrngFg    ctermfg=208 ctermbg=NONE guifg=#FF8A1C guibg=NONE
+highlight ThemeColorOrngBg    ctermfg=0   ctermbg=208  guibg=#E5C07B guifg=#282C34
+highlight ThemeColorOrngFg    ctermfg=208 ctermbg=NONE guifg=#E5C07B guibg=NONE
 highlight ThemeColorPinkBg    ctermfg=15  ctermbg=132  guibg=#CB93DB guifg=#282C34
 highlight ThemeColorPinkFg    ctermfg=132 ctermbg=NONE guifg=#CB93DB guibg=NONE
 highlight ThemeColorPurpleBg  ctermfg=15  ctermbg=54   guibg=#C678DD guifg=#282C34
@@ -44,3 +51,4 @@ highlight PmenuTextOrange     ctermfg=180 guifg=#E5C07B
 
 highlight ThemeNormalLight    ctermfg=145 ctermbg=235 guifg=#ABB2BF guibg=#282C34
 highlight ThemeNormalDark     ctermfg=145 ctermbg=235 guifg=#ABB2BF guibg=#21252c
+

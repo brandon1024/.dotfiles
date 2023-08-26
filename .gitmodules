@@ -22,3 +22,6 @@
 [submodule ".vim/pack/plugins/opt/fern-renderer-nf"]
 	path = .vim/pack/plugins/opt/fern-renderer-nf
 	url = git@github.com:brandon1024/fern-renderer-nf.vim.git
+[submodule ".vim/pack/plugins/opt/vim-http"]
+	path = .vim/pack/plugins/opt/vim-http
+	url = git@github.com:nicwest/vim-http.git

@@ -9,4 +9,5 @@ packadd terminal
 
 " Plugin Configuration
 packadd vim-commentary
+packadd vim-http
 
