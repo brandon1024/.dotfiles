@@ -66,6 +66,6 @@ nnoremap <silent> <ESC><C-]> :call <SID>SearchKeyword(expand('<cword>'))<CR>
 " [normal] replay macro recorded in `q` register
 nnoremap <silent> Q @q
 
-" [normal] move lines up and down
-nnoremap <silent> <C-j> :m+<CR>
-nnoremap <silent> <C-k> :m-2<CR>
+" open a scratchpad (<leader>s for persistent, <leader>S for throwaway)
+nnoremap <silent> <leader>s :vsplit +set\ nobuflisted\ bufhidden=wipe ~/.scratchpad<CR>
+nnoremap <silent> <leader>S :vnew +set\ nobuflisted\ bufhidden=wipe\ buftype=nofile<CR>
