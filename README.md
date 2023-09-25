@@ -3,6 +3,7 @@
 Here's where I dump all my config files. Maybe you'll find them useful.
 
 Here's what I have configured so far:
+
 - bash configuration
 - pureline (a powerline alternative) configuration
 - vim configuration and plugins (submodules)
@@ -17,8 +18,10 @@ install.
 ## Prerequisites
 
 There are very few prerequisites.
+
 - GNU Make (available in most environments)
 - [nerdfonts](https://www.nerdfonts.com/) (for fancy bash prompt and vim icons)
+- [nord theme for Gnome Terminal](https://github.com/nordtheme/gnome-terminal)
 
 ## Installation (basic)
 

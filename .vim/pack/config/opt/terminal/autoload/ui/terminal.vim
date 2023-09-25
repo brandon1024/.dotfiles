@@ -2,30 +2,37 @@
 " => Docked Terminal Statusline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+function! ui#terminal#colors() abort
+	return {
+		\ 'term_bg': 'ThemeTerminalBackground',
+		\ 'term_active': 'ThemeTerminalActive',
+		\ 'term_inactive': 'ThemeTerminalInactive',
+	\ }
+endfunction
+
 " Build segments for the terminal window.
 function! ui#terminal#build_segments() abort
+	let l:colors = ui#terminal#colors()
+
 	return [
-		\ ui#statusline#shade_inactive(
-			\ ui#segment#new(' TERM ', 'ThemeColorBlueBg'),
-			\ 'ThemeColorLightBg'),
-		\ s:segments_terminals(term_list(), bufnr('%')),
-		\ ui#segment#justify('ThemeColorDarkBg')
+		\ s:segments_terminals(term_list(), bufnr('%'), l:colors),
+		\ ui#segment#justify(l:colors['term_bg'])
 	\ ]
 endfunction
 
 " Build segment for terminal window.
-function! s:segment_terminal(index, bufnr, current) abort
+function! s:segment_terminal(index, bufnr, current, colors) abort
 	let l:text = ' ' . a:bufnr . ' terminal ' . a:index . ' ' . ((a:bufnr == a:current) ? ' ' : ' ')
-	return ui#segment#new(l:text, (a:bufnr == a:current) ? 'ThemeColorBlueBg' : 'ThemeColorLightBg')
+	return ui#segment#new(l:text, (a:bufnr == a:current) ? a:colors['term_active'] : a:colors['term_inactive'])
 endfunction
 
 " Build segments for open terminal windows.
-function! s:segments_terminals(term_buffers, current) abort
+function! s:segments_terminals(term_buffers, current, colors) abort
 	return map(a:term_buffers, { idx, buf -> [
-		\ ui#segment#spacer('ThemeColorDarkBg'),
+		\ ui#segment#spacer(a:colors['term_bg']),
 		\ ui#statusline#shade_inactive(
-			\ s:segment_terminal(idx, buf, a:current),
-			\ 'ThemeColorLightBg')
+			\ s:segment_terminal(idx, buf, a:current, a:colors),
+			\ a:colors['term_inactive'])
 	\ ] })
 endfunction
 

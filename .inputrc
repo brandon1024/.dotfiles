@@ -1,6 +1,6 @@
 set show-mode-in-prompt on
-set vi-cmd-mode-string "\1\033[48;2;97;175;239m\2\1\033[38;2;171;178;191m\2 \1\033[0m\2"
-set vi-ins-mode-string "\1\033[48;2;198;120;221m\2\1\033[38;2;171;178;191m\2 \1\033[0m\2"
+set vi-cmd-mode-string "\1\033[48;2;94;129;172m\2\1\033[38;2;171;178;191m\2 \1\033[0m\2"
+set vi-ins-mode-string "\1\033[48;2;180;142;173m\2\1\033[38;2;171;178;191m\2 \1\033[0m\2"
 
 set editing-mode vi
 

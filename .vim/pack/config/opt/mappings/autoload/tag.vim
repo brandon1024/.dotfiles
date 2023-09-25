@@ -117,11 +117,11 @@ function! s:get_text_prop(prop_name, highlight_group) abort
 endfunction
 
 function! s:get_text_prop_dark() abort
-	return s:get_text_prop('tag-navigation-text-dark', 'PmenuTextDark')
+	return s:get_text_prop('tag-navigation-text-dark', 'ThemeBlue')
 endfunction
 
 function! s:get_text_prop_orange() abort
-	return s:get_text_prop('tag-navigation-text-orange', 'PmenuTextOrange')
+	return s:get_text_prop('tag-navigation-text-orange', 'ThemeOrange')
 endfunction
 
 " Build a list of popup entries. The result is a list, where each entry is a

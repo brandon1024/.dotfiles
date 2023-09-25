@@ -25,3 +25,6 @@
 [submodule ".vim/pack/plugins/opt/vim-http"]
 	path = .vim/pack/plugins/opt/vim-http
 	url = git@github.com:nicwest/vim-http.git
+[submodule ".vim/pack/themes/opt/nord"]
+	path = .vim/pack/themes/opt/nord
+	url = git@github.com:nordtheme/vim.git

@@ -2,26 +2,38 @@
 " => Utilities for Building Tabline Format Strings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Map color group names to tabline components.
+function! ui#tabline#colors() abort
+	return {
+		\ 'tl_bg': 'ThemeTablineBackground',
+		\ 'tl_active': 'ThemeTablineActive',
+		\ 'tl_inactive': 'ThemeTablineInactive',
+		\ 'tl_vim': 'ThemeTablineVim',
+	\ }
+endfunction
+
 " Build statusline segments for the current window.
 function! ui#tabline#build_segments() abort
+	let l:colors = ui#tabline#colors()
+
 	let l:leading = [
-		\ ui#segment#new('     ', 'ThemeColorGreenFg')
+		\ ui#segment#new('     ', l:colors['tl_vim'])
 	\ ]
 
 	let l:tailing = [
-		\ ui#segment#spacer('ThemeColorDarkBg'),
-		\ s:segments_tabs(tabpagenr()),
-		\ ui#segment#spacer('ThemeColorDarkBg'),
-		\ ui#segment#new(' 缾', 'ThemeColorDarkBg'),
-		\ ui#segment#spacer('ThemeColorDarkBg'),
+		\ ui#segment#spacer(l:colors['tl_bg']),
+		\ s:segments_tabs(tabpagenr(), l:colors),
+		\ ui#segment#spacer(l:colors['tl_bg']),
+		\ ui#segment#new(' 缾', l:colors['tl_bg']),
+		\ ui#segment#spacer(l:colors['tl_bg']),
 	\ ]
 
 	let l:max_width = &columns - ui#segment#width(flatten([l:leading, l:tailing]))
 
 	return [
 		\ l:leading,
-		\ s:segments_buffers(bufnr('%'), l:max_width),
-		\ ui#segment#justify('ThemeColorDarkBg'),
+		\ s:segments_buffers(bufnr('%'), l:max_width, l:colors),
+		\ ui#segment#justify(l:colors['tl_bg']),
 		\ l:tailing,
 	\ ]
 endfunction
@@ -29,7 +41,7 @@ endfunction
 " Build segments for listed buffers.
 "   {current} is the buffer number of the current buffer
 "   {max_width} is the max screen column width that the segments may occupy
-function! s:segments_buffers(current, max_width) abort
+function! s:segments_buffers(current, max_width, colors) abort
 	let l:buffers = getbufinfo({ 'buflisted': 1 })
 
 	" if there are no listed buffers open, return empty
@@ -43,7 +55,7 @@ function! s:segments_buffers(current, max_width) abort
 		\ ->index(a:current)
 	let l:curr_buff_idx = max([l:curr_buff_idx, 0])
 
-	let l:segments = [s:segment_buffer(l:buffers[l:curr_buff_idx], a:current)]
+	let l:segments = [s:segment_buffer(l:buffers[l:curr_buff_idx], a:colors, a:current)]
 
 	" the number of tabline screen columns available, minus a small buffer of
 	" 8 cols
@@ -60,15 +72,15 @@ function! s:segments_buffers(current, max_width) abort
 		endif
 
 		let l:new_segments = [
-			\ s:segment_buffer(a:buffers[l:index]),
-			\ ui#segment#spacer('ThemeColorDarkBg')
+			\ s:segment_buffer(a:buffers[l:index], a:colors),
+			\ ui#segment#spacer(a:colors['tl_bg'])
 		\ ]
 
 		if (l:columns_remaining - ui#segment#width(l:new_segments)) < 0
 			let l:end[a:pos] = v:true
 			let l:new_segments = [
-				\ ui#segment#new(a:pos ? ' › ' : ' ‹ ', 'ThemeColorLightBg'),
-				\ ui#segment#spacer('ThemeColorDarkBg')
+				\ ui#segment#new(a:pos ? ' › ' : ' ‹ ', a:colors['tl_inactive']),
+				\ ui#segment#spacer(a:colors['tl_bg'])
 			\ ]
 		endif
 
@@ -98,27 +110,27 @@ function! s:segments_buffers(current, max_width) abort
 endfunction
 
 " Build tag page segments.
-function! s:segments_tabs(current) abort
+function! s:segments_tabs(current, colors) abort
 	let l:segments = []
 
 	for i in range(1, tabpagenr('$'))
-		let l:color = (i == a:current) ? 'ThemeColorBlueBg' : 'ThemeColorLightBg'
+		let l:color = (i == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
 		call add(l:segments, ui#segment#new(' ‹' . i . '› ', l:color))
 	endfor
 
 	" add spacing
 	return flatten(map(l:segments,
-		\ { idx, val -> [val, ui#segment#spacer('ThemeColorDarkBg')] }))[0:-2]
+		\ { idx, val -> [val, ui#segment#spacer(a:colors['tl_bg'])] }))[0:-2]
 endfunction
 
 " Build a single segment for a buffer.
 "   {buffer} is the buffer info
 "   {current} is the buffer number of the current buffer
-function! s:segment_buffer(buffer, current = -1) abort
+function! s:segment_buffer(buffer, colors, current = -1) abort
 	let l:bname = fnamemodify(a:buffer['name'] ?? 'empty', ':t')
 	let l:bnum = a:buffer['bufnr']
 
-	let l:color = (l:bnum == a:current) ? 'ThemeColorBlueBg' : 'ThemeColorLightBg'
+	let l:color = (l:bnum == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
 	let l:text = ' ' . l:bnum . ' ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
 
 	return ui#segment#new(l:text, l:color)

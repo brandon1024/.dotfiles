@@ -6,7 +6,7 @@
 set so=7
 
 " show line numbers
-set number relativenumber
+set number relativenumber numberwidth=6
 
 " always show the sign column
 set signcolumn=yes
