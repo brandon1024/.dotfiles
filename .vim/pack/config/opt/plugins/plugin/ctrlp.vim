@@ -10,6 +10,9 @@ let g:ctrlp_working_path_mode = 'w'
 " show hidden files (dotfiles)
 let g:ctrlp_show_hidden = 1
 
+" filter a bunch of crap
+let g:ctrlp_custom_ignore = '\(__pycache__\|.egg-info\|.pytest_cache\|venv\)'
+
 " enable fuzzy tag lookup extension
 let g:ctrlp_extensions = ['tag']
 
