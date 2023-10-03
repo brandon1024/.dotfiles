@@ -41,7 +41,7 @@ endfunction
 " This will not behave correctly if text values already contain formatting
 " information (format strings starting with %).
 function! ui#segment#width(segments) abort
-	return reduce(a:segments, { acc, val -> acc + strdisplaywidth(val.text) }, 0)
+	return reduce(flatten(a:segments), { acc, val -> acc + strdisplaywidth(val.text) }, 0)
 endfunction
 
 " Return a format string for the given color.

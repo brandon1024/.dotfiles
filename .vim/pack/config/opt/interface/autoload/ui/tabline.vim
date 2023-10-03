@@ -7,7 +7,9 @@ function! ui#tabline#colors() abort
 	return {
 		\ 'tl_bg': 'ThemeTablineBackground',
 		\ 'tl_active': 'ThemeTablineActive',
+		\ 'tl_active_mod': 'ThemeTablineActiveModified',
 		\ 'tl_inactive': 'ThemeTablineInactive',
+		\ 'tl_inactive_mod': 'ThemeTablineInactiveModified',
 		\ 'tl_vim': 'ThemeTablineVim',
 	\ }
 endfunction
@@ -129,9 +131,12 @@ endfunction
 function! s:segment_buffer(buffer, colors, current = -1) abort
 	let l:bname = fnamemodify(a:buffer['name'] ?? 'empty', ':t')
 	let l:bnum = a:buffer['bufnr']
+	let l:bmodified = a:buffer['changed']
 
-	let l:color = (l:bnum == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
-	let l:text = ' ' . l:bnum . ' ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
+	let l:color = (l:bnum == a:current) ?
+		\ (l:bmodified ? a:colors['tl_active_mod'] : a:colors['tl_active']) :
+		\ (l:bmodified ? a:colors['tl_inactive_mod'] : a:colors['tl_inactive'])
+	let l:text = ' ' . l:bnum . ': ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
 
 	return ui#segment#new(l:text, l:color)
 endfunction
