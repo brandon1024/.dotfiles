@@ -83,7 +83,10 @@ function! s:segment_ro_buffer(colors) abort
 endfunction
 
 function! s:segment_ftype_symbol(colors) abort
-	return ui#segment#new(nerdfont#find(), a:colors['sl_bg'])
+	let l:window = getwininfo(g:statusline_winid)[0]
+	let l:binfo = getbufinfo(l:window['bufnr'])[0]
+
+	return ui#segment#new(nerdfont#find(l:binfo['name']), a:colors['sl_bg'])
 endfunction
 
 " A segment for the current buffer number.
