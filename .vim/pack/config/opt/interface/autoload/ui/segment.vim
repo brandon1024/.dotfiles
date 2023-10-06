@@ -48,4 +48,3 @@ endfunction
 function! s:format_color(color_name)
 	return '%#' . a:color_name . '#'
 endfunction
-

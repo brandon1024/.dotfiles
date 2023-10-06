@@ -6,6 +6,10 @@
 nnoremap <silent> <leader>m :bnext<CR>
 nnoremap <silent> <leader>n :bprev<CR>
 
+" [normal] switch between tabs
+nnoremap <silent> <leader>M :tabnext<CR>
+nnoremap <silent> <leader>N :tabprev<CR>
+
 " [normal / insert] toggle paste mode
 set pastetoggle=<leader>p
 

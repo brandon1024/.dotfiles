@@ -64,19 +64,21 @@ function! s:configure_colors() abort
 	call s:hi('ThemeStatuslineModeOther', "", s:color_palette['nord1'], "NONE", "", "NONE", "")
 
 	" tabline colors
-	call s:hi('ThemeTablineBackground', s:color_palette['nord3'], s:color_palette['nord0'], "", "", "", "")
+	call s:hi('ThemeTablineBackground', s:color_palette['nord3'], s:color_palette['nord1'], "", "", "", "")
 	call s:hi('ThemeTablineActive', s:color_palette['nord0'], s:color_palette['nord10'], "", "", "", "")
-	call s:hi('ThemeTablineActiveModified', s:color_palette['nord0'], s:color_palette['nord10'], "", "", "italic", "")
+	call s:hi('ThemeTablineActiveModified', s:color_palette['nord0'], s:color_palette['nord10'], "", "", "italic,bold", "")
+	call s:hi('ThemeTablineActiveSym', s:color_palette['nord10'], s:color_palette['nord1'], "", "", "", "")
 	call s:hi('ThemeTablineInactive', "", s:color_palette['nord1'], "NONE", "", "NONE", "")
-	call s:hi('ThemeTablineInactiveModified', "", s:color_palette['nord1'], "NONE", "", "italic", "")
-	call s:hi('ThemeTablineVim', s:color_palette['nord14'], s:color_palette['nord0'], "", "", "", "")
+	call s:hi('ThemeTablineInactiveModified', "", s:color_palette['nord1'], "NONE", "", "italic,bold", "")
+	call s:hi('ThemeTablineInactiveSym', s:color_palette['nord1'], s:color_palette['nord1'], "NONE", "", "NONE", "")
+	call s:hi('ThemeTablineVim', s:color_palette['nord14'], s:color_palette['nord1'], "", "", "", "")
 
 	" terminal colors
 	call s:hi('ThemeTerminalBackground', s:color_palette['nord3'], s:color_palette['nord0'], "", "", "", "")
 	call s:hi('ThemeTerminalActive', s:color_palette['nord0'], s:color_palette['nord10'], "", "", "", "")
 	call s:hi('ThemeTerminalInactive', "", s:color_palette['nord1'], "NONE", "", "NONE", "")
 
-	" fern colors
+	" colors
 	call s:hi('ThemeBlue', s:color_palette['nord10'], "", "", "", "", "")
 	call s:hi('ThemeGreen', s:color_palette['nord14'], "", "NONE", "", "NONE", "")
 	call s:hi('ThemeRed', s:color_palette['nord11'], "", "", "", "", "")

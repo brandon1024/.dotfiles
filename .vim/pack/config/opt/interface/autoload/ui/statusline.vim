@@ -33,6 +33,7 @@ function! ui#statusline#build_segments() abort
 		\ ui#segment#spacer(l:colors['sl_bg']),
 		\ s:segment_paste(l:colors),
 		\ s:segment_ro_buffer(l:colors),
+		\ s:segment_ftype_symbol(l:colors),
 		\ s:segment_bufnr(l:colors),
 		\ s:segment_fname(l:colors),
 		\ ui#segment#justify(l:colors['sl_bg']),
@@ -81,6 +82,10 @@ function! s:segment_ro_buffer(colors) abort
 	return ui#segment#new(&readonly ? ' %R ' : '', a:colors['sl_bg'])
 endfunction
 
+function! s:segment_ftype_symbol(colors) abort
+	return ui#segment#new(nerdfont#find(), a:colors['sl_bg'])
+endfunction
+
 " A segment for the current buffer number.
 function! s:segment_bufnr(colors) abort
 	return ui#segment#new(' %n ', a:colors['sl_bg'])
@@ -122,4 +127,3 @@ function! s:segment_cursor_pos(colors) abort
 		\ ui#segment#new(' %l:%c ', a:colors['sl_buf_pos']),
 		\ a:colors['sl_inactive'])
 endfunction
-

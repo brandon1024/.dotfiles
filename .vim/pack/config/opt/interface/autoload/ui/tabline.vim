@@ -8,8 +8,10 @@ function! ui#tabline#colors() abort
 		\ 'tl_bg': 'ThemeTablineBackground',
 		\ 'tl_active': 'ThemeTablineActive',
 		\ 'tl_active_mod': 'ThemeTablineActiveModified',
+		\ 'tl_active_sym': 'ThemeTablineActiveSym',
 		\ 'tl_inactive': 'ThemeTablineInactive',
 		\ 'tl_inactive_mod': 'ThemeTablineInactiveModified',
+		\ 'tl_inactive_sym': 'ThemeTablineInactiveSym',
 		\ 'tl_vim': 'ThemeTablineVim',
 	\ }
 endfunction
@@ -19,14 +21,14 @@ function! ui#tabline#build_segments() abort
 	let l:colors = ui#tabline#colors()
 
 	let l:leading = [
-		\ ui#segment#new('     ', l:colors['tl_vim'])
+		\ ui#segment#new('    ', l:colors['tl_vim'])
 	\ ]
 
 	let l:tailing = [
 		\ ui#segment#spacer(l:colors['tl_bg']),
 		\ s:segments_tabs(tabpagenr(), l:colors),
 		\ ui#segment#spacer(l:colors['tl_bg']),
-		\ ui#segment#new(' 缾', l:colors['tl_bg']),
+		\ ui#segment#new('󰓩 ', l:colors['tl_bg']),
 		\ ui#segment#spacer(l:colors['tl_bg']),
 	\ ]
 
@@ -75,7 +77,6 @@ function! s:segments_buffers(current, max_width, colors) abort
 
 		let l:new_segments = [
 			\ s:segment_buffer(a:buffers[l:index], a:colors),
-			\ ui#segment#spacer(a:colors['tl_bg'])
 		\ ]
 
 		if (l:columns_remaining - ui#segment#width(l:new_segments)) < 0
@@ -117,7 +118,12 @@ function! s:segments_tabs(current, colors) abort
 
 	for i in range(1, tabpagenr('$'))
 		let l:color = (i == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
-		call add(l:segments, ui#segment#new(' ‹' . i . '› ', l:color))
+		let l:symbol_color = (i == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
+		call add(l:segments, [
+			\ ui#segment#new('◢', l:symbol_color),
+			\ ui#segment#new(' ' . i . ' ', l:color),
+			\ ui#segment#new('◤', l:symbol_color),
+		\ ])
 	endfor
 
 	" add spacing
@@ -132,12 +138,17 @@ function! s:segment_buffer(buffer, colors, current = -1) abort
 	let l:bname = fnamemodify(a:buffer['name'] ?? 'empty', ':t')
 	let l:bnum = a:buffer['bufnr']
 	let l:bmodified = a:buffer['changed']
+	let l:ftype_symbol = nerdfont#find(l:bname)
 
 	let l:color = (l:bnum == a:current) ?
 		\ (l:bmodified ? a:colors['tl_active_mod'] : a:colors['tl_active']) :
 		\ (l:bmodified ? a:colors['tl_inactive_mod'] : a:colors['tl_inactive'])
-	let l:text = ' ' . l:bnum . ': ' . l:bname . ' ' . ((l:bnum == a:current) ? ' ' : ' ')
+	let l:text = ' ' . l:bnum . ': ' . l:ftype_symbol . ' ' . l:bname . ' ' . ((l:bnum == a:current) ? '  ' : '  ')
+	let l:symbol_color = (l:bnum == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 
-	return ui#segment#new(l:text, l:color)
+	return [
+		\ ui#segment#new('◢', l:symbol_color),
+		\ ui#segment#new(l:text, l:color),
+		\ ui#segment#new('◤', l:symbol_color),
+	\ ]
 endfunction
-

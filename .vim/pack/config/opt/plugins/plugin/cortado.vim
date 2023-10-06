@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => java-support Plugin Configuration and Mappings
+" => Cortado Plugin Configuration and Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 packadd! cortado

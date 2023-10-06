@@ -6,7 +6,3 @@ packadd interface
 packadd mappings
 packadd plugins
 packadd terminal
-
-" Plugin Configuration
-packadd vim-commentary
-
