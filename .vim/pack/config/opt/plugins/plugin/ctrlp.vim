@@ -28,6 +28,9 @@ let g:ctrlp_status_func = {
 	\ 'prog': 'ctrlp#theme#statusline_progress',
 \ }
 
+" configure line prefix
+let g:ctrlp_line_prefix = ' ▶ '
+
 " open ctrlp window with CTRL+Space
 let g:ctrlp_map = '<C-@>'
 
@@ -36,3 +39,8 @@ let g:ctrlp_prompt_mappings = {
 	\ 'ToggleType(1)': ['<C-f>', '<C-@>'],
 \ }
 
+" configure the ctrlp window
+let g:ctrlp_buffer_func = {
+	\ 'enter': 'ctrlp#window#enter',
+	\ 'exit':  'ctrlp#window#exit',
+\ }
