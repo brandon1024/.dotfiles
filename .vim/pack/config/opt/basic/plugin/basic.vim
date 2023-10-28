@@ -23,7 +23,7 @@ set lazyredraw
 " enable wild menu for easier command completion
 set wildmenu
 set wildmode=longest,list,full
-set wildignore=*/build/*,*/.idea/*,*/.git/*,*.so,*.o,*.class,__pycache__,*.egg-info,.pytest_cache
+set wildignore=*/build/*,*/.idea/*,*/.git/*,*.so,*.o,*.class,__pycache__,*.egg-info,.pytest_cache,venv
 
 " disable backups and swap files
 set nowb noswapfile

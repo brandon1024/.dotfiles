@@ -4,6 +4,8 @@ function! mappings#close_windowless_buffers()
 	for b in l:buffers
 		execute 'bd ' . b['bufnr']
 	endfor
+
+	redrawtabline
 endfunction
 
 function! mappings#toggle_quickfix_window(keep_open)
