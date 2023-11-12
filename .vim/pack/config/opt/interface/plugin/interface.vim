@@ -5,7 +5,7 @@
 " scrolloff (show 7 lines above/below when navigating a file)
 set so=7
 
-" show line numbers
+" show (relative) line numbers
 set number relativenumber numberwidth=6
 
 " always show the sign column

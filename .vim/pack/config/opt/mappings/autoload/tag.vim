@@ -116,10 +116,12 @@ function! s:get_text_prop(prop_name, highlight_group) abort
 	return a:prop_name
 endfunction
 
+" Build and return the text property name for dark text.
 function! s:get_text_prop_dark() abort
 	return s:get_text_prop('tag-navigation-text-dark', 'ThemeBlue')
 endfunction
 
+" Build and return the text property name for orange text.
 function! s:get_text_prop_orange() abort
 	return s:get_text_prop('tag-navigation-text-orange', 'ThemeOrange')
 endfunction
@@ -191,6 +193,14 @@ function! tag#vimgrep_tagfunc(pattern, flags, info) abort
 	return l:results
 endfunction
 
+" Show a popup with the tag results for the given keyword. When a result is
+" selected, jump to the tag. Invoke a given callback once complete.
+"
+" If only a single result is found, jump to it without showing a popup. Show
+" an error if no results found.
+"
+" Information about each result can be cycled with <h> and <l> with the popup
+" open.
 function! s:step_into(keyword, cb) abort
 	let l:tag_results = taglist(a:keyword)
 	if empty(l:tag_results)
@@ -239,7 +249,7 @@ function! s:step_into(keyword, cb) abort
 	call popup_create(l:popup_entries[l:state], {
 		\ 'line': 'cursor+1',
 		\ 'col': 'cursor',
-		\ 'title': ' jump to definition "' . a:keyword . '"',
+		\ 'title': ' jump to definition "' . a:keyword . '"   [  (h) (l)  ] ',
 		\ 'wrap': v:false,
 		\ 'moved': 'word',
 		\ 'cursorline': 1,
@@ -252,7 +262,7 @@ endfunction
 " more than one match is found.
 "
 " If there are no tag files, a custom 'tagfunc' is used to offer results from
-" buffers through a simple search.
+" open buffers through a simple search.
 function! tag#step_into(keyword) abort
 	let l:save_tagfunc = &tagfunc
 	let &l:tagfunc = 'tag#vimgrep_tagfunc'

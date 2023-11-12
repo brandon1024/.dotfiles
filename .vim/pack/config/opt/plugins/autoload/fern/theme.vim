@@ -20,13 +20,24 @@ endfunction
 
 " Build segments for the fern window.
 function! fern#theme#build_segments() abort
+	let l:colors = fern#theme#colors()
+
 	return [
+		\ ui#segment#justify(l:colors['sl_bg']),
+		\ ui#segment#new(' 🌿 ', l:colors['sl_bg']),
 		\ ui#statusline#shade_inactive(
-			\ ui#segment#new(' 🌿 FERN ', 'ThemeStatuslineModeNormal'),
-			\ 'ThemeStatuslineInactive'),
-		\ ui#segment#spacer('ThemeStatuslineBackground'),
-		\ ui#segment#justify('ThemeStatuslineBackground'),
-		\ ui#segment#new(' ' . fnamemodify(getcwd(), ':t') . ' ', 'ThemeStatuslineBackground')
+			\ ui#segment#new('  FERN  ', l:colors['sl_active']),
+			\ l:colors['sl_inactive'])
 	\ ]
 endfunction
 
+" Map color group names to statusline components.
+function! fern#theme#colors() abort
+	return {
+		\ 'sl_bg': 'ThemeStatuslineBackground',
+		\ 'sl_active': 'ThemeTablineActive',
+		\ 'sl_active_sym': 'ThemeTablineActiveSym',
+		\ 'sl_inactive': 'ThemeTablineInactive',
+		\ 'sl_inactive_sym': 'ThemeTablineInactiveSym',
+	\ }
+endfunction

@@ -1,4 +1,9 @@
-function! mappings#close_windowless_buffers()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Mapping Helper Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Close (bdelete) any buffers now shown in a window.
+function! mappings#close_windowless_buffers() abort
 	let l:buffers = getbufinfo({'buflisted': 1})
 		\ ->filter({ i, b -> !len(b['windows']) })
 	for b in l:buffers
@@ -8,7 +13,8 @@ function! mappings#close_windowless_buffers()
 	redrawtabline
 endfunction
 
-function! mappings#toggle_quickfix_window(keep_open)
+" Toggle the quickfix window as a bottom split.
+function! mappings#toggle_quickfix_window(keep_open) abort
 	" find quickfix window in this tab
 	let l:qf_win = filter(getwininfo(),
 		\ { idx, val -> val['quickfix'] && val['tabnr'] == tabpagenr() })
@@ -25,6 +31,8 @@ function! mappings#toggle_quickfix_window(keep_open)
 	endif
 endfunction
 
+" Recursively from the current working directory, search for a keyword and
+" show the results in the quickfix window.
 function! mappings#search_keyword(keyword) abort
 	try
 		execute 'vim /' . a:keyword . '/jg **/*.*'
@@ -36,6 +44,7 @@ function! mappings#search_keyword(keyword) abort
 	call mappings#toggle_quickfix_window(v:true)
 endfunction
 
+" Toggle the scratchpad window.
 function! mappings#toggle_scratch(open_empty)
 	if getbufvar('%', '_scratch', v:false) == v:true
 		bd %

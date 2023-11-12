@@ -82,7 +82,7 @@ function! s:segments_buffers(current, max_width, colors) abort
 		if (l:columns_remaining - ui#segment#width(l:new_segments)) < 0
 			let l:end[a:pos] = v:true
 			let l:new_segments = [
-				\ ui#segment#new(a:pos ? ' › ' : ' ‹ ', a:colors['tl_inactive']),
+				\ ui#segment#new(a:pos ? '  ' : '  ', a:colors['tl_inactive']),
 				\ ui#segment#spacer(a:colors['tl_bg'])
 			\ ]
 		endif

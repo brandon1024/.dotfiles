@@ -2,6 +2,7 @@
 " => Theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" configure nord to render italic text
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 
@@ -13,6 +14,11 @@ colorscheme nord
 set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+augroup nord_theme_overrides
+	autocmd!
+	autocmd ColorScheme nord call s:configure_colors()
+augroup END
 
 " create a new highlight group
 function! s:hi(group, guifg, guibg, ctermfg, ctermbg, attr, guisp)
@@ -39,11 +45,6 @@ function! s:hi(group, guifg, guibg, ctermfg, ctermbg, attr, guisp)
     exec "hi " . a:group . cmd
   endif
 endfunction
-
-augroup nord_theme_overrides
-	autocmd!
-	autocmd ColorScheme nord call s:configure_colors()
-augroup END
 
 " configure colours
 function! s:configure_colors() abort
