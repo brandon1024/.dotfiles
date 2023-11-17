@@ -21,4 +21,3 @@ augroup fern_custom
 		\ call fern#mappings#init()
 	autocmd User FernHighlight call fern#theme#highlights()
 augroup END
-

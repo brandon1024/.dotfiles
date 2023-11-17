@@ -37,3 +37,9 @@ nnoremap <silent> Q @q
 " open a scratchpad (<leader>s for persistent, <leader>S for throwaway)
 nnoremap <silent> <leader>s :call mappings#toggle_scratch(v:false)<CR>
 nnoremap <silent> <leader>S :call mappings#toggle_scratch(v:true)<CR>
+
+" comment/uncomment things
+nnoremap <silent> gcc :call mappings#toggle_comment_line(line('.'), line('.'))<CR>
+xnoremap <silent> gc :<C-U>call mappings#toggle_comment_line(line("'<"), line("'>"))<CR>
+nmap <silent> <C-_> gcc
+xmap <silent> <C-_> gc
