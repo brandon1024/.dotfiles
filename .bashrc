@@ -1,6 +1,7 @@
 # Brandon's .dotfiles Bash Configuration
 #
-# - if you want to use pureline, be sure to install powerline-fonts
+# - if you want to use pureline, be sure to install a powerline-patched font
+#   (I recommend nerdfonts SourceCodePro)
 DOTFILES_REPO_PATH=$(dirname -- "$(readlink "${BASH_SOURCE[0]}")")
 DOTFILES_REPO_PURELINE_MODULE="${DOTFILES_REPO_PATH}/pureline"
 

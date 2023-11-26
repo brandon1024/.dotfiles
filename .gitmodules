@@ -28,3 +28,6 @@
 [submodule ".vim/pack/plugins/opt/nerdfont.vim"]
 	path = .vim/pack/plugins/opt/nerdfont.vim
 	url = git@github.com:lambdalisue/nerdfont.vim.git
+[submodule ".vim/pack/plugins/opt/vim-signature"]
+	path = .vim/pack/plugins/opt/vim-signature
+	url = git@github.com:kshenoy/vim-signature.git

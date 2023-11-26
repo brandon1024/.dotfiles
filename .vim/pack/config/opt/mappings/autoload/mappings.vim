@@ -91,7 +91,7 @@ function! s:comment_line(lnum, force_comment = v:true) abort
 	let l:results = matchlist(l:line, l:comment_pat)
 
 	if a:force_comment || empty(l:results)
-		let l:commented_line = l:whitespace . printf(&commentstring, l:rest)
+		let l:commented_line = l:whitespace . printf(&commentstring, ' ' . l:rest)
 		call setline(a:lnum, l:commented_line)
 	else
 		call setline(a:lnum, l:whitespace . trim(l:results[1]))

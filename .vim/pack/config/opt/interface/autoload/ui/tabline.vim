@@ -26,6 +26,10 @@ function! ui#tabline#build_segments() abort
 
 	let l:tailing = [
 		\ ui#segment#spacer(l:colors['tl_bg']),
+		\ s:segments_terminals(bufnr('%'), l:colors),
+		\ ui#segment#spacer(l:colors['tl_bg']),
+		\ ui#segment#new(' ', l:colors['tl_bg']),
+		\ ui#segment#spacer(l:colors['tl_bg']),
 		\ s:segments_tabs(tabpagenr(), l:colors),
 		\ ui#segment#spacer(l:colors['tl_bg']),
 		\ ui#segment#new('󰓩 ', l:colors['tl_bg']),
@@ -112,7 +116,7 @@ function! s:segments_buffers(current, max_width, colors) abort
 	return s:traverse_around_pivot(l:segments, l:buffers, l:curr_buff_idx, 1)
 endfunction
 
-" Build tag page segments.
+" Build tab page segments.
 function! s:segments_tabs(current, colors) abort
 	let l:segments = []
 
@@ -120,15 +124,30 @@ function! s:segments_tabs(current, colors) abort
 		let l:color = (i == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
 		let l:symbol_color = (i == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 		call add(l:segments, [
-			\ ui#segment#new('◢', l:symbol_color),
+			\ ui#segment#new('', l:symbol_color . 'Inverted'),
 			\ ui#segment#new(' ' . i . ' ', l:color),
-			\ ui#segment#new('◤', l:symbol_color),
+			\ ui#segment#new('', l:symbol_color),
 		\ ])
 	endfor
 
-	" add spacing
-	return flatten(map(l:segments,
-		\ { idx, val -> [val, ui#segment#spacer(a:colors['tl_bg'])] }))[0:-2]
+	return l:segments
+endfunction
+
+" Build terminal segments.
+function! s:segments_terminals(current, colors) abort
+	let l:segments = []
+
+	for i in term_list()
+		let l:color = (i == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
+		let l:symbol_color = (i == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
+		call add(l:segments, [
+			\ ui#segment#new('', l:symbol_color . 'Inverted'),
+			\ ui#segment#new(' ' . i . ' ', l:color),
+			\ ui#segment#new('', l:symbol_color),
+		\ ])
+	endfor
+
+	return l:segments
 endfunction
 
 " Build a single segment for a buffer.
@@ -147,8 +166,8 @@ function! s:segment_buffer(buffer, colors, current = -1) abort
 	let l:symbol_color = (l:bnum == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 
 	return [
-		\ ui#segment#new('◢', l:symbol_color),
+		\ ui#segment#new('', l:symbol_color . 'Inverted'),
 		\ ui#segment#new(l:text, l:color),
-		\ ui#segment#new('◤', l:symbol_color),
+		\ ui#segment#new('', l:symbol_color),
 	\ ]
 endfunction
