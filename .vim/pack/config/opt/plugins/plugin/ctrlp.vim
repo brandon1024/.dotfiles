@@ -44,3 +44,8 @@ let g:ctrlp_buffer_func = {
 	\ 'enter': 'ctrlp#window#enter',
 	\ 'exit':  'ctrlp#window#exit',
 \ }
+
+" configure an improved matching function that orders by closest match
+" let g:ctrlp_match_func = {
+	" \ 'match': 'ctrlp#search#fuzzy',
+" \ }

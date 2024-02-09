@@ -10,6 +10,11 @@ if [[ -f "${DOTFILES_REPO_PURELINE_MODULE}/pureline" ]]; then
 	source "${DOTFILES_REPO_PURELINE_MODULE}/pureline" "${DOTFILES_REPO_PATH}/.pureline.conf"
 fi
 
+# Autojump
+if [ -f "/usr/share/autojump/autojump.sh" ]; then
+	source "/usr/share/autojump/autojump.sh"
+fi
+
 # Environment Variables
 if [ -f "${DOTFILES_REPO_PATH}/.bash_vars" ]; then
 	source "${DOTFILES_REPO_PATH}/.bash_vars"
@@ -19,6 +24,4 @@ fi
 if [ -f "${DOTFILES_REPO_PATH}/.bash_aliases" ]; then
 	source "${DOTFILES_REPO_PATH}/.bash_aliases"
 fi
-
-export GPG_TTY=$(tty)
 
