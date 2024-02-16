@@ -7,7 +7,7 @@ function! ctrlp#search#fuzzy(items, pat, limit, mmode, ispath, exc, regex)
 		return filter(a:items, {idx, val -> val =~ a:pat})
 	endif
 
-	return matchfuzzy(a:items, a:pat, {
+	return reverse(matchfuzzy(a:items, a:pat, {
 		\ "limit": a:limit,
-	\ })
+	\ }))
 endfunction

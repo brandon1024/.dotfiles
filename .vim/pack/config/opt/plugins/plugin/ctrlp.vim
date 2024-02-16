@@ -46,6 +46,6 @@ let g:ctrlp_buffer_func = {
 \ }
 
 " configure an improved matching function that orders by closest match
-" let g:ctrlp_match_func = {
-	" \ 'match': 'ctrlp#search#fuzzy',
-" \ }
+let g:ctrlp_match_func = {
+	\ 'match': 'ctrlp#search#fuzzy',
+\ }
