@@ -21,7 +21,8 @@ function! ui#tabline#build_segments() abort
 	let l:colors = ui#tabline#colors()
 
 	let l:leading = [
-		\ ui#segment#new('    ', l:colors['tl_vim'])
+		\ ui#segment#new('    ', l:colors['tl_vim']),
+		\ s:segments_tabs(tabpagenr(), l:colors),
 	\ ]
 
 	let l:tailing = [
@@ -29,11 +30,7 @@ function! ui#tabline#build_segments() abort
 		\ s:segments_terminals(bufnr('%'), l:colors),
 		\ ui#segment#spacer(l:colors['tl_bg']),
 		\ ui#segment#new(' ', l:colors['tl_bg']),
-		\ ui#segment#spacer(l:colors['tl_bg']),
-		\ s:segments_tabs(tabpagenr(), l:colors),
-		\ ui#segment#spacer(l:colors['tl_bg']),
-		\ ui#segment#new('󰓩 ', l:colors['tl_bg']),
-		\ ui#segment#spacer(l:colors['tl_bg']),
+		\ ui#segment#spacer(l:colors['tl_bg'])
 	\ ]
 
 	let l:max_width = &columns - ui#segment#width(flatten([l:leading, l:tailing]))
