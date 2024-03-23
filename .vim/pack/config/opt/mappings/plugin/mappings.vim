@@ -46,3 +46,9 @@ xmap <silent> <C-_> gc
 
 " [normal] like :tselect, except show popup instead
 nnoremap <silent> <C-]> :call tag#step_into(expand('<cword>'))<CR>
+
+" [normal] make K act like J
+nnoremap <silent> K kJ
+
+" [visual] fast yank to system clipboard with <C-Y>
+vnoremap <silent> <C-Y> "+y`>
