@@ -95,4 +95,6 @@ function! s:configure_colors() abort
 
 	" other interface colors
 	call s:hi('SpecialKey', s:color_palette['nord2'], "", "NONE", "", "NONE", "")
+
+	hi! link CursorLineNR CursorLine
 endfunction

@@ -18,7 +18,7 @@ set showmatch
 syntax enable
 
 " configure vertical split column
-set fillchars+=vert:░
+set fillchars+=vert:\ 
 
 " show tabs and spaces
 set list listchars=space:·,tab:──·,trail:▓

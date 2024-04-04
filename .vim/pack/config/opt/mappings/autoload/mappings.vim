@@ -4,25 +4,13 @@
 
 " Close (bdelete) any buffers now shown in a window.
 function! mappings#close_windowless_buffers() abort
-	function! s:do_close(id, result) abort closure
-		if a:result == 0
-			return
-		endif
+	let l:buffers = getbufinfo({'buflisted': 1})
+		\ ->filter({ i, b -> !len(b['windows']) })
+	for b in l:buffers
+		execute 'bd ' . b['bufnr']
+	endfor
 
-		let l:buffers = getbufinfo({'buflisted': 1})
-			\ ->filter({ i, b -> !len(b['windows']) })
-		for b in l:buffers
-			execute 'bd ' . b['bufnr']
-		endfor
-
-		redrawtabline
-	endfunction
-
-	call popup_dialog(['You are about to close buffers not shown in a window.', 'Proceed? (Yes/no)'], {
-		\ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
-		\ 'filter': 'popup_filter_yesno',
-		\ 'callback': function('s:do_close')
-	\ })
+	redrawtabline
 endfunction
 
 " Toggle the quickfix window as a bottom split.

@@ -38,7 +38,6 @@ function! ui#statusline#build_segments() abort
 		\ s:segment_fname(l:colors),
 		\ ui#segment#justify(l:colors['sl_bg']),
 		\ s:segment_file_info(l:colors),
-		\ ui#segment#spacer(l:colors['sl_bg']),
 		\ s:segment_percent(l:colors),
 		\ s:segment_cursor_pos(l:colors),
 	\ ]
@@ -56,6 +55,7 @@ endfunction
 function! s:segment_mode(colors) abort
 	let l:modemap = {
 		\ 'n': {'v': 'NORMAL', 'c': a:colors['sl_mode']['normal']},
+		\ 'c': {'v': 'COMMAND', 'c': a:colors['sl_mode']['normal']},
 		\ 'i': {'v': 'INSERT', 'c': a:colors['sl_mode']['insert']},
 		\ 'R': {'v': 'REPLACE', 'c': a:colors['sl_mode']['replace']},
 		\ 'v': {'v': 'VISUAL', 'c': a:colors['sl_mode']['visual']},

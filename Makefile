@@ -29,6 +29,7 @@ help:
 	@echo 'The following are some valid targets for this Makefile:'
 	@echo ' >>> soft: [default] soft install of dotfiles and scripts (symbolic links)'
 	@echo ' >>> hard: hard install of dotfiles and scripts (copy)'
+	@echo ' >>> vimpack-gentags: re-generate tags for plugin help files'
 	@echo ' >>> help: display targets'
 	@echo ''
 	@echo 'To see what will be installed, set DOTFILES_DRYRUN=1.'

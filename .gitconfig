@@ -1,9 +1,8 @@
 # Define your own custom user config (name, email, and other configs).
 [include]
 	path = ~/.config/git/user.config
-
 [core]
-	hooksPath = .dotfiles/git-hooks
+	hooksPath = ~/.dotfiles/git-hooks
 	editor = vim
 [alias]
 	reference = "!reference(){ ref=\"$(git show -s --date=short --pretty='format:%h (%s, %ad)' $@)\"; echo \"$ref\" | xclip -sel clip; echo \"Reference copied to clipboard: $ref\"; };reference"
