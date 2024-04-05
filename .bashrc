@@ -5,14 +5,19 @@
 DOTFILES_REPO_PATH=$(dirname -- "$(readlink "${BASH_SOURCE[0]}")")
 DOTFILES_REPO_PURELINE_MODULE="${DOTFILES_REPO_PATH}/pureline"
 
-# Pureline
-if [[ -f "${DOTFILES_REPO_PURELINE_MODULE}/pureline" ]]; then
-	source "${DOTFILES_REPO_PURELINE_MODULE}/pureline" "${DOTFILES_REPO_PATH}/.pureline.conf"
-fi
+#  # Pureline
+#  if [[ -f "${DOTFILES_REPO_PURELINE_MODULE}/pureline" ]]; then
+	#  source "${DOTFILES_REPO_PURELINE_MODULE}/pureline" "${DOTFILES_REPO_PATH}/.pureline.conf"
+#  fi
 
 # Autojump
 if [ -f "/usr/share/autojump/autojump.sh" ]; then
 	source "/usr/share/autojump/autojump.sh"
+fi
+
+# Bash Prompt
+if [[ -f "${DOTFILES_REPO_PATH}/.bash_prompt" ]]; then
+	source "${DOTFILES_REPO_PATH}/.bash_prompt"
 fi
 
 # Environment Variables

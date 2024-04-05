@@ -1,0 +1,113 @@
+# Check if we're in a git repository.
+#
+_prompt_in_git_repo() {
+	git rev-parse --is-inside-work-tree 2>/dev/null
+}
+
+_prompt_setup() {
+  local prompt_status="$?"
+
+  # +------------------------+
+  # + Git Prompt Integration +
+  # +------------------------+
+  # The following variables are options to configure Git's prompt support script.
+  # See:
+  #   1. https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+
+  # Show more information about the identity of commits checked out as a detached HEAD.
+  # Control the behavior by setting one of these values:
+  #   contains  Relative to newer annotated tag (v1.6.3.2~35)
+  #   branch    Relative to newer tag or branch (master~4)
+  #   describe  Relative to older annotated tag (v1.6.3.1-13-gdd42c2f)
+  #   tag       Relative to any older tag (v1.6.3.1-13-gdd42c2f)
+  #   default   Exactly matching tag
+  GIT_PS1_DESCRIBE_STYLE=${GIT_PS1_DESCRIBE_STYLE:-describe}
+
+  # Disable `__git_ps1` output when the current working directory is set up to be ignored by Git.
+  # Also configurable per repository via `git config bash.hideIfPwdIgnored`.
+  GIT_PS1_HIDE_IF_PWD_IGNORED=${GIT_PS1_HIDE_IF_PWD_IGNORED:-}
+
+  # Show unstaged (*) and staged (+) changes.
+  # Also configurable per repository via `git config bash.showDirtyState`.
+  GIT_PS1_SHOWDIRTYSTATE=${GIT_PS1_SHOWDIRTYSTATE:-true}
+
+  # Show currently stashed ($) changes.
+  GIT_PS1_SHOWSTASHSTATE=${GIT_PS1_SHOWSTASHSTATE:-true}
+
+  # Show untracked (%) changes.
+  # Also configurable per repository via `git config bash.showUntrackedFiles`.
+  GIT_PS1_SHOWUNTRACKEDFILES=${GIT_PS1_SHOWUNTRACKEDFILES:-true}
+
+  # Show indicators for difference between HEAD and its upstream.
+  #
+  # <  Behind upstream
+  # >  Ahead upstream
+  # <> Diverged upstream
+  # =  Equal upstream
+  #
+  # Control behavior by setting to a space-separated list of values:
+  #   auto     Automatically show indicators
+  #   verbose  Show number of commits ahead/behind (+/-) upstream
+  #   name     If verbose, then also show the upstream abbrev name
+  #   legacy   Do not use the '--count' option available in recent versions of git-rev-list
+  #   git      Always compare HEAD to @{upstream}
+  #   svn      Always compare HEAD to your SVN upstream
+  #
+  # By default, `__git_ps1` will compare HEAD to SVN upstream (`@{upstream}` if not available).
+  # Also configurable per repository via `git config bash.showUpstream`.
+  GIT_PS1_SHOWUPSTREAM=${GIT_PS1_SHOWUPSTREAM:="auto name verbose"}
+
+  # +-----------------+
+  # + Style Constants +
+  # +-----------------+
+  local ARROW="▶"
+  local CONNECTBAR_DOWN="┌─╼"
+  local CONNECTBAR_UP="└─╼"
+  local CONNECTBAR_CURVED="╰╼"
+  local SPLITBAR="╾─╼"
+
+  local c_reset="\[\e[0m\]"
+  local newline="\n"
+  local nord3="\[\e[30m\]"
+  local nord7="\[\e[32m\]"
+  local nord8="\[\e[34m\]"
+  local nord9="\[\e[36m\]"
+  local nord11="\[\e[31m\]"
+
+  # +----------+
+  # + Segments +
+  # +----------+
+  local seg_arrow="${nord3} ${ARROW} ${c_reset}"
+  local seg_connect_bar_down="${nord3}${CONNECTBAR_DOWN}${c_reset}"
+  local seg_connect_bar_up="${nord3}${CONNECTBAR_UP}${c_reset}"
+  local seg_connect_bar_curved="${nord3}${CONNECTBAR_CURVED}${c_reset}"
+  local seg_split_bar="${nord3}${SPLITBAR}${c_reset}"
+  local seg_jobs="${nord3}[${nord9}\j${nord3}]${c_reset}"
+  local seg_exit_status="${nord3}[${nord9}\$?${nord3}]${c_reset}"
+  local seg_working_dir="${nord3}[${nord9}\w${nord3}]${c_reset}"
+  local seg_frag_user="${nord3}[${nord9}\u${nord3}]${c_reset}"
+
+  if [ "${prompt_status}" -ne "0" ]; then
+    local seg_exit_status="${nord3}[${nord11}\$?${nord3}]${c_reset}"
+  fi
+
+  local seg_l1="${seg_connect_bar_down}${seg_frag_user}${seg_split_bar}${seg_jobs}${seg_exit_status}${seg_split_bar}${seg_working_dir}${newline}"
+  local seg_l2="${seg_connect_bar_up}${seg_arrow}"
+  local seg_l3
+
+  # Only render the Git segment when the bundled prompt support script has been sourced and the current working
+  # directory is actually a Git repository.
+  if [[ $(typeset -f __git_ps1) && $(_prompt_in_git_repo) == true ]]; then
+    local git_commit_short="$(git rev-parse --short HEAD 2> /dev/null)"
+
+    local seg_git_ps1="${nord3}[${nord8}$(__git_ps1 "%s")${nord3}]${c_reset}"
+    local seg_git_rev="${nord3}[${nord8}${git_commit_short}${nord3}]${c_reset}"
+
+    seg_l2="${seg_connect_bar_up}${seg_git_ps1}${seg_split_bar}${seg_git_rev}${newline}"
+    seg_l3=" ${seg_connect_bar_curved}${seg_arrow}"
+  fi
+
+  PS1="${seg_l1}${seg_l2}${seg_l3}"
+}
+
+PROMPT_COMMAND='_prompt_setup'

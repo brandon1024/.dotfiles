@@ -1,6 +1,3 @@
-[submodule "pureline"]
-	path = pureline
-	url = git@github.com:chris-marsh/pureline.git
 [submodule ".vim/pack/themes/opt/onedark"]
 	path = .vim/pack/themes/opt/onedark
 	url = git@github.com:joshdick/onedark.vim.git
