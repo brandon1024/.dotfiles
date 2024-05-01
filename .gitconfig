@@ -5,7 +5,7 @@
 	hooksPath = ~/.dotfiles/git-hooks
 	editor = vim
 [alias]
-	reference = "!reference(){ ref=\"$(git show -s --date=short --pretty='format:%h (%s, %ad)' $@)\"; echo \"$ref\" | xclip -sel clip; echo \"Reference copied to clipboard: $ref\"; };reference"
+	reference = "!reference(){ git show -s --format=reference $@ | tee /dev/stderr | xclip -sel clip; };reference"
 	ref-info = "branch --format='%(align:40,left)%(refname:short)%(end) %(HEAD) %(align:80,left)%(contents:subject)%(end)'"
 [fetch]
 	prune = true

@@ -86,12 +86,17 @@ _prompt_setup() {
   local seg_exit_status="${nord3}[${nord9}\$?${nord3}]${c_reset}"
   local seg_working_dir="${nord3}[${nord9}\w${nord3}]${c_reset}"
   local seg_frag_user="${nord3}[${nord9}\u${nord3}]${c_reset}"
+  local seg_frag_pyenv=""
 
   if [ "${prompt_status}" -ne "0" ]; then
     local seg_exit_status="${nord3}[${nord11}\$?${nord3}]${c_reset}"
   fi
 
-  local seg_l1="${seg_connect_bar_down}${seg_frag_user}${seg_split_bar}${seg_jobs}${seg_exit_status}${seg_split_bar}${seg_working_dir}${newline}"
+  if [ -n "${VIRTUAL_ENV}" ]; then
+    local seg_frag_pyenv=" ${nord9}${c_reset}"
+  fi
+
+  local seg_l1="${seg_connect_bar_down}${seg_frag_user}${seg_split_bar}${seg_jobs}${seg_exit_status}${seg_split_bar}${seg_working_dir}${seg_frag_pyenv}${newline}"
   local seg_l2="${seg_connect_bar_up}${seg_arrow}"
   local seg_l3
 
@@ -100,7 +105,7 @@ _prompt_setup() {
   if [[ $(typeset -f __git_ps1) && $(_prompt_in_git_repo) == true ]]; then
     local git_commit_short="$(git rev-parse --short HEAD 2> /dev/null)"
 
-    local seg_git_ps1="${nord3}[${nord8}$(__git_ps1 "%s")${nord3}]${c_reset}"
+    local seg_git_ps1="${nord3}[${nord8} $(__git_ps1 "%s")${nord3}]${c_reset}"
     local seg_git_rev="${nord3}[${nord8}${git_commit_short}${nord3}]${c_reset}"
 
     seg_l2="${seg_connect_bar_up}${seg_git_ps1}${seg_split_bar}${seg_git_rev}${newline}"
