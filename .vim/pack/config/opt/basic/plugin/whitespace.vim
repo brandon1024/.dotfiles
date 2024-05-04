@@ -14,3 +14,5 @@ set lbr
 " enable auto ident
 set ai
 
+" don't insert two spaces after a period
+set nojoinspaces
