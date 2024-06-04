@@ -121,9 +121,9 @@ function! s:segments_tabs(current, colors) abort
 		let l:color = (i == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
 		let l:symbol_color = (i == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 		call add(l:segments, [
-			\ ui#segment#new('', l:symbol_color . 'Inverted'),
+			\ ui#segment#new('▎', l:symbol_color . 'Inverted'),
 			\ ui#segment#new(' ' . i . ' ', l:color),
-			\ ui#segment#new('', l:symbol_color),
+			\ ui#segment#new('▊', l:symbol_color),
 		\ ])
 	endfor
 
@@ -138,9 +138,9 @@ function! s:segments_terminals(current, colors) abort
 		let l:color = (i == a:current) ? a:colors['tl_active'] : a:colors['tl_inactive']
 		let l:symbol_color = (i == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 		call add(l:segments, [
-			\ ui#segment#new('', l:symbol_color . 'Inverted'),
+			\ ui#segment#new('▎', l:symbol_color . 'Inverted'),
 			\ ui#segment#new(' ' . i . ' ', l:color),
-			\ ui#segment#new('', l:symbol_color),
+			\ ui#segment#new('▊', l:symbol_color),
 		\ ])
 	endfor
 
@@ -163,8 +163,8 @@ function! s:segment_buffer(buffer, colors, current = -1) abort
 	let l:symbol_color = (l:bnum == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 
 	return [
-		\ ui#segment#new('', l:symbol_color . 'Inverted'),
+		\ ui#segment#new('▎', l:symbol_color . 'Inverted'),
 		\ ui#segment#new(l:text, l:color),
-		\ ui#segment#new('', l:symbol_color),
+		\ ui#segment#new('▊', l:symbol_color),
 	\ ]
 endfunction
