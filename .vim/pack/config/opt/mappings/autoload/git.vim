@@ -25,5 +25,5 @@ function! git#blame_qf(path) abort
 		\ 'exit_cb': function('s:exit_cb'),
 		\ 'in_io': 'null'
 	\ }
-	let l:job = job_start(['git', 'blame', a:path], l:job_opts)
+	let l:job = job_start(['git', '-c', 'blame.coloring=none', 'blame', a:path], l:job_opts)
 endfunction
