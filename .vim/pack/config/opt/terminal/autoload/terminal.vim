@@ -37,3 +37,13 @@ function! terminal#new_stacked() abort
 	let l:new_term_winnr = winnr('$')
 	call setwinvar(l:new_term_winnr, '_managed_term', 1)
 endfunction
+
+" Intended to be run in the TerminalOpen autocommand.
+"
+" When closing the terminal window, jump back to the previous window.
+function! terminal#on_open() abort
+	augroup terminal_buffer_autogroup
+		autocmd! * <buffer>
+		autocmd WinClosed <buffer> wincmd p
+	augroup END
+endfunction

@@ -10,5 +10,6 @@ nnoremap <silent> <leader>} :call terminal#new_stacked()<CR>
 augroup terminal_autogroup
 	autocmd!
 	autocmd TerminalWinOpen * setlocal nolist nobuflisted complete=. winfixheight nowrap statusline=%#Normal#
+	autocmd TerminalOpen * call terminal#on_open()
 augroup END
 
