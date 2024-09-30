@@ -14,7 +14,7 @@ augroup filetypes_autocmd_group
 	autocmd FileType vim setlocal tags+=$VIMRUNTIME/doc/tags
 	autocmd FileType markdown setlocal textwidth=80
 	autocmd FileType python setlocal textwidth=100 formatoptions-=t
-	autocmd FileType go setlocal equalprg=gofmt formatprg=gofmt textwidth=80
+	autocmd FileType go setlocal equalprg=gofmt formatprg=gofmt textwidth=120
 	autocmd FileType help setlocal colorcolumn=
 	autocmd FileType json let &l:formatprg='jq .' | let &l:equalprg='jq .'
 augroup END

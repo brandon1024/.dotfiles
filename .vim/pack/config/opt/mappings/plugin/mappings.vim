@@ -52,3 +52,6 @@ nnoremap <silent> K kJ
 
 " [visual] fast yank to system clipboard with <C-Y>
 vnoremap <silent> <C-Y> "+y`>
+
+" [normal] run git-blame and write to quickfix list
+nnoremap <silent> <leader>b :call git#blame_qf(expand('%'))<CR>

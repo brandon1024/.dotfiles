@@ -22,3 +22,5 @@ if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion
 fi
 
+# Open Vim right NOW
+bind -x '"OP":"vim"'
