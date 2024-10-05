@@ -1,13 +1,16 @@
 function! git#blame_qf(path) abort
+	let l:lnum = 1
+
 	call setqflist([], 'r')
 
 	function! s:stdout_cb(ch, msg) abort closure
 		call setqflist([{
 			\ 'filename': a:path,
-			\ 'lnum': 0,
+			\ 'lnum': l:lnum,
 			\ 'col': 0,
 			\ 'text': a:msg,
 		\ }], 'a')
+		let l:lnum += 1
 	endfunction
 
 	function! s:exit_cb(job, status) abort closure
@@ -25,5 +28,5 @@ function! git#blame_qf(path) abort
 		\ 'exit_cb': function('s:exit_cb'),
 		\ 'in_io': 'null'
 	\ }
-	let l:job = job_start(['git', '-c', 'blame.coloring=none', 'blame', a:path], l:job_opts)
+	let l:job = job_start(['git', '-c', 'blame.coloring=none', 'blame', '--date=short', a:path], l:job_opts)
 endfunction
