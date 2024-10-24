@@ -54,4 +54,7 @@ nnoremap <silent> K kJ
 vnoremap <silent> <C-Y> "+y`>
 
 " [normal] run git-blame and write to quickfix list
-nnoremap <silent> <leader>b :call git#blame_qf(expand('%'))<CR>
+nnoremap <silent> <leader>gb :call git#blame_qf(expand('%'))<CR>
+
+" [normal] run git-status and write to quickfix list
+nnoremap <silent> <leader>gs :call git#status_qf()<CR>

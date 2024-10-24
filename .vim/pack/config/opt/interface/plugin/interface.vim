@@ -2,8 +2,8 @@
 " => General Interface Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" scrolloff (show 7 lines above/below when navigating a file)
-set so=7
+" scrolloff (show 15 lines above/below when navigating a file)
+set so=15
 
 " show (relative) line numbers
 set number relativenumber numberwidth=6

@@ -25,8 +25,6 @@ function! mappings#toggle_quickfix_window(keep_open) abort
 	end
 
 	if len(l:qf_win)
-		" move back to the previous window
-		wincmd p
 		cclose
 	else
 		bo copen 16

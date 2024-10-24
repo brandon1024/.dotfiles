@@ -159,7 +159,7 @@ function! s:segment_buffer(buffer, colors, current = -1) abort
 	let l:color = (l:bnum == a:current) ?
 		\ (l:bmodified ? a:colors['tl_active_mod'] : a:colors['tl_active']) :
 		\ (l:bmodified ? a:colors['tl_inactive_mod'] : a:colors['tl_inactive'])
-	let l:text = ' ' . l:bnum . ': ' . l:ftype_symbol . '  ' . l:bname . ' ' . ((l:bnum == a:current) ? '  ' : '  ')
+	let l:text = ' [' . l:bnum . '] ' . l:ftype_symbol . '  ' . l:bname . ' ' . ((l:bnum == a:current) ? '  ' : '  ')
 	let l:symbol_color = (l:bnum == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 
 	return [
