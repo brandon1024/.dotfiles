@@ -8,6 +8,7 @@ function! ctrlp#search#fuzzy(items, pat, limit, mmode, ispath, exc, regex)
 	endif
 
 	return reverse(matchfuzzy(a:items, a:pat, {
+		\ "matchseq": v:true,
 		\ "limit": a:limit,
 	\ }))
 endfunction

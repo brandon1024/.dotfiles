@@ -2,7 +2,7 @@
 " => Nerdfont.vim Plugin Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-packadd! nerdfont.vim
+packadd! vim-nerdfont
 
 let g:nerdfont#default = ''
 

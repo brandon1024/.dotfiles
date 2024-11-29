@@ -1,15 +1,6 @@
-[submodule ".vim/pack/themes/opt/onedark"]
-	path = .vim/pack/themes/opt/onedark
-	url = git@github.com:joshdick/onedark.vim.git
-[submodule ".vim/pack/plugins/opt/fern"]
-	path = .vim/pack/plugins/opt/fern
-	url = git@github.com:lambdalisue/fern.vim.git
 [submodule ".vim/pack/plugins/opt/ctrlp"]
 	path = .vim/pack/plugins/opt/ctrlp
 	url = git@github.com:ctrlpvim/ctrlp.vim.git
-[submodule ".vim/pack/plugins/opt/java-sort-imports"]
-	path = .vim/pack/plugins/opt/cortado
-	url = git@github.com:brandon1024/java-sort-imports.vim.git
 [submodule ".vim/pack/plugins/opt/vim-themis"]
 	path = .vim/pack/plugins/opt/vim-themis
 	url = git@github.com:thinca/vim-themis.git
@@ -22,12 +13,15 @@
 [submodule ".vim/pack/themes/opt/nord"]
 	path = .vim/pack/themes/opt/nord
 	url = git@github.com:nordtheme/vim.git
-[submodule ".vim/pack/plugins/opt/nerdfont.vim"]
-	path = .vim/pack/plugins/opt/nerdfont.vim
-	url = git@github.com:lambdalisue/nerdfont.vim.git
 [submodule ".vim/pack/plugins/opt/vim-signature"]
 	path = .vim/pack/plugins/opt/vim-signature
 	url = git@github.com:kshenoy/vim-signature.git
 [submodule ".vim/pack/plugins/opt/vimwiki"]
 	path = .vim/pack/plugins/opt/vimwiki
 	url = git@github.com:vimwiki/vimwiki.git
+[submodule ".vim/pack/plugins/opt/vim-fern"]
+	path = .vim/pack/plugins/opt/vim-fern
+	url = git@github.com:lambdalisue/vim-fern.git
+[submodule ".vim/pack/plugins/opt/vim-nerdfont"]
+	path = .vim/pack/plugins/opt/vim-nerdfont
+	url = git@github.com:lambdalisue/vim-nerdfont.git

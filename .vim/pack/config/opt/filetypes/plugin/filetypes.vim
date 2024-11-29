@@ -5,6 +5,9 @@
 " enable filetype plugins
 filetype plugin on
 
+" disable mappings for filetypes
+let g:no_python_maps = 1
+
 augroup filetypes_autocmd_group
 	autocmd!
 	autocmd FileType java,groovy setlocal expandtab textwidth=120

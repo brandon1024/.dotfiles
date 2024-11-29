@@ -2,7 +2,7 @@
 " => Fern File Explorer
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-packadd! fern
+packadd! vim-fern
 packadd! fern-renderer-nf
 
 let g:fern#default_hidden = 1
@@ -13,6 +13,7 @@ let g:fern#default_exclude = '\(__pycache__\|.egg-info\|.pytest_cache\|venv\)'
 let g:fern#disable_default_mappings = 1
 
 nnoremap <silent> <leader><leader> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
+nnoremap <silent> <leader>r :Fern . -stay -drawer -width=50 -keep -reveal=%<CR>
 inoremap <silent> <leader><leader> <C-O>:Fern . -toggle -drawer -width=50 -keep -reveal=% -stay<CR>
 
 augroup fern_custom

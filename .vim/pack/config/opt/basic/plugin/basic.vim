@@ -27,4 +27,3 @@ set wildignore=*/build/*,*/.idea/*,*/.git/*,*.so,*.o,*.class,__pycache__,*.egg-i
 
 " disable backups and swap files
 set nowb noswapfile
-

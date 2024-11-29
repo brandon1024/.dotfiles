@@ -97,4 +97,6 @@ function! s:configure_colors() abort
 	call s:hi('SpecialKey', s:color_palette['nord2'], "", "NONE", "", "NONE", "")
 
 	hi! link CursorLineNR CursorLine
+	hi! link EndOfBuffer Ignore
+	hi! link QuickFixLine CursorLine
 endfunction

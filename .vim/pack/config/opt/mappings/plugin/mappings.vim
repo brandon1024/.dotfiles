@@ -31,6 +31,9 @@ nnoremap <silent> <leader>_ :vertical resize +20<CR>
 " [normal] search recursively for word under cursor
 nnoremap <silent> <ESC><C-]> :call mappings#search_keyword(expand('<cword>'))<CR>
 
+" [visual] search recursively for visually selected text
+vnoremap <silent> <ESC><C-]> :call mappings#search_keyword_selected()<CR>
+
 " [normal] replay macro recorded in `q` register
 nnoremap <silent> Q @q
 

@@ -44,6 +44,14 @@ function! mappings#search_keyword(keyword) abort
 	call mappings#toggle_quickfix_window(v:true)
 endfunction
 
+" Same as mappings#search_keyword, but searches for visually selected text.
+function! mappings#search_keyword_selected() abort
+	let l:selected_text = getline("'<")[col("'<")-1 : col("'>")-1]
+	let l:escaped_text = escape(l:selected_text, '\/.*$^~[]')
+
+	call mappings#search_keyword(l:escaped_text)
+endfunction
+
 " Toggle the scratchpad window.
 function! mappings#toggle_scratch(open_empty)
 	if getbufvar('%', '_scratch', v:false) == v:true
