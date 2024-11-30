@@ -122,7 +122,7 @@ function! s:segments_tabs(current, colors) abort
 		let l:symbol_color = (i == a:current) ? a:colors['tl_active_sym'] : a:colors['tl_inactive_sym']
 		call add(l:segments, [
 			\ ui#segment#new('▎', l:symbol_color . 'Inverted'),
-			\ ui#segment#new(' ' . i . ' ', l:color),
+			\ ui#segment#new(' 󰓩 ' . i . ' ', l:color),
 			\ ui#segment#new('▊', l:symbol_color),
 		\ ])
 	endfor
