@@ -39,6 +39,9 @@ set cursorline
 " show the colorcolumn
 set colorcolumn=+0
 
+" set the preview window height to 16
+set previewheight=16
+
 " use bar instead of blocking block while in insert mode
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"

@@ -4,8 +4,10 @@
 [core]
 	hooksPath = ~/.config/git/hooks
 	editor = vim
+[merge]
+	tool = vimdiff
 [alias]
-	reference = "!reference(){ git show -s --format=reference $@ | tee /dev/stderr | xclip -sel clip; };reference"
+	reference = "!reference(){ git show -s --format=reference $@ | xclip -r -f -sel clip; echo; };reference"
 	ref-info = "branch --format='%(if)%(HEAD)%(then)%(color:green)%(end)%(align:40,left)%(refname:short)%(end) %(committerdate:short) %(objectname:short=8) %(HEAD) %(align:80,left)%(contents:subject)%(end)'%(if)%(HEAD)%(then)%(color:default)%(end)"
 [fetch]
 	prune = true
@@ -18,5 +20,3 @@
 [blame]
 	coloring = highlightRecent
 	date = human
-[url "ssh://git@code.siemens.com/"]
-	insteadOf = https://code.siemens.com/

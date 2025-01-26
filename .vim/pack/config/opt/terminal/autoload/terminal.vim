@@ -38,6 +38,13 @@ function! terminal#new_stacked() abort
 	call setwinvar(l:new_term_winnr, '_managed_term', 1)
 endfunction
 
+" Open a terminal in a new tab window.
+function! terminal#new_tabbed() abort
+	tab term
+	let l:new_term_winnr = winnr('$')
+	call setwinvar(l:new_term_winnr, '_managed_term', 1)
+endfunction
+
 " Intended to be run in the TerminalOpen autocommand.
 "
 " When closing the terminal window, jump back to the previous window.

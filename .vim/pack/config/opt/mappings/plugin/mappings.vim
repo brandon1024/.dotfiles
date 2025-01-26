@@ -37,20 +37,14 @@ vnoremap <silent> <ESC><C-]> :call mappings#search_keyword_selected()<CR>
 " [normal] replay macro recorded in `q` register
 nnoremap <silent> Q @q
 
-" open a scratchpad (<leader>s for persistent, <leader>S for throwaway)
-nnoremap <silent> <leader>s :call mappings#toggle_scratch(v:false)<CR>
-nnoremap <silent> <leader>S :call mappings#toggle_scratch(v:true)<CR>
-
 " comment/uncomment things
 nnoremap <silent> gcc :call comments#toggle_comment_line(line('.'), line('.'))<CR>
 xnoremap <silent> gc :<C-U>call comments#toggle_comment_line(line("'<"), line("'>"))<CR>
-nmap <silent> <C-_> gcc
-xmap <silent> <C-_> gc
 
 " [normal] like :tselect, except show popup instead
 nnoremap <silent> <C-]> :call tag#step_into(expand('<cword>'))<CR>
 
-" [normal] make K act like J
+" [normal] make K act like J (my sausage fingers hit this accidentally)
 nnoremap <silent> K kJ
 
 " [visual] fast yank to system clipboard with <C-Y>

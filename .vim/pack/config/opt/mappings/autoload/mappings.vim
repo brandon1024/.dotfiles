@@ -51,19 +51,3 @@ function! mappings#search_keyword_selected() abort
 
 	call mappings#search_keyword(l:escaped_text)
 endfunction
-
-" Toggle the scratchpad window.
-function! mappings#toggle_scratch(open_empty)
-	if getbufvar('%', '_scratch', v:false) == v:true
-		bd %
-		return
-	endif
-
-	if a:open_empty
-		vnew +setlocal\ nobuflisted\ bufhidden=wipe\ buftype=nofile
-	else
-		vsplit +setlocal\ nobuflisted\ bufhidden=wipe ~/.scratchpad
-	endif
-
-	call setbufvar('%', '_scratch', v:true)
-endfunction
