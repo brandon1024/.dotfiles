@@ -6,10 +6,6 @@
 nnoremap <silent> <leader>m :bnext<CR>
 nnoremap <silent> <leader>n :bprev<CR>
 
-" [normal] switch between tabs
-nnoremap <silent> <leader>M :tabnext<CR>
-nnoremap <silent> <leader>N :tabprev<CR>
-
 " [normal / insert] toggle paste mode
 set pastetoggle=<leader>p
 
@@ -47,7 +43,7 @@ nnoremap <silent> <C-]> :call tag#step_into(expand('<cword>'))<CR>
 " [normal] make K act like J (my sausage fingers hit this accidentally)
 nnoremap <silent> K kJ
 
-" [visual] fast yank to system clipboard with <C-Y>
+" [normal / visual] fast yank to system clipboard with <C-Y>
 vnoremap <silent> <C-Y> "+y`>
 
 " [normal] run git-blame and write to quickfix list

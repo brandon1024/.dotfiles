@@ -3,14 +3,21 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Push to the tag stack.
-function! s:tag_stack_push(tagname, matchnr) abort
-	try
-		execute a:matchnr . 'tag ' . a:tagname
-	catch /E37/
-		echohl ErrorMsg | echo 'no write since last change' | echohl None
-	catch
-		echohl ErrorMsg | echo 'tag not found: ' . a:tagname | echohl None
-	endtry
+function! s:tag_stack_push(tagmatch) abort
+	let l:pos = [bufnr('%')] + getcurpos()[1:]
+	let l:tag_item = {
+		\ 'bufnr': l:pos[0],
+		\ 'from': l:pos,
+		\ 'tagname': a:tagmatch['name'],
+	\ }
+
+	" jump
+	execute 'edit +' . escape(a:tagmatch['cmd'], ' \') . ' ' . a:tagmatch['filename']
+
+	" push to the tag stack
+	if settagstack(winnr(), {'items': [l:tag_item]}, 'a') < 0
+		echohl ErrorMsg | echo 'failed to update tag stack: ' . a:tagmatch['filename'] | echohl None
+	endif
 endfunction
 
 " From the tag result ex command `cmd`, strip meta characters to return
@@ -210,7 +217,7 @@ function! s:step_into(keyword, cb) abort
 
 	if len(l:tag_results) == 1
 		" jump to that one tag result
-		call s:tag_stack_push(l:tag_results[0]['name'], 1)
+		call s:tag_stack_push(l:tag_results[0])
 		return
 	endif
 
@@ -223,7 +230,7 @@ function! s:step_into(keyword, cb) abort
 			return
 		endif
 
-		call s:tag_stack_push(l:tag_results[a:result - 1]['name'], a:result)
+		call s:tag_stack_push(l:tag_results[a:result - 1])
 		call a:cb()
 	endfunction
 
