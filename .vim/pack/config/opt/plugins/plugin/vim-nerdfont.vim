@@ -27,6 +27,7 @@ let g:nerdfont#path#extension#customs = {
 	\ "gradle":     "",
 	\ "gz":         "󰞹",
 	\ "html":       "",
+	\ "http":       "",
 	\ "ini":        "",
 	\ "java":       "",
 	\ "jpeg":       "󰋩",

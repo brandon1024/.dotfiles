@@ -27,3 +27,6 @@ set wildignore=*/build/*,*/.idea/*,*/.git/*,*.so,*.o,*.class,__pycache__,*.egg-i
 
 " disable backups and swap files
 set nowb noswapfile
+
+" escape quicker
+set timeout timeoutlen=3000 ttimeoutlen=100

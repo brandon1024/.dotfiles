@@ -43,8 +43,9 @@ nnoremap <silent> <C-]> :call tag#step_into(expand('<cword>'))<CR>
 " [normal] make K act like J (my sausage fingers hit this accidentally)
 nnoremap <silent> K kJ
 
-" [normal / visual] fast yank to system clipboard with <C-Y>
+" [normal / visual] fast yank/paste to/from system clipboard with <C-Y>/<C-P>
 vnoremap <silent> <C-Y> "+y`>
+nnoremap <silent> <C-P> "+p
 
 " [normal] run git-blame and write to quickfix list
 nnoremap <silent> <leader>gb :call git#blame_qf(expand('%'))<CR>

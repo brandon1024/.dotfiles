@@ -2,6 +2,8 @@
 " => Improved Tag Navigation
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let s:magic_saved = &magic
+
 " Push to the tag stack.
 function! s:tag_stack_push(tagmatch) abort
 	let l:pos = [bufnr('%')] + getcurpos()[1:]
@@ -12,7 +14,19 @@ function! s:tag_stack_push(tagmatch) abort
 	\ }
 
 	" jump
-	execute 'edit +' . escape(a:tagmatch['cmd'], ' \') . ' ' . a:tagmatch['filename']
+	try
+		execute 'edit ' . a:tagmatch['filename']
+
+		" ctags uses nomagic ex search patterns, so temporarily set nomagic
+		set nomagic
+
+		execute ':' . a:tagmatch['cmd']
+	catch
+		echohl ErrorMsg | echo 'failed to jump to tag' | echohl None
+		return
+	finally
+		let &magic = s:magic_saved
+	endtry
 
 	" push to the tag stack
 	if settagstack(winnr(), {'items': [l:tag_item]}, 'a') < 0
