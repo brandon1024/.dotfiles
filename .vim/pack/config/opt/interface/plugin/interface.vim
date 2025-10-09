@@ -58,4 +58,3 @@ set showtabline=2
 
 " format the tabline
 set tabline=%!ui#segment#render(ui#tabline#build_segments())
-

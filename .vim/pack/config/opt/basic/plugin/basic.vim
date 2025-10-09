@@ -8,6 +8,11 @@ set history=500
 " set to auto read when a file is changed from the outside
 set autoread
 
+augroup autoread_trigger_group
+	autocmd!
+	autocmd CursorHold,CursorHoldI,WinEnter * checktime
+augroup END
+
 " configure search path
 set path+=**
 
