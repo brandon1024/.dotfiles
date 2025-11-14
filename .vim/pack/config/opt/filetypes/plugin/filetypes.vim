@@ -6,7 +6,7 @@
 filetype plugin on
 
 " disable mappings for filetypes
-let g:no_python_maps = 1
+let g:no_plugin_maps = 1
 
 augroup filetypes_autocmd_group
 	autocmd!

@@ -1,3 +1,8 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Git Helper Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Run git blame and write results to quickfix list.
 function! git#blame_qf(path) abort
 	let l:lnum = 1
 
@@ -31,6 +36,7 @@ function! git#blame_qf(path) abort
 	let l:job = job_start(['git', '-c', 'blame.coloring=none', 'blame', '--date=short', a:path], l:job_opts)
 endfunction
 
+" Run git status and write results to quickfix list.
 function! git#status_qf() abort
 	call setqflist([], 'r')
 
