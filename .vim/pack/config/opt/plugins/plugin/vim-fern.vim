@@ -11,6 +11,7 @@ let g:fern#hide_cursor = 1
 let g:fern#renderer = 'brandon1024/fern-renderer-nf.vim'
 let g:fern#default_exclude = '\(__pycache__\|.egg-info\|.pytest_cache\|venv\)'
 let g:fern#disable_default_mappings = 1
+let g:fern#mark_symbol = ''
 
 nnoremap <silent> <leader><leader> :Fern . -toggle -drawer -width=50 -keep -reveal=%<CR>
 nnoremap <silent> <leader>r :Fern . -stay -drawer -width=50 -keep -reveal=%<CR>
