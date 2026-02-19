@@ -14,14 +14,17 @@ export def Complete()
 
 	var linetocursor = getline('.')[: col('.') - 2] .. v:char
 
+	# Thu 19 Feb 2026: Not totally sure why <Up><Down> is needed here, smells
+	# like a bug to me.
+
 	if linetocursor =~ '\K\{4,}$'
 		# If last four characters are keyword chars, show full complete menu
 		# (results from 'complete')
-		feedkeys((InCompletion() ? "\<C-e>" : "") .. "\<C-n>", 'n')
+		feedkeys((InCompletion() ? "\<C-e>" : "") .. "\<C-n>\<Up>\<Down>", 'n')
 	elseif linetocursor =~ '\K\{3,}$'
 		# If last three characters are keyword chars, show partial complete
 		# menu (keywords in current file) to improve performance.
-		feedkeys((InCompletion() ? "\<C-e>" : "") .. "\<C-x>\<C-n>", 'n')
+		feedkeys((InCompletion() ? "\<C-e>" : "") .. "\<C-x>\<C-n>\<Up>\<Down>", 'n')
 	endif
 enddef
 

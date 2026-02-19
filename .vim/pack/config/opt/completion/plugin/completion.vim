@@ -6,9 +6,11 @@ vim9script
 
 import autoload 'completion.vim'
 
-set completeopt=menuone,noinsert,popup
+set completeopt=menuone,noinsert,popup,fuzzy
+set completefuzzycollect=keyword
 set complete=.,w,b,u,t
 set shortmess+=c
+set shortmess+=C
 set infercase
 
 # tab to select completion
