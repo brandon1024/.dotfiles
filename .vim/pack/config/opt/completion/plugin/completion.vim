@@ -4,23 +4,14 @@ vim9script
 # => Automatic Text Completion Configuration and Mappings
 ###############################################################
 
-import autoload 'completion.vim'
-
 set completeopt=menuone,noinsert,popup,fuzzy
-set completefuzzycollect=keyword
-set complete=.,w,b,u,t
+set complete=.^5,w^5,b^5,u^5,t^5
 set shortmess+=c
 set shortmess+=C
 set infercase
+set autocomplete
+set autocompletedelay=100
 
 # tab to select completion
-inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-
-# enter closes completion menu
-inoremap <silent> <expr> <CR> pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
-
-# show completion as you type
-augroup completion_prompt_autocmd_group
-	autocmd!
-	autocmd InsertCharPre * completion.Complete()
-augroup END
+inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Tab>"
