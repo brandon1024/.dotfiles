@@ -9,7 +9,7 @@ function! fern#theme#highlights() abort
 	highlight link FernLeafText Normal
 
 	highlight link FernMarkedLine CursorLine
-	highlight link FernMarkedText Normal
+	highlight link FernMarkedText ThemeGrey
 
 	highlight link FernSpecialNode ThemeGrey
 
